@@ -1,0 +1,56 @@
+# =============================================================
+# Workflow CI: aplicar migraciones de Prisma antes del despliegue
+# Uso: colocar en .github/workflows/migracion.yml
+# Reglas de oro:
+#   - migrate deploy (nunca migrate dev) sobre entornos compartidos
+#   - migrate status debe fallar el pipeline si hay divergencia
+#   - el seeder solo corre en entornos de pruebas
+# =============================================================
+name: migraciones-prisma
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verificar-y-migrar:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+          POSTGRES_DB: appdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U app"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://app:app@localhost:5432/appdb?schema=public
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Verificar el estado de las migraciones
+        run: npx prisma migrate status
+
+      - name: Aplicar migraciones pendientes
+        run: npx prisma migrate deploy
+
+      - name: Cargar datos de prueba con el seeder
+        run: npx prisma db seed

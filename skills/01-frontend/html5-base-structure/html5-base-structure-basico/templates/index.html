@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto | Clínica Dental Sonrisa</title>
+  <meta name="description" content="Pide cita en Clínica Dental Sonrisa: urgencias, limpieza, implantes y ortodoncia con financiación. Atención de lunes a sábado.">
+  <meta name="author" content="Clínica Dental Sonrisa">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+  <header class="cabecera">
+    <p class="cabecera__logotipo">Clínica Sonrisa</p>
+    <nav aria-label="Navegación principal">
+      <ul class="cabecera__menu">
+        <li><a href="#tratamientos">Tratamientos</a></li>
+        <li><a href="#equipo">Equipo</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <section aria-labelledby="titulo-intro">
+      <h1 id="titulo-intro">Contacto y cita previa</h1>
+      <p>Escríbenos o llama y te confirmamos la cita en menos de 4 horas en horario laborable.</p>
+    </section>
+
+    <section aria-labelledby="titulo-tratamientos">
+      <h2 id="titulo-tratamientos">Tratamientos</h2>
+      <article class="tratamiento">
+        <h3>Limpieza y prevención</h3>
+        <p>Revisión completa, tartrectomía y consejo personalizado. Recomendada cada 6 meses.</p>
+      </article>
+      <article class="tratamiento">
+        <h3>Implantes</h3>
+        <p>Colocación quirúrgica guiada por ordenador con plan de financiación a medida.</p>
+      </article>
+      <article class="tratamiento">
+        <h3>Ortodoncia invisible</h3>
+        <p>Estudio digital gratuito y alineadores transparentes con seguimiento mensual.</p>
+      </article>
+    </section>
+
+    <section aria-labelledby="titulo-horario">
+      <h2 id="titulo-horario">Horario</h2>
+      <p>Lunes a viernes de 9:00 a 20:00 y sábados de 10:00 a 14:00. Urgencias todos los días por teléfono.</p>
+    </section>
+
+    <aside aria-labelledby="titulo-aviso">
+      <h2 id="titulo-aviso">Antes de tu cita</h2>
+      <ul>
+        <li>Trae el informe de tu seguro dental si lo tienes.</li>
+        <li>Llega 10 minutos antes de la primera visita.</li>
+        <li>Puedes descargar el mapa de acceso desde nuestra web de pacientes.</li>
+      </ul>
+    </aside>
+
+    <!-- Formulario con validación nativa -->
+    <section aria-labelledby="titulo-formulario">
+      <h2 id="titulo-formulario">Solicita tu cita</h2>
+      <form action="/enviar-cita" method="post">
+        <div class="campo">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" required minlength="2" maxlength="80" autocomplete="name" placeholder="Ej.: Carmen Ruiz">
+        </div>
+        <div class="campo">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" required autocomplete="email" placeholder="carmen@ejemplo.com">
+        </div>
+        <div class="campo">
+          <label for="telefono">Teléfono</label>
+          <input type="tel" id="telefono" name="telefono" required pattern="[6-9][0-9]{8}" title="Número de teléfono español de 9 dígitos que empieza por 6, 7, 8 o 9." autocomplete="tel" placeholder="612 345 678">
+        </div>
+        <div class="campo">
+          <label for="motivo">Motivo de la cita</label>
+          <select id="motivo" name="motivo" required>
+            <option value="">Elige un motivo</option>
+            <option value="revision">Revisión y limpieza</option>
+            <option value="urgencia">Urgencia</option>
+            <option value="implantes">Estudio de implantes</option>
+            <option value="ortodoncia">Ortodoncia</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="mensaje">Mensaje (opcional)</label>
+          <textarea id="mensaje" name="mensaje" rows="4" maxlength="500" placeholder="Cuéntanos tu caso en pocas líneas."></textarea>
+        </div>
+        <button type="submit">Enviar solicitud</button>
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="pie">
+    <h2 class="pie__titulo">Clínica Dental Sonrisa</h2>
+    <address>
+      Calle del Sol 12, 28004 Madrid
+      <br>
+      Teléfono: <a href="tel:+34915551234">915 551 234</a>
+      <br>
+      Email: <a href="mailto:citas@sonrisa.ejemplo.com">citas@sonrisa.ejemplo.com</a>
+    </address>
+    <p>© 2026 Clínica Dental Sonrisa. Aviso legal. Política de privacidad.</p>
+  </footer>
+
+</body>
+</html>

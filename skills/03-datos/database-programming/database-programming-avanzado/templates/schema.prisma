@@ -1,0 +1,67 @@
+// =============================================================
+// Primer modelo Prisma con relaciones 1:N y N:M explícita
+// Uso:
+//   1. npm init -y && npm i prisma @prisma/client
+//   2. npx prisma init
+//   3. Sustituir el schema generado por este archivo
+//   4. Definir DATABASE_URL en .env
+//   5. npx prisma migrate dev --name init
+// =============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id       Int      @id @default(autoincrement())
+  nombre   String   @db.VarChar(100)
+  email    String   @unique @db.VarChar(150)
+  telefono String?  @db.VarChar(20)   // nullable: no todos lo tienen
+  ciudad   String   @db.VarChar(80)
+  creadoEn DateTime @default(now())
+  pedidos  Pedido[]                    // relación 1:N inversa
+
+  @@map("clientes")                    // mapeo a la tabla en kebab/plural
+}
+
+model Pedido {
+  id         Int              @id @default(autoincrement())
+  clienteId  Int
+  cliente    Cliente          @relation(fields: [clienteId], references: [id])
+  fecha      DateTime         @default(now())
+  estado     String           @default("pendiente")
+  lineas     DetallePedido[]  // relación 1:N hacia la tabla puente
+
+  @@index([clienteId])        // índice sobre la clave foránea
+  @@map("pedidos")
+}
+
+model Producto {
+  id     Int              @id @default(autoincrement())
+  nombre String           @db.VarChar(120)
+  precio Decimal          @db.Decimal(10, 2)
+  stock  Int              @default(0)
+  lineas DetallePedido[]
+
+  @@map("productos")
+}
+
+// Relación N:M explícita: tabla puente con clave compuesta
+model DetallePedido {
+  pedidoId      Int
+  productoId    Int
+  cantidad      Int
+  precioUnitario Decimal @db.Decimal(10, 2)
+
+  pedido   Pedido   @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  producto Producto @relation(fields: [productoId], references: [id])
+
+  @@id([pedidoId, productoId])       // clave primaria compuesta
+  @@index([productoId])
+  @@map("detalle_pedido")
+}

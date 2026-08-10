@@ -1,0 +1,128 @@
+/* ==========================================================================
+   utilidades-a11y.css — Accesibilidad garantizada por arquitectura.
+   Foco visible, salto al contenido, reducción de movimiento,
+   contraste de estados y ocultado visual correcto.
+   Compañero de config-capas.css (misma @import de Tailwind v4).
+   ========================================================================== */
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* --------------------------------------------------------------------------
+   1. Foco visible del sistema: nunca se elimina el outline;
+   se sustituye por un anillo de marca visible en ambos temas.
+   -------------------------------------------------------------------------- */
+@layer base {
+  :focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Contraste extra bajo demanda: clase para resaltar zonas con fondo vivo */
+  .superficie-atencion {
+    outline: 2px dashed var(--color-accent);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Salto al contenido: enlace oculto que aparece al enfocar.
+   -------------------------------------------------------------------------- */
+@layer utilities {
+  .saltar-al-contenido {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 50;
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+    padding: 0.75rem 1.25rem;
+    border-radius: 0 0 8px 0;
+    font-weight: 600;
+  }
+
+  .saltar-al-contenido:focus-visible {
+    left: 0;
+    top: 0;
+    outline: 3px solid var(--color-accent);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Ocultado visual con soporte de lector de pantalla
+   (elemento "sr-only" del sistema, sin display: none).
+   -------------------------------------------------------------------------- */
+@layer utilities {
+  .solo-lector {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Movimiento: las animaciones decorativas desaparecen con
+   prefers-reduced-motion; las críticas (spinner de estado)
+   se sustituyen por un indicador estático accesible.
+   -------------------------------------------------------------------------- */
+@layer base {
+  @media (prefers-reduced-motion: reduce) {
+    .animacion-decorativa,
+    .animacion-decorativa * {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    /* El spinner se vuelve un aviso de texto para lectores de pantalla */
+    .spinner::after {
+      content: " / Cargando";
+      animation: none;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Estados de error con apoyo visual + textual (no solo color).
+   -------------------------------------------------------------------------- */
+@layer utilities {
+  .campo-error {
+    border-color: var(--color-destructive) !important;
+    background: color-mix(in srgb, var(--color-destructive) 6%, transparent);
+  }
+
+  .campo-error:focus-visible {
+    outline-color: var(--color-destructive);
+  }
+
+  /* El mensaje de error acompaña al campo con aria-live */
+  .mensaje-error {
+    color: var(--color-destructive);
+    font-size: 0.875rem;
+    margin-top: 0.35rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Contraste tipográfico: variantes de peso y tamaño para jerarquía
+   sin caer en grises insuficientes. El texto de apoyo NUNCA usa
+   opacidad ni grises por debajo de AA.
+   -------------------------------------------------------------------------- */
+@layer utilities {
+  .texto-apoyo {
+    color: var(--color-muted-foreground);
+  }
+
+  /* Enlaces en textos: subrayado siempre, no solo color */
+  .enlace-texto {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+  }
+}

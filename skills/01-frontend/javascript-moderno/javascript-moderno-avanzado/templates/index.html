@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuarios — Módulos ESM y fetch</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    #estado { padding: 0.4rem 0.8rem; border-radius: 0.3rem; margin-bottom: 1rem; }
+    #estado[data-tipo="cargando"] { background: #fff3cd; }
+    #estado[data-tipo="error"] { background: #f8d7da; }
+    #estado[data-tipo="ok"] { background: #d4edda; }
+    #estado[data-tipo="vacio"] { background: #e2e3e5; }
+    li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+    small { color: #888; }
+  </style>
+</head>
+<body>
+  <h1>Usuarios desde la API</h1>
+  <p id="estado" data-tipo="cargando">Iniciando…</p>
+  <ul id="lista"></ul>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

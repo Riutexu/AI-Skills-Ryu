@@ -1,0 +1,425 @@
+/* Estilos de la landing page de Estudio Kaia (nivel básico).
+   Estructura: variables, reset, base, componentes, secciones, responsive. */
+
+/* Variables de diseño */
+:root {
+  --color-primario: #276749;
+  --color-primario-oscuro: #22543d;
+  --color-acento: #d69e2e;
+  --color-texto: #1a202c;
+  --color-texto-suave: #4a5568;
+  --color-fondo: #ffffff;
+  --color-fondo-suave: #f7fafc;
+  --color-borde: #e2e8f0;
+  --radio: 10px;
+  --ancho-contenedor: 1080px;
+  --sombra: 0 4px 12px rgba(26, 32, 44, 0.08);
+}
+
+/* Reset ligero */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-texto);
+  background: var(--color-fondo);
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+}
+
+h1 {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--color-primario);
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--color-primario-oscuro);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 2px;
+}
+
+/* Contenedor y utilidades */
+.contenedor {
+  max-width: var(--ancho-contenedor);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.contenedor--estrecho {
+  max-width: 640px;
+}
+
+/* Botones */
+.boton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radio);
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.boton--primario {
+  background: var(--color-primario);
+  color: #ffffff;
+}
+
+.boton--primario:hover,
+.boton--primario:focus-visible {
+  background: var(--color-primario-oscuro);
+  color: #ffffff;
+}
+
+.boton--secundario {
+  background: transparent;
+  border-color: var(--color-primario);
+  color: var(--color-primario);
+}
+
+.boton--secundario:hover,
+.boton--secundario:focus-visible {
+  background: var(--color-fondo-suave);
+}
+
+.boton:active {
+  transform: translateY(1px);
+}
+
+.boton--ancho {
+  width: 100%;
+}
+
+/* Cabecera */
+.cabecera {
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-borde);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.cabecera__interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+
+.cabecera__logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-primario);
+  text-decoration: none;
+}
+
+.cabecera__nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.cabecera__nav a {
+  text-decoration: none;
+  color: var(--color-texto-suave);
+  font-weight: 500;
+}
+
+.cabecera__nav a:hover,
+.cabecera__nav a:focus-visible {
+  color: var(--color-primario);
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(180deg, #f0faf4 0%, #ffffff 100%);
+  padding: 4.5rem 0;
+}
+
+.hero__interior {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 3rem;
+}
+
+.hero__etiqueta {
+  display: inline-block;
+  background: #fefcbf;
+  color: #744210;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+
+.hero__subtitulo {
+  color: var(--color-texto-suave);
+  font-size: 1.1rem;
+}
+
+.hero__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Secciones */
+.seccion {
+  padding: 4rem 0;
+}
+
+.seccion--clara {
+  background: var(--color-fondo-suave);
+}
+
+.seccion--formulario {
+  background: linear-gradient(180deg, #ffffff 0%, #f0faf4 100%);
+}
+
+/* Tarjetas de beneficios */
+.rejilla-beneficios {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.tarjeta {
+  background: #ffffff;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 1.5rem;
+  box-shadow: var(--sombra);
+}
+
+/* Tarjetas de clases */
+.rejilla-clases {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.tarjeta-clase {
+  background: #ffffff;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 1.75rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tarjeta-clase--destacada {
+  border-color: var(--color-primario);
+  border-width: 2px;
+}
+
+.tarjeta-clase__precio {
+  font-weight: 700;
+  color: var(--color-primario);
+  font-size: 1.15rem;
+}
+
+/* Testimonios */
+.rejilla-testimonios {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.tarjeta cite {
+  font-style: normal;
+  font-size: 0.9rem;
+  color: var(--color-texto-suave);
+}
+
+.tarjeta footer {
+  margin-top: 0.75rem;
+}
+
+/* Formulario */
+.formulario__campo {
+  margin-bottom: 1.25rem;
+}
+
+.formulario label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.formulario input,
+.formulario select,
+.formulario textarea {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  font: inherit;
+  color: inherit;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  background: #ffffff;
+}
+
+.formulario input:focus,
+.formulario select:focus,
+.formulario textarea:focus {
+  border-color: var(--color-primario);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(39, 103, 73, 0.2);
+}
+
+.formulario__estado {
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border-radius: var(--radio);
+  background: #e6fffa;
+  border: 1px solid #38b2ac;
+  font-weight: 600;
+}
+
+.formulario__nota {
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+  margin-top: 0.75rem;
+}
+
+/* Pie de página */
+.pie {
+  background: #1a202c;
+  color: #cbd5e0;
+  padding: 2.5rem 0;
+}
+
+.pie__interior {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pie__marca {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+.pie__enlaces {
+  list-style: none;
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.pie__enlaces a {
+  color: #cbd5e0;
+  text-decoration: none;
+}
+
+.pie__enlaces a:hover,
+.pie__enlaces a:focus-visible {
+  color: #ffffff;
+}
+
+.pie__nota {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero__interior {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__ilustracion {
+    max-width: 340px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .cabecera__interior {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cabecera__nav {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: center;
+  }
+
+  .rejilla-beneficios,
+  .rejilla-clases,
+  .rejilla-testimonios {
+    grid-template-columns: 1fr;
+  }
+
+  .seccion {
+    padding: 3rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero__acciones .boton {
+    flex-basis: 100%;
+  }
+
+  .pie__interior {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .pie__enlaces {
+    justify-content: center;
+  }
+}

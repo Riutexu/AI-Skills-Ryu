@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruta Verde | Servicio de mensajería local</title>
+  <meta name="description" content="Mensajería en bicicleta en menos de 24 horas dentro de la ciudad. Reparto urbano sostenible para comercios y particulares.">
+  <style>
+    /* Paleta: marca verde (60-30-10 sobre fondo neutro) */
+    :root {
+      --color-marca: #276749;
+      --color-marca-oscuro: #1e5936;
+      --color-acento: #f6ad55;
+      --color-texto: #263238;
+      --color-texto-suave: #546e7a;
+      --color-fondo: #ffffff;
+      --color-fondo-suave: #f4f7f6;
+      --color-borde: #dbe4e1;
+      --radio: 12px;
+      --espaciado-4: 0.25rem;
+      --espaciado-8: 0.5rem;
+      --espaciado-12: 0.75rem;
+      --espaciado-16: 1rem;
+      --espaciado-24: 1.5rem;
+      --espaciado-32: 2rem;
+      --espaciado-48: 3rem;
+      --sombra: 0 2px 8px rgba(38, 50, 56, 0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--color-texto);
+      background: var(--color-fondo);
+    }
+
+    a { color: var(--color-marca); }
+    :focus-visible { outline: 3px solid var(--color-acento); outline-offset: 2px; }
+
+    .contenedor { max-width: 1080px; margin: 0 auto; padding: 0 var(--espaciado-24); }
+
+    /* Cabecera: flexbox para el flujo lineal */
+    .cabecera {
+      background: var(--color-fondo);
+      border-bottom: 1px solid var(--color-borde);
+      position: sticky; top: 0; z-index: 10;
+    }
+
+    .cabecera__interior {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: var(--espaciado-16); padding-bottom: var(--espaciado-16);
+    }
+
+    .cabecera__logo { font-weight: 700; color: var(--color-marca); text-decoration: none; font-size: 1.15rem; }
+
+    .cabecera__nav { display: flex; gap: var(--espaciado-24); }
+    .cabecera__nav a { text-decoration: none; color: var(--color-texto-suave); font-weight: 500; }
+    .cabecera__nav a:hover { color: var(--color-marca); }
+
+    .boton {
+      display: inline-block; padding: var(--espaciado-12) var(--espaciado-24);
+      border-radius: var(--radio); background: var(--color-marca); color: #fff;
+      text-decoration: none; font-weight: 600;
+    }
+    .boton:hover { background: var(--color-marca-oscuro); color: #fff; }
+
+    /* Hero: grid de 2 columnas, alineación a la izquierda */
+    .hero { background: var(--color-fondo-suave); padding: var(--espaciado-64, 4rem) 0; }
+    .hero__interior { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: var(--espaciado-48); align-items: center; }
+    .hero h1 { font-size: 2.25rem; line-height: 1.2; margin-bottom: var(--espaciado-16); }
+    .hero p { color: var(--color-texto-suave); font-size: 1.05rem; }
+    .hero__acciones { display: flex; gap: var(--espaciado-16); margin-top: var(--espaciado-24); flex-wrap: wrap; }
+    .boton--claro { background: transparent; border: 2px solid var(--color-marca); color: var(--color-marca); }
+    .boton--claro:hover { background: var(--color-fondo-suave); color: var(--color-marca); }
+
+    /* Servicios: grid de tarjetas con misma altura */
+    .seccion { padding: var(--espaciado-48) 0; }
+    .seccion h2 { font-size: 1.5rem; margin-bottom: var(--espaciado-32); }
+    .servicios { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--espaciado-24); }
+
+    .tarjeta {
+      background: var(--color-fondo); border: 1px solid var(--color-borde);
+      border-radius: var(--radio); padding: var(--espaciado-24); box-shadow: var(--sombra);
+      display: flex; flex-direction: column; gap: var(--espaciado-8);
+    }
+    .tarjeta h3 { color: var(--color-marca); font-size: 1.1rem; }
+    .tarjeta p { color: var(--color-texto-suave); }
+
+    /* Proceso: pasos numerados con ritmo vertical uniforme */
+    .proceso { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--espaciado-24); }
+    .paso { border-left: 4px solid var(--color-marca); padding-left: var(--espaciado-16); }
+    .paso__numero { color: var(--color-acento); font-weight: 700; font-size: 0.9rem; }
+    .paso h3 { font-size: 1rem; margin-bottom: var(--espaciado-8); }
+
+    /* Contacto */
+    .contacto { background: var(--color-marca); color: #fff; padding: var(--espaciado-48) 0; }
+    .contacto h2 { margin-bottom: var(--espaciado-16); }
+    .contacto p { color: #dceee7; max-width: 560px; }
+    .contacto .boton { background: var(--color-acento); color: var(--color-marca-oscuro); margin-top: var(--espaciado-24); }
+    .contacto .boton:hover { filter: brightness(1.05); }
+
+    .pie { background: var(--color-texto); color: #b0bec5; padding: var(--espaciado-24) 0; text-align: center; }
+    .pie a { color: #a5d6a7; }
+
+    /* Responsive: media queries de max-width */
+    @media (max-width: 860px) {
+      .hero__interior { grid-template-columns: 1fr; gap: var(--espaciado-32); }
+      .servicios, .proceso { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .cabecera__interior { flex-wrap: wrap; justify-content: center; }
+      .cabecera__nav { order: 3; flex-basis: 100%; justify-content: center; flex-wrap: wrap; gap: var(--espaciado-16); }
+      .hero h1 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="cabecera">
+    <div class="contenedor cabecera__interior">
+      <a class="cabecera__logo" href="#inicio">Ruta Verde</a>
+      <nav class="cabecera__nav" aria-label="Navegación principal">
+        <a href="#servicios">Servicios</a>
+        <a href="#proceso">Cómo funciona</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <a class="boton" href="#contacto">Pedir envío</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="contenedor hero__interior">
+        <div>
+          <h1>Tu paquete, en bicicleta, antes de mañana</h1>
+          <p>Reparto urbano sostenible con entrega en menos de 24 horas dentro de la ciudad. Para comercios, oficinas y particulares.</p>
+          <div class="hero__acciones">
+            <a class="boton" href="#contacto">Calcular precio</a>
+            <a class="boton boton--claro" href="#servicios">Ver servicios</a>
+          </div>
+        </div>
+        <svg viewBox="0 0 400 260" role="img" aria-label="Ilustración de un mensajero en bicicleta">
+          <circle cx="200" cy="130" r="120" fill="#e8f3ee" />
+          <circle cx="140" cy="180" r="26" fill="#263238" />
+          <circle cx="270" cy="180" r="26" fill="#263238" />
+          <rect x="146" y="190" width="118" height="8" rx="4" fill="#276749" />
+          <path d="M150 160 L200 150 L260 158" stroke="#276749" stroke-width="7" fill="none" stroke-linecap="round" />
+          <path d="M200 150 L170 118 L140 150" stroke="#276749" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+          <rect x="222" y="200" width="38" height="22" rx="4" fill="#f6ad55" />
+          <circle cx="200" cy="118" r="10" fill="#f6ad55" />
+        </svg>
+      </div>
+    </section>
+
+    <section class="seccion" id="servicios" aria-labelledby="titulo-servicios">
+      <div class="contenedor">
+        <h2 id="titulo-servicios">Servicios</h2>
+        <div class="servicios">
+          <article class="tarjeta">
+            <h3>Envío exprés</h3>
+            <p>Entrega en 2 horas dentro del casco urbano. Ideal para documentación y repuestos.</p>
+          </article>
+          <article class="tarjeta">
+            <h3>Envío estándar</h3>
+            <p>Recogida por la mañana, entrega antes de las 18:00. El más usado por comercios.</p>
+          </article>
+          <article class="tarjeta">
+            <h3>Rutas programadas</h3>
+            <p>Recorridos fijos diarios para tiendas con reparto propio: precio cerrado al mes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion" id="proceso" aria-labelledby="titulo-proceso" style="background: var(--color-fondo-suave);">
+      <div class="contenedor">
+        <h2 id="titulo-proceso">Cómo funciona</h2>
+        <div class="proceso">
+          <div class="paso">
+            <p class="paso__numero">PASO 1</p>
+            <h3>Pides el envío</h3>
+            <p>Por web, WhatsApp o teléfono. Nos dices origen, destino y tamaño.</p>
+          </div>
+          <div class="paso">
+            <p class="paso__numero">PASO 2</p>
+            <h3>Recogemos</h3>
+            <p>Un mensajero llega en bicicleta a la dirección de recogida en la franja elegida.</p>
+          </div>
+          <div class="paso">
+            <p class="paso__numero">PASO 3</p>
+            <h3>Entregamos</h3>
+            <p>Confirmación con foto y firma digital. Recibes el comprobante al momento.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contacto" id="contacto">
+      <div class="contenedor">
+        <h2>Empieza hoy</h2>
+        <p>Escríbenos el origen, destino y peso del paquete y te respondemos con precio exacto en menos de 15 minutos.</p>
+        <a class="boton" href="mailto:hola@rutaverde.ejemplo.com">hola@rutaverde.ejemplo.com</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <p>© 2026 Ruta Verde. Mensajería en bicicleta · <a href="#">Privacidad</a> · <a href="#">Términos</a></p>
+    </div>
+  </footer>
+</body>
+</html>

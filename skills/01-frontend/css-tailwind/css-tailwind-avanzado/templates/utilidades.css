@@ -1,0 +1,94 @@
+/* ==========================================================================
+   utilidades.css — CSS de entrada de Tailwind (doble formato)
+   v3 usará las directivas @tailwind y las capas @layer de abajo.
+   v4 usará la primera línea @import "tailwindcss" y el bloque @theme,
+   ignorando las directivas @tailwind de la versión 3.
+   Eligen la versión con compilador correspondiente (v3/v4).
+   ========================================================================== */
+
+/* --- Tailwind v4: CSS-first configuration ------------------------------- */
+/* @import "tailwindcss"; */
+
+/* @theme {
+  --color-marca-50: #fff7ed;
+  --color-marca-600: #b45309;
+  --color-tinta: #292524;
+  --color-tinta-suave: #57534e;
+  --color-pan-claro: #faf7f2;
+  --font-titulos: "Georgia", "Times New Roman", serif;
+  --font-texto: "Segoe UI", system-ui, sans-serif;
+  --radius-pan: 10px;
+  --shadow-pan: 0 4px 14px rgba(41, 37, 36, 0.08);
+} */
+
+/* --- Tailwind v3: directivas clásicas ------------------------------------ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------------------------------------------------------
+   1. Capa de componentes: estilos compuestos con @apply.
+      Los componentes se escriben una vez y se reutilizan en el HTML.
+   -------------------------------------------------------------------------- */
+@layer components {
+  .btn-pan {
+    @apply inline-block rounded-pan bg-marca-600 px-6 py-3 font-semibold text-white transition-colors duration-200 hover:bg-marca-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marca-800;
+  }
+
+  .tarjeta-pan {
+    @apply flex flex-col gap-2 rounded-pan border border-stone-200 bg-white p-6 shadow-pan;
+  }
+
+  .titulo-seccion {
+    @apply mb-8 text-center text-display font-bold text-tinta;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Capa de utilidades personalizadas: excepciones y soporte del sistema.
+   -------------------------------------------------------------------------- */
+@layer utilities {
+  /* Ancho de lectura: 65 caracteres por línea, nunca más ancho que el padre */
+  .ancho-lectura {
+    max-width: min(65ch, 100%);
+  }
+
+  /* Contenedor de la página: encoge con el viewport, tope de 1080 px */
+  .contenedor-pan {
+    max-width: min(1080px, 100% - 2.5rem);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  /* Balance de títulos: texto centrado sin huérfanas en la última línea */
+  .balance-titulo {
+    text-wrap: balance;
+  }
+
+  /* Sombra suave de las tarjetas como utilidad reutilizable */
+  .sombra-pan {
+    box-shadow: 0 4px 14px rgba(41, 37, 36, 0.08);
+  }
+
+  /* Grosor de texto para jerarquía sin multiplicar tamaños */
+  .peso-titulo {
+    font-weight: 700;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Layers del sistema (v4): útiles también declaradas como capas.
+   -------------------------------------------------------------------------- */
+@layer base {
+  body {
+    font-family: theme("fontFamily.texto");
+    background-color: theme("colors.pan.claro");
+    color: theme("colors.tinta.DEFAULT");
+  }
+}
+
+@layer components {
+  .chip-pan {
+    @apply inline-block rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-800;
+  }
+}

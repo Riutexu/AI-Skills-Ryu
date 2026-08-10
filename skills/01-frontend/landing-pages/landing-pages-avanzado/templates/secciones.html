@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova CRM | La agenda que vende por ti</title>
+  <meta name="description" content="Nova CRM organiza tus contactos, oportunidades y seguimientos en una sola vista. Prueba 30 días gratis sin tarjeta.">
+  <link rel="canonical" href="https://novacrm.ejemplo.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nova CRM | La agenda que vende por ti">
+  <meta property="og:description" content="Organiza contactos, oportunidades y seguimientos en una sola vista. 30 días gratis.">
+  <meta property="og:image" content="https://novacrm.ejemplo.com/og-portada.png">
+  <meta property="og:url" content="https://novacrm.ejemplo.com/">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Configuración del CDN de Tailwind v3 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            marca: {
+              claro: "#0f766e",
+              oscuro: "#115e59",
+              crema: "#f4f4ef"
+            },
+            acento: "#f59e0b"
+          },
+          fontFamily: {
+            sans: ["Inter", "system-ui", "sans-serif"]
+          },
+          boxShadow: {
+            suave: "0 10px 30px rgba(15, 118, 110, 0.12)"
+          }
+        }
+      }
+    };
+  </script>
+  <style type="text/tailwindcss">
+    @layer components {
+      .btn {
+        @apply inline-block rounded-lg px-6 py-3 font-semibold transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+      }
+      .btn--primario {
+        @apply bg-marca-claro text-white hover:bg-marca-oscuro focus-visible:outline-marca-oscuro;
+      }
+      .btn--secundario {
+        @apply border-2 border-marca-claro text-marca-claro hover:bg-marca-crema focus-visible:outline-marca-claro;
+      }
+      .tarjeta {
+        @apply rounded-2xl border border-slate-200 bg-white p-6 shadow-suave;
+      }
+      .contenedor-landing {
+        @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+      }
+    }
+  </style>
+</head>
+<body class="bg-white font-sans text-slate-800 antialiased">
+
+  <!-- Navegación -->
+  <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <div class="contenedor-landing flex items-center justify-between py-4">
+      <a href="#inicio" class="text-xl font-bold text-marca-claro">Nova CRM</a>
+      <nav aria-label="Navegación principal" class="hidden gap-6 text-sm font-medium text-slate-600 md:flex">
+        <a class="hover:text-marca-claro" href="#beneficios">Beneficios</a>
+        <a class="hover:text-marca-claro" href="#precios">Precios</a>
+        <a class="hover:text-marca-claro" href="#faq">FAQ</a>
+      </nav>
+      <a class="btn btn--primario !py-2" href="#formulario">Probar gratis</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section id="inicio" class="bg-marca-crema">
+      <div class="contenedor-landing grid items-center gap-12 py-20 lg:grid-cols-2">
+        <div data-reveal>
+          <p class="mb-4 inline-block rounded-full bg-acento/15 px-4 py-1 text-sm font-semibold text-amber-800">Prueba 30 días sin tarjeta</p>
+          <h1 class="text-4xl font-bold leading-tight text-slate-900 sm:text-5xl lg:text-6xl">La agenda que vende por ti</h1>
+          <p class="mt-6 text-lg text-slate-600">Nova CRM junta contactos, oportunidades y recordatorios en una sola vista. Tu equipo deja de perseguir papeles y empieza a cerrar citas.</p>
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a href="#formulario" class="btn btn--primario" data-evento="click_cta_hero">Crear mi cuenta gratis</a>
+            <a href="#beneficios" class="btn btn--secundario">Ver cómo funciona</a>
+          </div>
+          <p class="mt-6 text-sm text-slate-500">Más de 1.200 equipos comerciales usan Nova cada semana.</p>
+        </div>
+        <div data-reveal class="tarjeta !p-0 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=70" alt="Equipo comercial revisando el tablero de oportunidades en Nova CRM" class="h-full w-full object-cover" width="900" height="600" loading="eager">
+        </div>
+      </div>
+    </section>
+
+    <!-- Beneficios -->
+    <section id="beneficios" aria-labelledby="titulo-beneficios" class="py-20">
+      <div class="contenedor-landing">
+        <h2 id="titulo-beneficios" class="text-center text-3xl font-bold text-slate-900 sm:text-4xl">Todo tu embudo, en una vista</h2>
+        <p class="mx-auto mt-4 max-w-2xl text-center text-slate-600">Tres pantallas que sustituyen a la hoja de cálculo, la libreta y el grupo de mensajes.</p>
+        <div class="mt-12 grid gap-6 md:grid-cols-3">
+          <article class="tarjeta" data-reveal>
+            <h3 class="text-xl font-semibold text-slate-900">Tubo de oportunidades</h3>
+            <p class="mt-3 text-slate-600">Arrastra acuerdos entre etapas y Nova calcula tu previsión de cierre cada semana.</p>
+          </article>
+          <article class="tarjeta" data-reveal data-retraso="100">
+            <h3 class="text-xl font-semibold text-slate-900">Recordatorios automáticos</h3>
+            <p class="mt-3 text-slate-600">Seguimientos programados según tus propias reglas; nadie se olvida de un cliente.</p>
+          </article>
+          <article class="tarjeta" data-reveal data-retraso="200">
+            <h3 class="text-xl font-semibold text-slate-900">Informes listos</h3>
+            <p class="mt-3 text-slate-600">Conversión, embudo y actividad por vendedor sin montar una sola fórmula.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prueba social con contador -->
+    <section class="bg-marca-crema py-16" aria-label="Resultados de clientes">
+      <div class="contenedor-landing grid gap-8 text-center sm:grid-cols-3">
+        <div data-reveal>
+          <p class="text-4xl font-bold text-marca-claro"><span data-contador="31">0</span> %</p>
+          <p class="mt-2 text-sm text-slate-600">más acuerdos cerrados a los 6 meses</p>
+        </div>
+        <div data-reveal data-retraso="100">
+          <p class="text-4xl font-bold text-marca-claro"><span data-contador="1200">0</span> +</p>
+          <p class="mt-2 text-sm text-slate-600">equipos comerciales activos</p>
+        </div>
+        <div data-reveal data-retraso="200">
+          <p class="text-4xl font-bold text-marca-claro"><span data-contador="4.8">0</span> /5</p>
+          <p class="mt-2 text-sm text-slate-600">valoración media en las reviews</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonios -->
+    <section aria-labelledby="titulo-testimonios" class="py-20">
+      <div class="contenedor-landing">
+        <h2 id="titulo-testimonios" class="text-center text-3xl font-bold text-slate-900 sm:text-4xl">Equipos que ya no persiguen papeles</h2>
+        <div class="mt-12 grid gap-6 md:grid-cols-3">
+          <blockquote class="tarjeta" data-reveal>
+            <p class="text-slate-600">"Pasamos de Excel a Nova en una tarde. La previsión de cierre nos cambió la reunión de los lunes."</p>
+            <footer class="mt-4 text-sm font-semibold text-slate-900">Carla M., directora comercial de Modulark</footer>
+          </blockquote>
+          <blockquote class="tarjeta" data-reveal data-retraso="100">
+            <p class="text-slate-600">"Los recordatorios automáticos nos quitaron 10 horas de papeleo a la semana."</p>
+            <footer class="mt-4 text-sm font-semibold text-slate-900">Jorge T., fundador de Talento Local</footer>
+          </blockquote>
+          <blockquote class="tarjeta" data-reveal data-retraso="200">
+            <p class="text-slate-600">"Mi equipo vende más porque tiene todo delante: quién es, qué prometimos y cuándo volver a llamar."</p>
+            <footer class="mt-4 text-sm font-semibold text-slate-900">Sofía L., agencia Impulso Digital</footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Precios -->
+    <section id="precios" aria-labelledby="titulo-precios" class="bg-marca-crema py-20">
+      <div class="contenedor-landing">
+        <h2 id="titulo-precios" class="text-center text-3xl font-bold text-slate-900 sm:text-4xl">Precios que crecen contigo</h2>
+        <div class="mt-12 grid gap-6 md:grid-cols-3">
+          <article class="tarjeta" data-reveal>
+            <h3 class="text-lg font-semibold">Inicio</h3>
+            <p class="mt-2 text-3xl font-bold text-slate-900">0 €<span class="text-base font-normal text-slate-500"> / mes</span></p>
+            <ul class="mt-6 space-y-2 text-sm text-slate-600">
+              <li>Hasta 2 vendedores</li>
+              <li>Contactos ilimitados</li>
+              <li>Recordatorios básicos</li>
+            </ul>
+            <a href="#formulario" class="btn btn--secundario mt-8 w-full">Empezar gratis</a>
+          </article>
+          <article class="tarjeta border-2 !border-marca-claro" data-reveal data-retraso="100">
+            <h3 class="text-lg font-semibold text-marca-claro">Equipo</h3>
+            <p class="mt-2 text-3xl font-bold text-slate-900">29 €<span class="text-base font-normal text-slate-500"> / usuario / mes</span></p>
+            <ul class="mt-6 space-y-2 text-sm text-slate-600">
+              <li>Automatizaciones sin límite</li>
+              <li>Informes y previsión de cierre</li>
+              <li>Soporte prioritario</li>
+            </ul>
+            <a href="#formulario" class="btn btn--primario mt-8 w-full">Probar 30 días gratis</a>
+          </article>
+          <article class="tarjeta" data-reveal data-retraso="200">
+            <h3 class="text-lg font-semibold">Empresa</h3>
+            <p class="mt-2 text-3xl font-bold text-slate-900">A medida</p>
+            <ul class="mt-6 space-y-2 text-sm text-slate-600">
+              <li>SSO y permisos avanzados</li>
+              <li>API y webhooks</li>
+              <li>Onboarding guiado</li>
+            </ul>
+            <a href="#formulario" class="btn btn--secundario mt-8 w-full">Hablar con ventas</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" aria-labelledby="titulo-faq" class="py-20">
+      <div class="contenedor-landing max-w-3xl">
+        <h2 id="titulo-faq" class="text-center text-3xl font-bold text-slate-900 sm:text-4xl">Preguntas frecuentes</h2>
+        <div class="mt-10 space-y-4">
+          <details class="tarjeta" data-reveal>
+            <summary class="cursor-pointer font-semibold text-slate-900">¿Necesito tarjeta para la prueba?</summary>
+            <p class="mt-3 text-slate-600">No. La prueba de 30 días no pide tarjeta y no se cobra nada al terminar.</p>
+          </details>
+          <details class="tarjeta" data-reveal>
+            <summary class="cursor-pointer font-semibold text-slate-900">¿Puedo importar mis contactos de Excel?</summary>
+            <p class="mt-3 text-slate-600">Sí, el asistente de importación lee CSV y XLSX y detecta duplicados antes de cargar.</p>
+          </details>
+          <details class="tarjeta" data-reveal>
+            <summary class="cursor-pointer font-semibold text-slate-900">¿Funciona en el móvil?</summary>
+            <p class="mt-3 text-slate-600">La app web es responsive y hay aplicaciones nativas para iOS y Android.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formulario con estado -->
+    <section id="formulario" class="bg-marca-crema py-20">
+      <div class="contenedor-landing max-w-2xl">
+        <h2 class="text-center text-3xl font-bold text-slate-900 sm:text-4xl">Empieza hoy mismo</h2>
+        <p class="mt-4 text-center text-slate-600">Cuéntanos tu equipo y te enviaremos la invitación antes de 24 horas.</p>
+        <form id="formulario-lead" class="tarjeta mt-10" novalidate>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label for="nombre" class="mb-1 block text-sm font-semibold text-slate-700">Nombre</label>
+              <input id="nombre" name="nombre" type="text" required minlength="2" placeholder="Ana García" class="w-full rounded-lg border border-slate-300 px-4 py-2.5 focus:border-marca-claro focus:outline-none focus:ring-2 focus:ring-marca-claro/30">
+              <p class="mt-1 hidden text-sm text-red-700" data-error="nombre">Escribe tu nombre (mínimo 2 caracteres).</p>
+            </div>
+            <div>
+              <label for="email" class="mb-1 block text-sm font-semibold text-slate-700">Email corporativo</label>
+              <input id="email" name="email" type="email" required placeholder="ana@empresa.com" class="w-full rounded-lg border border-slate-300 px-4 py-2.5 focus:border-marca-claro focus:outline-none focus:ring-2 focus:ring-marca-claro/30">
+              <p class="mt-1 hidden text-sm text-red-700" data-error="email">Introduce un email válido.</p>
+            </div>
+          </div>
+          <div class="mt-4">
+            <label for="tamano" class="mb-1 block text-sm font-semibold text-slate-700">Tamaño del equipo</label>
+            <select id="tamano" name="tamano" required class="w-full rounded-lg border border-slate-300 px-4 py-2.5">
+              <option value="">Selecciona</option>
+              <option value="1-5">1-5 personas</option>
+              <option value="6-20">6-20 personas</option>
+              <option value="21+">Más de 20</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn--primario mt-6 w-full">Solicitar invitación</button>
+          <p id="estado-formulario" class="mt-4 hidden rounded-lg border border-marca-claro bg-marca-claro/10 p-3 text-center text-sm font-semibold text-marca-claro" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-slate-900 py-10 text-slate-300">
+    <div class="contenedor-landing flex flex-col items-center justify-between gap-4 text-sm sm:flex-row">
+      <p class="font-bold text-white">Nova CRM</p>
+      <nav aria-label="Enlaces legales" class="flex gap-6">
+        <a class="hover:text-white" href="#">Privacidad</a>
+        <a class="hover:text-white" href="#">Términos</a>
+        <a class="hover:text-white" href="#">Contacto</a>
+      </nav>
+      <p>© 2026 Nova Software S.L.</p>
+    </div>
+  </footer>
+
+  <script src="animaciones.js"></script>
+  <script>
+    const formulario = document.getElementById("formulario-lead");
+    const estado = document.getElementById("estado-formulario");
+
+    function mostrarError(campo, activo) {
+      campo.setAttribute("aria-invalid", activo ? "true" : "false");
+      document.querySelector(`[data-error="${campo.id}"]`).classList.toggle("hidden", !activo);
+    }
+
+    formulario.addEventListener("input", function (evento) {
+      const campo = evento.target;
+      if (campo.id === "nombre") mostrarError(campo, !campo.checkValidity());
+      if (campo.id === "email") mostrarError(campo, !campo.checkValidity());
+    });
+
+    formulario.addEventListener("submit", async function (evento) {
+      evento.preventDefault();
+      const campos = [...formulario.querySelectorAll("[required]")];
+      let valido = true;
+      for (const campo of campos) {
+        const correcto = campo.checkValidity();
+        mostrarError(campo, !correcto);
+        valido = valido && correcto;
+      }
+      if (!valido) return;
+
+      estado.textContent = "Enviando solicitud...";
+      estado.classList.remove("hidden");
+      try {
+        const respuesta = await fetch("/api/leads", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(formulario)))
+        });
+        if (!respuesta.ok) throw new Error("respuesta invalida");
+        estado.textContent = "Gracias, hemos recibido tu solicitud. Revisa tu correo para confirmar la invitación.";
+        formulario.reset();
+      } catch (error) {
+        estado.textContent = "Hubo un problema al enviar. Escribe a hola@novacrm.ejemplo.com y te ayudamos en minutos.";
+        estado.classList.replace("border-marca-claro", "border-red-600");
+        estado.classList.replace("bg-marca-claro/10", "bg-red-50");
+      }
+    });
+  </script>
+</body>
+</html>

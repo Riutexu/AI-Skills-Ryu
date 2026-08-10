@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Modal accesible</title>
+    <style>
+      :focus-visible {
+        outline: 3px solid #2563eb;
+        outline-offset: 2px;
+      }
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+      }
+      .skip-link:focus {
+        left: 1rem;
+        top: 1rem;
+        background: #fff;
+        padding: 0.5rem 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <button type="button" id="abrir">Abrir modal</button>
+
+    <div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo" hidden>
+      <div>
+        <h2 id="modal-titulo">Confirmar pedido</h2>
+        <p>¿Quieres confirmar el pedido de 2 artículos?</p>
+        <button type="button" id="aceptar">Confirmar</button>
+        <button type="button" id="cerrar">Cancelar</button>
+      </div>
+    </div>
+
+    <main id="contenido">
+      <p>Contenido de la página bajo el modal.</p>
+    </main>
+
+    <script>
+      const modal = document.getElementById("modal");
+      const abrir = document.getElementById("abrir");
+      const cerrar = document.getElementById("cerrar");
+      const aceptar = document.getElementById("aceptar");
+      let previo = null;
+      const enfocables = () => [...modal.querySelectorAll("button, [href], input, [tabindex]:not([tabindex='-1'])")];
+
+      abrir.addEventListener("click", () => {
+        previo = document.activeElement;
+        modal.hidden = false;
+        enfocables()[0]?.focus();
+      });
+
+      function cerrarModal() {
+        modal.hidden = true;
+        previo?.focus();
+      }
+
+      cerrar.addEventListener("click", cerrarModal);
+      aceptar.addEventListener("click", cerrarModal);
+
+      modal.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") return cerrarModal();
+        if (e.key !== "Tab") return;
+        const lista = enfocables();
+        const primero = lista[0];
+        const ultimo = lista.at(-1);
+        if (e.shiftKey && document.activeElement === primero) {
+          e.preventDefault();
+          ultimo.focus();
+        } else if (!e.shiftKey && document.activeElement === ultimo) {
+          e.preventDefault();
+          primero.focus();
+        }
+      });
+    </script>
+  </body>
+</html>

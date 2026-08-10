@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taller Rueda Nueva | Reparación y mantenimiento de bicicletas</title>
+  <meta name="description" content="Taller de bicicletas en el centro: reparaciones en 24 horas, revisión gratuita con cada puesta a punto y préstamo de bici de cortesía.">
+
+  <!-- Rendimiento del primer render: CSS crítico inline y hoja diferida -->
+  <style>
+    /* CSS crítico: tipografía base, saltar al contenido y cabecera */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", system-ui, Arial, sans-serif;
+      line-height: 1.6;
+      color: #1f2937;
+      background: #f8fafc;
+    }
+    .enlace-salto {
+      position: absolute; left: -9999px; top: 0;
+      background: #1e3a8a; color: #fff;
+      padding: 0.75rem 1.25rem; border-radius: 0 0 8px 0;
+    }
+    .enlace-salto:focus { left: 0; }
+    .cabecera { background: #fff; border-bottom: 1px solid #e2e8f0; }
+    .cabecera__interior {
+      max-width: 1080px; margin: 0 auto; padding: 1rem 1.25rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .cabecera nav ul { list-style: none; display: flex; gap: 1.25rem; flex-wrap: wrap; }
+    .cabecera nav a { text-decoration: none; color: #334155; font-weight: 600; }
+    .cabecera nav a[aria-current="page"] { color: #1e3a8a; text-decoration: underline; }
+  </style>
+  <link rel="stylesheet" href="estilos-app.css" media="print" onload="this.media='all'" disabled data-hoja-diferida>
+  <noscript><link rel="stylesheet" href="estilos-app.css"></noscript>
+
+  <!-- El componente se carga como módulo; no bloquea el render -->
+  <script type="module" src="componente-personalizado.js"></script>
+
+  <!-- Preload del recurso crítico: el logo del LCP -->
+  <link rel="preload" as="image" href="logo-rueda-nueva.svg" fetchpriority="high">
+
+  <!-- Preconnect a dominios externos usados por el primer render -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+  <a class="enlace-salto" href="#contenido">Saltar al contenido principal</a>
+
+  <header class="cabecera">
+    <div class="cabecera__interior">
+      <img src="logo-rueda-nueva.svg" alt="Logotipo de Taller Rueda Nueva" width="220" height="56" fetchpriority="high">
+      <nav aria-label="Navegación principal">
+        <ul>
+          <li><a href="#servicios" aria-current="page">Servicios</a></li>
+          <li><a href="#precios">Precios</a></li>
+          <li><a href="#cita">Pedir cita</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <section class="hero" aria-labelledby="titulo-hero" hidden="until-found">
+      <h1 id="titulo-hero">Tu bici lista en 24 horas</h1>
+      <p>Reparaciones exprés, mantenimiento anual y préstamo de bici de cortesía mientras trabajamos en la tuya.</p>
+    </section>
+
+    <section aria-labelledby="titulo-precios" id="precios">
+      <h2 id="titulo-precios">Precios de los mantenimientos</h2>
+      <div class="rejilla-precios">
+
+        <!-- Custom element con shadow DOM y slots -->
+        <tarjeta-precio
+          id="precio-a"
+          titulo="Revisión básica"
+          precio="25"
+          unidad="EUR"
+          etiqueta-boton="Reservar revisión"
+        >
+          <ul slot="caracteristicas">
+            <li>Revisión de frenos y cambios</li>
+            <li>Inflado y tensado de ruedas</li>
+            <li>Lubricación de cadena</li>
+          </ul>
+        </tarjeta-precio>
+
+        <tarjeta-precio
+          id="precio-b"
+          titulo="Puesta a punto anual"
+          precio="60"
+          unidad="EUR"
+          etiqueta-boton="Reservar puesta a punto"
+        >
+          <ul slot="caracteristicas">
+            <li>Revisión básica completa</li>
+            <li>Reglaje de cambios y frenos</li>
+            <li>Limpieza profunda de transmisión</li>
+          </ul>
+        </tarjeta-precio>
+
+        <tarjeta-precio
+          id="precio-c"
+          titulo="Restauración completa"
+          precio="120"
+          unidad="EUR"
+          etiqueta-boton="Pedir presupuesto"
+        >
+          <ul slot="caracteristicas">
+            <li>Desmontaje completo</li>
+            <li>Cambio de rodamientos y cables</li>
+            <li>Presupuesto cerrado antes de empezar</li>
+          </ul>
+        </tarjeta-precio>
+
+      </div>
+    </section>
+
+    <!-- Zona con inert: bloqueada hasta completar la cita -->
+    <section aria-labelledby="titulo-cita" id="cita">
+      <h2 id="titulo-cita">Pedir cita</h2>
+      <form id="formulario-cita" action="/api/citas" method="post">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" required autocomplete="email">
+        <label for="servicio">Servicio</label>
+        <select id="servicio" name="servicio" required>
+          <option value="revision">Revisión básica</option>
+          <option value="anual">Puesta a punto anual</option>
+          <option value="restauracion">Restauración completa</option>
+        </select>
+        <button type="submit">Solicitar cita</button>
+      </form>
+
+      <!-- Bloqueado mientras no se envíe el formulario -->
+      <div id="siguiente-paso" inert>
+        <h3>Siguiente paso: elige franja horaria</h3>
+        <p>Las franjas disponibles se muestran tras confirmar el correo.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="contacto" class="pie">
+    <address>
+      Taller Rueda Nueva · Calle de la Bici 8, 46001 Valencia
+      <a href="tel:+34961112233">961 112 233</a> · <a href="mailto:taller@ruedanueva.ejemplo.com">taller@ruedanueva.ejemplo.com</a>
+    </address>
+    <p>© 2026 Taller Rueda Nueva · Aviso legal · Privacidad</p>
+  </footer>
+
+  <script type="module">
+    /* Integración del custom element: escucha el evento que burbujea */
+    const formulario = document.getElementById("formulario-cita");
+    const siguientePaso = document.getElementById("siguiente-paso");
+
+    document.addEventListener("tarjeta-seleccionada", (evento) => {
+      const servicio = document.getElementById("servicio");
+      const titulo = evento.detail.titulo;
+      const mapeo = {
+        "Revisión básica": "revision",
+        "Puesta a punto anual": "anual",
+        "Restauración completa": "restauracion",
+      };
+      if (mapeo[titulo]) servicio.value = mapeo[titulo];
+      formulario.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    formulario.addEventListener("submit", (evento) => {
+      if (!formulario.checkValidity()) {
+        formulario.reportValidity();
+        return;
+      }
+      evento.preventDefault();
+      /* Al desbloquear, removemos inert para revelar el siguiente paso */
+      siguientePaso.removeAttribute("inert");
+      siguientePaso.setAttribute("data-lista", "franjas abiertas");
+    });
+  </script>
+
+</body>
+</html>

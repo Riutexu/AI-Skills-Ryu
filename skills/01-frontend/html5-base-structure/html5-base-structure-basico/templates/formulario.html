@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alta de socio | Biblioteca La Esquina</title>
+  <meta name="description" content="Alta de socio de la Biblioteca La Esquina: datos personales, préstamos y condiciones en menos de 5 minutos.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: #1f2937;
+      background: #f9fafb;
+      padding: 2rem 1rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    fieldset {
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      background: #ffffff;
+    }
+    legend { font-weight: 700; padding: 0 0.5rem; }
+    .campo { margin-bottom: 1rem; }
+    label { display: block; font-weight: 600; margin-bottom: 0.3rem; }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      font: inherit;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+    }
+    .ayuda { font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem; }
+    button {
+      background: #1d4ed8;
+      color: #fff;
+      border: 0;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover { background: #1e40af; }
+    .estado { display: none; }
+    .estado:not([hidden]) { display: block; }
+  </style>
+</head>
+<body>
+
+  <h1>Alta de socio</h1>
+  <p>Completa el formulario y recoge tu carnet en mostrador con el documento de identidad.</p>
+
+  <form action="/api/socios" method="post">
+
+    <fieldset>
+      <legend>Datos personales</legend>
+
+      <div class="campo">
+        <label for="nombre">Nombre y apellidos</label>
+        <input type="text" id="nombre" name="nombre" required minlength="3" maxlength="100" autocomplete="name">
+      </div>
+
+      <div class="campo">
+        <label for="nacimiento">Fecha de nacimiento</label>
+        <input type="date" id="nacimiento" name="nacimiento" required min="1920-01-01" max="2016-12-31">
+        <p class="ayuda">Los socios mayores de 8 años necesitan su propio carnet.</p>
+      </div>
+
+      <div class="campo">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+        <p class="ayuda">Lo usamos solo para avisos de préstamos y novedades.</p>
+      </div>
+
+      <div class="campo">
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" name="telefono" required pattern="[0-9]{9}" title="9 dígitos sin espacios ni prefijo +34." autocomplete="tel">
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Preferencias de préstamo</legend>
+
+      <div class="campo">
+        <label for="interes">Sección favorita</label>
+        <select id="interes" name="interes" required>
+          <option value="">Elige una sección</option>
+          <option value="novela">Novela y narrativa</option>
+          <option value="infantil">Infantil y juvenil</option>
+          <option value="divulgacion">Divulgación y ciencia</option>
+          <option value="comics">Cómic e ilustración</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="maximo">Máximo de préstamos simultáneos</label>
+        <input type="number" id="maximo" name="maximo" min="1" max="10" step="1" value="3" required>
+        <p class="ayuda">De 1 a 10 ejemplares. Puedes cambiarlo después desde tu panel de socio.</p>
+      </div>
+
+      <div class="campo">
+        <label for="web">Tu web o blog (opcional)</label>
+        <input type="url" id="web" name="web" placeholder="https://miblog.ejemplo.com" autocomplete="url">
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Condiciones</legend>
+
+      <div class="campo">
+        <label for="condiciones">
+          <input type="checkbox" id="condiciones" name="condiciones" required>
+          Acepto el reglamento de préstamos y el tratamiento de mis datos según el aviso legal.
+        </label>
+      </div>
+    </fieldset>
+
+    <button type="submit">Enviar solicitud</button>
+
+    <p class="estado" id="estado-envio" role="status" aria-live="polite" hidden>
+      Solicitud recibida. Te enviamos un correo con el número de socio provisional.
+    </p>
+  </form>
+
+  <script>
+    const formulario = document.querySelector("form");
+    const estado = document.getElementById("estado-envio");
+
+    formulario.addEventListener("submit", function (evento) {
+      if (formulario.checkValidity() === false) {
+        formulario.reportValidity();
+        return;
+      }
+      evento.preventDefault();
+      estado.hidden = false;
+      formulario.reset();
+    });
+  </script>
+</body>
+</html>

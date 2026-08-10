@@ -1,0 +1,88 @@
+// =============================================================
+// Esquema Prisma de producción: clientes, pedidos y productos
+// Convenciones: soft delete, timestamps, enums e índices estratégicos
+// =============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Dominios cerrados como enums: imposible guardar estados inválidos
+enum EstadoPedido {
+  pendiente
+  pagado
+  enviado
+  entregado
+  cancelado
+}
+
+enum PerfilUsuario {
+  cliente
+  admin
+  soporte
+}
+
+model Cliente {
+  id            Int            @id @default(autoincrement())
+  nombre        String         @db.VarChar(100)
+  email         String         @unique @db.VarChar(150)
+  telefono      String?        @db.VarChar(20)
+  ciudad        String         @db.VarChar(80)
+  perfil        PerfilUsuario  @default(cliente)
+  creadoEn      DateTime       @default(now())
+  actualizadoEn DateTime       @updatedAt
+  borradoEn     DateTime?      // soft delete: NULL significa activo
+  pedidos       Pedido[]
+
+  @@index([ciudad, perfil])    // búsquedas por ciudad y perfil
+  @@index([borradoEn])         // filtros de activos (borradoEn IS NULL)
+  @@map("clientes")
+}
+
+model Pedido {
+  id            Int          @id @default(autoincrement())
+  numero        String       @unique
+  clienteId     Int
+  cliente       Cliente      @relation(fields: [clienteId], references: [id])
+  estado        EstadoPedido @default(pendiente)
+  total         Decimal      @db.Decimal(10, 2)
+  creadoEn      DateTime     @default(now())
+  actualizadoEn DateTime     @updatedAt
+  borradoEn     DateTime?
+  lineas        DetallePedido[]
+
+  @@index([clienteId, creadoEn(sort: Desc)])   // listados por cliente
+  @@index([estado, creadoEn(sort: Desc)])      // paneles por estado
+  @@map("pedidos")
+}
+
+model Producto {
+  id     Int               @id @default(autoincrement())
+  nombre String            @db.VarChar(120)
+  precio Decimal           @db.Decimal(10, 2)
+  stock  Int               @default(0)
+  activo Boolean           @default(true)  // desactivación lógica del catálogo
+  lineas DetallePedido[]
+
+  @@index([activo, nombre])
+  @@map("productos")
+}
+
+model DetallePedido {
+  pedidoId       Int
+  productoId     Int
+  cantidad       Int              @default(1)
+  precioUnitario Decimal          @db.Decimal(10, 2)  // precio en el momento de la venta
+
+  pedido   Pedido   @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  producto Producto @relation(fields: [productoId], references: [id])
+
+  @@id([pedidoId, productoId])
+  @@index([productoId])           // informes por producto
+  @@map("detalle_pedido")
+}

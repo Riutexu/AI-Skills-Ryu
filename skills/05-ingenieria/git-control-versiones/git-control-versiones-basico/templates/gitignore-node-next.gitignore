@@ -1,0 +1,64 @@
+# Dependencias
+/node_modules
+/.pnp
+.pnp.js
+
+# Next.js
+/.next/
+/out/
+next-env.d.ts
+
+# Producción
+/build
+/dist
+
+# Pruebas
+/coverage
+/.nyc_output
+/playwright-report
+/test-results
+
+# Cachés
+.cache/
+.eslintcache
+.turbo/
+.vercel
+
+# Entorno y secretos (NUNCA commitear)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+!.env.example
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Compilado
+*.tsbuildinfo
+
+# Editor y SO
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+Thumbs.db
+desktop.ini
+
+# Compresión y descargas
+*.zip
+*.tar.gz
+*.7z

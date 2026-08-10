@@ -1,0 +1,126 @@
+name: Deploy Multietapa con Rollback
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      porcentaje_canary:
+        description: "Porcentaje de trafico para el canary (5-25)"
+        type: number
+        default: 10
+      ventana_observacion:
+        description: "Minutos de observacion antes de ampliar"
+        type: number
+        default: 15
+
+env:
+  REGISTRO: ghcr.io
+  IMAGEN: ${{ github.repository }}
+
+concurrency:
+  group: deploy-${{ github.ref_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  calidad:
+    name: Calidad (lint + test + build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test:run
+      - run: npm run build
+
+  seguridad:
+    name: Supply chain (trivy + sbom)
+    runs-on: ubuntu-latest
+    needs: [calidad]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Escanear dependencias con trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          exit-code: 1
+          severity: CRITICAL,HIGH
+      - name: Generar SBOM
+        uses: anchore/sbom-action@v0.17.0
+        with:
+          path: ./
+          format: spdx-json
+          output-file: sbom.spdx.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.spdx.json
+
+  construir:
+    name: Construir y publicar imagen
+    runs-on: ubuntu-latest
+    needs: [seguridad]
+    outputs:
+      imagen: ${{ steps.build.outputs.imageid }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRO }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build con caching de capas
+        uses: docker/build-push-action@v6
+        id: build
+        with:
+          push: true
+          tags: |
+            ${{ env.REGISTRO }}/${{ env.IMAGEN }}:${{ github.ref_name }}
+            ${{ env.REGISTRO }}/${{ env.IMAGEN }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  desplegar:
+    name: Canary 10% -> 100% con rollback
+    runs-on: ubuntu-latest
+    needs: [construir]
+    environment: production
+    steps:
+      - name: Desplegar canary 10%
+        run: |
+          echo "Despliegue canary de ${{ env.IMAGEN }}:${{ github.ref_name }} al ${{ inputs.porcentaje_canary || 10 }}%"
+          curl -fsS -X POST "${{ secrets.ORQUESTADOR_URL }}/deploy" \
+            -H "Authorization: Bearer ${{ secrets.ORQUESTADOR_TOKEN }}" \
+            -d "imagen=${{ env.IMAGEN }}:${{ github.ref_name }}&canary=${{ inputs.porcentaje_canary || 10 }}"
+      - name: Observar healthcheck (ventana configurable)
+        run: |
+          FIN=$((SECONDS + (${{ inputs.ventana_observacion || 15 }} * 60)))
+          while [ $SECONDS -lt $FIN ]; do
+            OK=$(curl -fsS "${{ secrets.HEALTH_URL }}" | jq -r '.status')
+            echo "Healthcheck: $OK a los $SECONDS s"
+            if [ "$OK" != "ok" ]; then
+              echo "::error::Healthcheck fallo; disparando rollback"
+              curl -fsS -X POST "${{ secrets.ORQUESTADOR_URL }}/rollback" \
+                -H "Authorization: Bearer ${{ secrets.ORQUESTADOR_TOKEN }}"
+              exit 1
+            fi
+            sleep 15
+          done
+      - name: Ampliar al 100%
+        run: |
+          curl -fsS -X POST "${{ secrets.ORQUESTADOR_URL }}/deploy" \
+            -H "Authorization: Bearer ${{ secrets.ORQUESTADOR_TOKEN }}" \
+            -d "imagen=${{ env.IMAGEN }}:${{ github.ref_name }}&canary=100"
+      - name: Verificacion post-deploy
+        run: curl -fsS "${{ secrets.HEALTH_URL }}" | jq -e '.status == "ok"'

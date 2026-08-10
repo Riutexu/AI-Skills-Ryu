@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multimedia con fallbacks | Centro de Natación Ondina</title>
+  <meta name="description" content="Instalaciones del Centro de Natación Ondina: galería de la piscina cubierta, vídeo de presentación y audio con el programa de actividades.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: #1f2937;
+      background: #f8fafc;
+      padding: 2rem 1rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    h1 { margin-bottom: 1.5rem; }
+    section { margin-bottom: 2.5rem; }
+    h2 { margin-bottom: 1rem; }
+    figure { margin-bottom: 1rem; }
+    figcaption { font-size: 0.85rem; color: #64748b; margin-top: 0.4rem; }
+    video, audio { width: 100%; max-width: 720px; }
+    .fallback { border: 1px dashed #cbd5e1; border-radius: 8px; padding: 1rem; background: #fff; }
+  </style>
+</head>
+<body>
+
+  <main>
+    <h1>Instalaciones del Centro Ondina</h1>
+
+    <!-- Galería con picture: formatos modernos y respaldo -->
+    <section aria-labelledby="titulo-galeria">
+      <h2 id="titulo-galeria">La piscina cubierta</h2>
+
+      <figure>
+        <picture>
+          <source srcset="piscina.avif" type="image/avif">
+          <source srcset="piscina.webp" type="image/webp">
+          <img
+            src="piscina.jpg"
+            alt="Piscina de 25 metros con seis calles, luz natural y graderío"
+            width="960"
+            height="540"
+            srcset="piscina-grande.jpg 1920w, piscina.jpg 960w"
+            sizes="(min-width: 1000px) 960px, 100vw"
+            loading="lazy"
+          >
+        </picture>
+        <figcaption>La piscina de 25 metros, abierta de 7:00 a 21:00.</figcaption>
+      </figure>
+
+      <figure>
+        <picture>
+          <source srcset="sala-gimnasio.avif" type="image/avif">
+          <source srcset="sala-gimnasio.webp" type="image/webp">
+          <img
+            src="sala-gimnasio.jpg"
+            alt="Sala de gimnasio con bicicletas estáticas frente a la cristalera"
+            width="960"
+            height="540"
+            loading="lazy"
+          >
+        </picture>
+        <figcaption>La sala de fitness está contigua a la piscina.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Vídeo con captions y texto de respaldo -->
+    <section aria-labelledby="titulo-video">
+      <h2 id="titulo-video">Vídeo de presentación</h2>
+
+      <video controls preload="metadata" poster="presentacion-poster.jpg" width="720" height="405">
+        <source src="presentacion.mp4" type="video/mp4">
+        <source src="presentacion.webm" type="video/webm">
+        <track kind="captions" src="presentacion.vtt" srclang="es" label="Español">
+        <p class="fallback">
+          Tu navegador no puede reproducir este vídeo.
+          <a href="presentacion.mp4">Descárgalo</a> o lee la
+          <a href="transcripcion-presentacion.html">transcripción completa</a>.
+        </p>
+      </video>
+    </section>
+
+    <!-- Audio con transcripción -->
+    <section aria-labelledby="titulo-audio">
+      <h2 id="titulo-audio">Programa de actividades de agosto</h2>
+
+      <audio controls preload="none">
+        <source src="programa-agosto.mp3" type="audio/mpeg">
+        <source src="programa-agosto.ogg" type="audio/ogg">
+        <p class="fallback">
+          Tu navegador no puede reproducir este audio.
+          <a href="transcripcion-agosto.html">Lee la transcripción del programa</a>.
+        </p>
+      </audio>
+      <p class="fallback" style="margin-top: 0.75rem;">
+        Transcripción disponible: descarga el
+        <a href="transcripcion-agosto.txt">texto del programa en TXT</a>.
+      </p>
+    </section>
+  </main>
+
+</body>
+</html>

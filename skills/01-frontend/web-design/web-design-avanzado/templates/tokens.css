@@ -1,0 +1,173 @@
+/* tokens.css
+   Design tokens completos en variables CSS.
+   Convención de nombres por rol (no por valor):
+   --color-primario (rol) en lugar de --color-verde (valor).
+   Escalas numéricas para espaciados, radios y z-index. */
+
+:root {
+  /* --- Color: marca --- */
+  --color-primario: #0f766e;
+  --color-primario-claro: #14b8a6;
+  --color-primario-oscuro: #115e59;
+  --color-primario-suave: #ccfbf1;
+  --color-primario-contraste: #ffffff;
+
+  /* --- Color: neutrales (base del 60-30-10) --- */
+  --color-fondo: #f9fafb;
+  --color-superficie: #ffffff;
+  --color-borde: #e5e7eb;
+  --color-texto-primario: #111827;
+  --color-texto-secundario: #4b5563;
+  --color-texto-discreto: #9ca3af;
+
+  /* --- Color: semánticos (estado, verificación, alertas) --- */
+  --color-exito: #15803d;
+  --color-advertencia: #b45309;
+  --color-error: #b91c1c;
+  --color-info: #1d4ed8;
+  --color-exito-suave: #dcfce7;
+  --color-advertencia-suave: #fef3c7;
+  --color-error-suave: #fee2e2;
+  --color-info-suave: #dbeafe;
+
+  /* --- Tipografía: familias --- */
+  --fuente-titulos: "Inter", "Segoe UI", system-ui, sans-serif;
+  --fuente-texto: "Inter", "Segoe UI", system-ui, sans-serif;
+  --fuente-mono: "JetBrains Mono", "Cascadia Code", monospace;
+
+  /* --- Tipografía: escala modular (razón 1.25) --- */
+  --texto-xs: 0.75rem;
+  --texto-sm: 0.875rem;
+  --texto-base: 1rem;
+  --texto-lg: 1.25rem;
+  --texto-xl: 1.5rem;
+  --texto-2xl: 1.875rem;
+  --texto-3xl: 2.35rem;
+
+  /* --- Tipografía: interlineado --- */
+  --linea-titulos: 1.2;
+  --linea-cuerpo: 1.6;
+  --linea-pie-nota: 1.4;
+
+  /* --- Peso --- */
+  --peso-regular: 400;
+  --peso-medio: 500;
+  --peso-seminegrita: 600;
+  --peso-negrita: 700;
+
+  /* --- Espaciado: escala de 4 px --- */
+  --espaciado-1: 0.25rem;   /* 4  px */
+  --espaciado-2: 0.5rem;    /* 8  px */
+  --espaciado-3: 0.75rem;   /* 12 px */
+  --espaciado-4: 1rem;      /* 16 px */
+  --espaciado-6: 1.5rem;    /* 24 px */
+  --espaciado-8: 2rem;      /* 32 px */
+  --espaciado-12: 3rem;     /* 48 px */
+  --espaciado-16: 4rem;     /* 64 px */
+  --espaciado-20: 5rem;     /* 80 px */
+
+  /* Ritmo vertical: distancias compuestas por la escala */
+  --ritmo-bloque: var(--espaciado-4);
+  --ritmo-parrafo: var(--espaciado-6);
+  --ritmo-seccion: var(--espaciado-12);
+
+  /* --- Componentes --- */
+  --radio-xs: 6px;
+  --radio-sm: 8px;
+  --radio-md: 12px;
+  --radio-lg: 16px;
+  --radio-pill: 999px;
+
+  --borde-fino: 1px solid var(--color-borde);
+  --borde-grueso: 2px solid var(--color-primario);
+
+  --sombra-sm: 0 1px 2px rgba(17, 24, 39, 0.06);
+  --sombra-md: 0 4px 12px rgba(17, 24, 39, 0.08);
+  --sombra-lg: 0 12px 32px rgba(17, 24, 39, 0.12);
+
+  /* --- Layout --- */
+  --contenedor-max: 72rem;
+  --grid-columnas: 12;
+  --grid-gutter: var(--espaciado-6);
+
+  /* --- Z-index --- */
+  --z-base: 0;
+  --z-menu: 100;
+  --z-modal: 200;
+  --z-toast: 300;
+
+  /* --- Movimiento --- */
+  --duracion-corta: 120ms;
+  --duracion-media: 240ms;
+  --duracion-larga: 400ms;
+  --curva-estandar: cubic-bezier(0.4, 0, 0.2, 1);
+  --curva-suave: cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  /* --- Accesibilidad --- */
+  --enfoque-anillo: 3px solid var(--color-info);
+  --enfoque-offset: 2px;
+}
+
+/* Tema oscuro: solo cambian las variables de color y sombra */
+[data-tema="oscuro"] {
+  --color-fondo: #0f172a;
+  --color-superficie: #1e293b;
+  --color-borde: #334155;
+  --color-texto-primario: #f1f5f9;
+  --color-texto-secundario: #cbd5e1;
+  --color-texto-discreto: #94a3b8;
+  --color-primario: #2dd4bf;
+  --color-primario-claro: #5eead4;
+  --color-primario-oscuro: #14b8a6;
+  --color-primario-suave: #134e4a;
+  --sombra-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --sombra-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --sombra-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
+}
+
+/* Reducción de movimiento: los consumidores de --duracion-* deben
+   declarar esta regla junto a sus animaciones. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duracion-corta: 0ms;
+    --duracion-media: 0ms;
+    --duracion-larga: 0ms;
+  }
+}
+
+/* --- Utilidades base del sistema --- */
+
+body {
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-base);
+  line-height: var(--linea-cuerpo);
+  color: var(--color-texto-primario);
+  background: var(--color-fondo);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--fuente-titulos);
+  line-height: var(--linea-titulos);
+  font-weight: var(--peso-negrita);
+  color: var(--color-texto-primario);
+}
+
+h1 { font-size: var(--texto-3xl); }
+h2 { font-size: var(--texto-2xl); }
+h3 { font-size: var(--texto-xl); }
+h4 { font-size: var(--texto-lg); }
+
+/* Ritmo vertical por defecto */
+p { margin-bottom: var(--ritmo-parrafo); }
+
+.contenedor {
+  max-width: var(--contenedor-max);
+  margin-inline: auto;
+  padding-inline: var(--espaciado-4);
+}
+
+/* Foco visible del sistema */
+:focus-visible {
+  outline: var(--enfoque-anillo);
+  outline-offset: var(--enfoque-offset);
+}

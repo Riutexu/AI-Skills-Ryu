@@ -1,0 +1,28 @@
+// =============================================================
+// Primer modelo Prisma: usuario simple
+// Uso:
+//   1. npm init -y && npm i prisma @prisma/client
+//   2. npx prisma init
+//   3. Sustituir el schema generado por este archivo
+//   4. Definir DATABASE_URL en .env
+//   5. npx prisma migrate dev --name init
+// =============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  nombre   String
+  activo   Boolean  @default(true)
+  creadoEn DateTime @default(now())
+
+  @@map("usuarios")   // la tabla en la base se llama usuarios
+}

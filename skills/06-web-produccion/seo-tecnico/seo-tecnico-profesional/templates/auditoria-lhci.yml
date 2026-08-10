@@ -1,0 +1,23 @@
+name: auditoria-seo
+
+on:
+  pull_request:
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar LHCI
+        run: npm install -g @lhci/cli
+      - name: Correr Lighthouse CI
+        run: lhci autorun --config=./lighthouse/lighthouserc.json
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Falla el PR si se superan los presupuestos
+        if: ${{ failure() }}
+        run: echo "Presupuestos de rendimiento/SEO no cumplidos. Revisa el informe."

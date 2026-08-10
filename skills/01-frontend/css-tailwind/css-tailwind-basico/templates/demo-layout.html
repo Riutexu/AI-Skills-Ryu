@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panadería Trigo Libre | Pan de masa madre y bollería artesana</title>
+  <meta name="description" content="Panadería de barrio con masa madre propia: pan de campo, centeno, integral y dulces artesanos. Horneado cada mañana desde 1978.">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+  <header class="cabecera">
+    <div class="contenedor cabecera__interior">
+      <a class="cabecera__logo" href="#inicio">Trigo Libre</a>
+      <nav class="cabecera__nav" aria-label="Navegación principal">
+        <ul>
+          <li><a href="#productos">Productos</a></li>
+          <li><a href="#pedido">Pedido especial</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <a class="boton" href="#pedido">Encargar pan</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero" id="inicio" aria-labelledby="titulo-hero">
+      <div class="contenedor hero__interior">
+        <div class="hero__texto">
+          <h1 id="titulo-hero">El pan que fermenta 24 horas y se hornea cada mañana</h1>
+          <p>Masa madre activa desde 1978, harinas molidas a la piedra y horno de leña. Tres fermentaciones y cero prisas: el sabor no se improvisa.</p>
+          <div class="hero__acciones">
+            <a class="boton" href="#productos">Ver productos</a>
+            <a class="boton boton--secundario" href="#pedido">Hacer un pedido</a>
+          </div>
+        </div>
+        <svg viewBox="0 0 400 280" role="img" aria-label="Ilustración de una barra de pan de masa madre">
+          <rect x="40" y="60" width="320" height="160" rx="80" fill="#d97706" />
+          <rect x="40" y="60" width="320" height="30" rx="15" fill="#f59e0b" opacity="0.6" />
+          <path d="M60 220 q140 -40 280 0" stroke="#92400e" stroke-width="10" fill="none" stroke-linecap="round" />
+          <circle cx="120" cy="120" r="8" fill="#92400e" opacity="0.5" />
+          <circle cx="200" cy="170" r="10" fill="#92400e" opacity="0.5" />
+          <circle cx="280" cy="110" r="7" fill="#92400e" opacity="0.5" />
+        </svg>
+      </div>
+    </section>
+
+    <section id="productos" aria-labelledby="titulo-productos" style="padding: 4rem 0;">
+      <div class="contenedor">
+        <h2 id="titulo-productos">Los favoritos de la semana</h2>
+        <div class="rejilla-productos">
+          <article class="tarjeta">
+            <h3>Pan de campo</h3>
+            <p>Horno de leña, masa madre de centeno y corteza crujiente. 900 g.</p>
+            <p class="tarjeta__precio">4,50 EUR</p>
+          </article>
+          <article class="tarjeta">
+            <h3>Integral de espelta</h3>
+            <p>Harina de espelta integral molida a la piedra. 700 g.</p>
+            <p class="tarjeta__precio">5,20 EUR</p>
+          </article>
+          <article class="tarjeta">
+            <h3>Centeno 80 %</h3>
+            <p>Pronunciado, con acidez equilibrada. La panoteca favorita del barrio.</p>
+            <p class="tarjeta__precio">6,00 EUR</p>
+          </article>
+          <article class="tarjeta">
+            <h3>Bizcocho de limón</h3>
+            <p>Cocido con aceite de oliva y limón de vera. Raciones de 4.</p>
+            <p class="tarjeta__precio">7,50 EUR</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pedido" aria-labelledby="titulo-pedido" style="padding: 4rem 0; background: #fff7ed;">
+      <div class="contenedor">
+        <h2 id="titulo-pedido">Encarga tu pan especial</h2>
+        <form class="formulario" action="/api/pedidos" method="post">
+          <div class="formulario__campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required minlength="2" autocomplete="name">
+          </div>
+          <div class="formulario__campo">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
+          <div class="formulario__campo">
+            <label for="mensaje">¿Qué pan necesitas?</label>
+            <textarea id="mensaje" name="mensaje" rows="4" required minlength="10" maxlength="400" placeholder="Ej.: dos panes de campo de 1 kg para el sábado por la mañana."></textarea>
+          </div>
+          <button class="boton" type="submit">Enviar pedido</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pie" id="contacto">
+    <div class="contenedor pie__interior">
+      <p>Panadería Trigo Libre · Calle del Horno 3, 28005 Madrid</p>
+      <p>Teléfono: <a href="tel:+34915558704">915 558 704</a> · <a href="mailto:hola@trigolibre.ejemplo.com">hola@trigolibre.ejemplo.com</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>

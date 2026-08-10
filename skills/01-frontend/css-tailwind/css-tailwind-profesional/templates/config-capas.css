@@ -1,0 +1,183 @@
+/* ==========================================================================
+   config-capas.css — Arquitectura del CSS de "Gestor de Pedidos"
+   Estructura ITCSS sobre capas nativas (@layer), tokens por rol,
+   dark mode y container queries. Requiere Tailwind v4 (CSS-first).
+   Compila con: npx @tailwindcss/cli -i config-capas.css -o salida.css
+   ========================================================================== */
+
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   1. DÓNDE vivirá el dark mode.
+   v4: la variante dark se reasigna a la clase ".dark" en <html>.
+   v3 equivalente: darkMode: "class" en tailwind.config.js.
+   -------------------------------------------------------------------------- */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* --------------------------------------------------------------------------
+   2. Orden de capas: la cascada queda prohibida por accidente.
+   Reglas sueltas fuera de @layer NO se escriben en este proyecto.
+   -------------------------------------------------------------------------- */
+@layer theme, base, components, utilities;
+
+/* --------------------------------------------------------------------------
+   3. Tokens del tema (Settings de ITCSS).
+   Un solo set de variables; el modo oscuro cambia los valores,
+   ningún componente cambia su propio color de modo.
+   -------------------------------------------------------------------------- */
+@theme {
+  /* Colores por rol */
+  --color-background: oklch(0.985 0.005 95);
+  --color-foreground: oklch(0.28 0.02 260);
+  --color-surface: #ffffff;
+  --color-muted: oklch(0.96 0.004 90);
+  --color-muted-foreground: oklch(0.48 0.01 260);
+  --color-primary: oklch(0.53 0.14 160);
+  --color-primary-foreground: #ffffff;
+  --color-accent: oklch(0.85 0.12 85);
+  --color-accent-foreground: oklch(0.35 0.06 40);
+  --color-destructive: oklch(0.55 0.2 25);
+  --color-destructive-foreground: #ffffff;
+  --color-border: oklch(0.9 0.01 90);
+
+  /* Tipografía */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Radios, sombras y duración */
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-card: 0 2px 10px rgb(0 0 0 / 0.07);
+  --ease-estandar: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Contenedor de la app */
+  --container-app: 1180px;
+}
+
+/* --------------------------------------------------------------------------
+   4. Base (Generic + Elements): sanitización y estilos por etiqueta.
+   -------------------------------------------------------------------------- */
+@layer base {
+  *,
+  ::after,
+  ::before {
+    border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-foreground);
+    background: var(--color-background);
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    line-height: 1.25;
+  }
+
+  /* Foco visible: regla global, visible en ambos temas */
+  :focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Reducción de movimiento: regla GLOBAL del sistema,
+     no parches por componente. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Valores del tema oscuro: solo se cambian variables.
+   -------------------------------------------------------------------------- */
+@layer theme {
+  :root.dark,
+  .dark {
+    --color-background: oklch(0.2 0.01 260);
+    --color-foreground: oklch(0.93 0.01 90);
+    --color-surface: oklch(0.24 0.012 260);
+    --color-muted: oklch(0.28 0.012 260);
+    --color-muted-foreground: oklch(0.7 0.015 260);
+    --color-primary: oklch(0.72 0.14 160);
+    --color-primary-foreground: oklch(0.2 0.03 160);
+    --color-accent: oklch(0.75 0.1 85);
+    --color-accent-foreground: oklch(0.3 0.05 40);
+    --color-border: oklch(0.33 0.01 260);
+    --shadow-card: 0 2px 12px rgb(0 0 0 / 0.45);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Componentes: estilos compuestos, purgados en el build.
+   -------------------------------------------------------------------------- */
+@layer components {
+  .tarjeta-pedido {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+    padding: 1.25rem;
+    @apply flex flex-col gap-2;
+  }
+
+  .btn-primario {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2.5 font-semibold text-primary-foreground transition-colors duration-200 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Container queries: módulos que se adaptan a su contenedor.
+   El panel de pedidos se reordena según el ancho del contenedor,
+   no de la ventana. Úsalo con @container en el contenedor padre.
+   -------------------------------------------------------------------------- */
+@layer components {
+  .panel-pedido {
+    container-type: inline-size;
+  }
+
+  .panel-pedido__cabecera {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  /* A partir de 480 px de contenedor, cabecera e importe en fila */
+  @container (min-width: 480px) {
+    .panel-pedido__cabecera {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. Utilidades propias: usan tokens, se purgan automáticamente.
+   -------------------------------------------------------------------------- */
+@layer utilities {
+  .ancho-app {
+    width: min(var(--container-app), 100% - 2rem);
+    margin-inline: auto;
+  }
+
+  .texto-balanceado {
+    text-wrap: balance;
+  }
+}

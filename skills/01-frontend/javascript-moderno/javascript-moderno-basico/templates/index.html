@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de compras — JavaScript moderno</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; }
+    form { display: flex; gap: 0.5rem; }
+    input { flex: 1; padding: 0.5rem; font-size: 1rem; }
+    button { padding: 0.5rem 1rem; cursor: pointer; }
+    li { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #ddd; }
+    li .eliminar { background: none; border: none; color: #c00; cursor: pointer; }
+    .vacio { color: #888; font-style: italic; }
+  </style>
+</head>
+<body>
+  <h1>Lista de compras</h1>
+
+  <form id="formulario">
+    <input id="entrada" type="text" placeholder="Nuevo producto" autocomplete="off">
+    <button type="submit">Agregar</button>
+  </form>
+
+  <ul id="lista"></ul>
+  <p class="vacio" id="mensaje-vacio">Sin productos todavía.</p>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

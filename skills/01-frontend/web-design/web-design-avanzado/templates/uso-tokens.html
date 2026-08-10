@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banca Norte | Cuenta online para autónomos</title>
+  <meta name="description" content="Abre tu cuenta de autónomo en 10 minutos: comisiones cero, tarjeta gratis y un equipo de soporte humano.">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    /* Página de demostración del sistema de tokens.
+       Ritmo vertical, jerarquía visual y grid de 12 columnas. */
+
+    /* Barra de cambio de tema para probar los tokens en oscuro */
+    .temas {
+      position: sticky; top: 0; z-index: var(--z-menu);
+      background: var(--color-superficie);
+      border-bottom: var(--borde-fino);
+      padding: var(--espaciado-2) var(--espaciado-4);
+      display: flex; justify-content: flex-end; gap: var(--espaciado-2);
+    }
+
+    .temas button {
+      font: inherit; font-size: var(--texto-sm); font-weight: var(--peso-medio);
+      color: var(--color-texto-primario);
+      background: var(--color-fondo);
+      border: var(--borde-fino);
+      border-radius: var(--radio-pill);
+      padding: var(--espaciado-1) var(--espaciado-3);
+      cursor: pointer;
+    }
+
+    .temas button:hover { border-color: var(--color-primario); color: var(--color-primario); }
+
+    .cabecera {
+      background: var(--color-superficie);
+      border-bottom: var(--borde-fino);
+    }
+
+    .cabecera__interior {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: var(--espaciado-4); padding-bottom: var(--espaciado-4);
+    }
+
+    .cabecera__logo { font-weight: var(--peso-negrita); color: var(--color-primario); text-decoration: none; }
+
+    .cabecera__nav { display: flex; gap: var(--espaciado-4); }
+    .cabecera__nav a { text-decoration: none; color: var(--color-texto-secundario); font-weight: var(--peso-medio); }
+    .cabecera__nav a:hover { color: var(--color-primario); }
+
+    .boton {
+      display: inline-block;
+      background: var(--color-primario);
+      color: var(--color-primario-contraste);
+      padding: var(--espaciado-2) var(--espaciado-4);
+      border-radius: var(--radio-md);
+      font-weight: var(--peso-seminegrita);
+      text-decoration: none;
+      transition: background var(--duracion-corta) var(--curva-estandar);
+    }
+
+    .boton:hover { background: var(--color-primario-oscuro); }
+
+    /* Hero: grid de 12 columnas */
+    .hero { padding-top: var(--espaciado-20); padding-bottom: var(--ritmo-seccion); }
+
+    .hero__grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--grid-gutter);
+      align-items: center;
+    }
+
+    .hero__texto { grid-column: 1 / 8; }
+    .hero__figura { grid-column: 8 / 13; }
+
+    .hero__etiqueta {
+      display: inline-block;
+      background: var(--color-primario-suave);
+      color: var(--color-primario-oscuro);
+      font-size: var(--texto-sm);
+      font-weight: var(--peso-seminegrita);
+      padding: var(--espaciado-1) var(--espaciado-3);
+      border-radius: var(--radio-pill);
+      margin-bottom: var(--espaciado-4);
+    }
+
+    .hero p.hero__subtitulo { color: var(--color-texto-secundario); font-size: var(--texto-lg); }
+
+    .hero__acciones { display: flex; gap: var(--espaciado-3); margin-top: var(--espaciado-6); }
+
+    .boton--borde {
+      background: transparent;
+      color: var(--color-primario);
+      border: var(--borde-grueso);
+    }
+
+    .boton--borde:hover { background: var(--color-primario-suave); }
+
+    /* Figura decorativa */
+    .hero__figura svg { width: 100%; height: auto; display: block; }
+
+    /* Tarjetas: grid de 12 columnas con spans explícitos */
+    .tarjetas { padding-bottom: var(--ritmo-seccion); }
+
+    .tarjetas__grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--grid-gutter);
+    }
+
+    .tarjeta {
+      grid-column: span 4;
+      background: var(--color-superficie);
+      border: var(--borde-fino);
+      border-radius: var(--radio-lg);
+      padding: var(--espaciado-6);
+      box-shadow: var(--sombra-md);
+      display: flex; flex-direction: column; gap: var(--espaciado-2);
+    }
+
+    .tarjeta h3 { font-size: var(--texto-lg); }
+    .tarjeta p { color: var(--color-texto-secundario); margin: 0; }
+
+    /* 2 columnas a partir de 900 px; 1 columna en móvil */
+    @media (max-width: 900px) {
+      .hero__texto { grid-column: 1 / 13; }
+      .hero__figura { grid-column: 1 / 13; }
+      .tarjeta { grid-column: span 6; }
+    }
+
+    @media (max-width: 640px) {
+      .tarjeta { grid-column: 1 / 13; }
+      .hero { padding-top: var(--espaciado-12); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="temas">
+    <button type="button" data-tema-boton="claro">Tema claro</button>
+    <button type="button" data-tema-boton="oscuro">Tema oscuro</button>
+  </div>
+
+  <header class="cabecera">
+    <div class="contenedor cabecera__interior">
+      <a class="cabecera__logo" href="#inicio">Banca Norte</a>
+      <nav class="cabecera__nav" aria-label="Navegación principal">
+        <a href="#beneficios">Beneficios</a>
+        <a href="#copias">Copy y estados</a>
+        <a href="#apertura">Apertura</a>
+      </nav>
+      <a class="boton" href="#apertura">Abrir cuenta</a>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    <section class="hero" id="inicio">
+      <div class="hero__grid">
+        <div class="hero__texto">
+          <p class="hero__etiqueta">Comisiones cero por defecto</p>
+          <h1>La cuenta de autónomo que responde de verdad</h1>
+          <p class="hero__subtitulo">Abrela en 10 minutos con tu certificado digital. Sin comisiones de mantenimiento, tarjeta gratis y soporte humano por chat.</p>
+          <div class="hero__acciones">
+            <a class="boton" href="#apertura">Abrir cuenta gratis</a>
+            <a class="boton boton--borde" href="#beneficios">Ver beneficios</a>
+          </div>
+        </div>
+        <div class="hero__figura">
+          <svg viewBox="0 0 520 340" role="img" aria-label="Ilustración de un panel de cuenta con saldo y movimientos">
+            <rect x="20" y="20" width="480" height="300" rx="24" fill="var(--color-superficie)" stroke="var(--color-borde)" />
+            <text x="60" y="80" font-family="monospace" font-size="18" fill="var(--color-texto-secundario)">Saldo disponible</text>
+            <text x="60" y="125" font-family="sans-serif" font-weight="bold" font-size="44" fill="var(--color-texto-primario)">4.382,50 EUR</text>
+            <rect x="60" y="165" width="160" height="40" rx="10" fill="var(--color-primario)" />
+            <text x="76" y="191" font-family="sans-serif" font-size="16" fill="var(--color-primario-contraste)">Mover dinero</text>
+            <rect x="60" y="235" width="400" height="14" rx="7" fill="var(--color-texto-discreto)" opacity="0.4" />
+            <rect x="60" y="235" width="220" height="14" rx="7" fill="var(--color-primario)" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="tarjetas" id="beneficios" aria-labelledby="titulo-beneficios">
+      <h2 id="titulo-beneficios">Hecha para quien factura</h2>
+      <div class="tarjetas__grid">
+        <article class="tarjeta">
+          <h3>Sin comisiones</h3>
+          <p>Mantenimiento, tarjetas y traspasos SEPA sin coste. Cambiar de banco nunca fue tan rentable.</p>
+        </article>
+        <article class="tarjeta">
+          <h3>IVA y cierres listos</h3>
+          <p>Informes de IVA trimestral y cierre mensual exportados en el formato que acepta tu gestor.</p>
+        </article>
+        <article class="tarjeta">
+          <h3>Soporte en 3 minutos</h3>
+          <p>Respuesta media de 3 minutos por chat, con personas, de 8:00 a 22:00.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="tarjetas" id="copias" aria-labelledby="titulo-copias" style="padding-top: var(--ritmo-seccion);">
+      <h2 id="titulo-copias">Tokens semánticos en acción</h2>
+      <div class="tarjetas__grid">
+        <div class="tarjeta" style="grid-column: span 6;">
+          <h3>Pago registrado</h3>
+          <p style="color: var(--color-exito); background: var(--color-exito-suave); border-radius: var(--radio-sm); padding: var(--espaciado-2);">
+            + 240,00 EUR de Cliente demostraciones, S.L.
+          </p>
+          <p>Los estados usan los tokens de éxito: mismo verde en toda la app.</p>
+        </div>
+        <div class="tarjeta" style="grid-column: span 6;">
+          <h3>Aviso de descubierto</h3>
+          <p style="color: var(--color-error); background: var(--color-error-suave); border-radius: var(--radio-sm); padding: var(--espaciado-2);">
+            Tu saldo cubre hasta el martes 12 de agosto.
+          </p>
+          <p>El error y la advertencia nunca usan el color de marca: siempre el semántico.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tarjetas" id="apertura" style="padding-bottom: var(--espaciado-20);">
+      <div class="tarjeta" style="grid-column: 4 / 10; text-align: center; gap: var(--espaciado-3);">
+        <h2 style="margin: 0;" id="titulo-apertura">Empezar solo lleva 10 minutos</h2>
+        <p>Certificado digital o vídeo llamada. Si algo falla, te llamamos nosotros.</p>
+        <a class="boton" href="#apertura" style="align-self: center;">Pedir invitación</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor" style="padding-top: var(--espaciado-6); padding-bottom: var(--espaciado-6); text-align: center;">
+      <p style="margin: 0; color: var(--color-texto-secundario); font-size: var(--texto-sm);">© 2026 Banca Norte · Aviso legal · Protección de datos</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll("[data-tema-boton]").forEach(function (boton) {
+      boton.addEventListener("click", function () {
+        document.documentElement.setAttribute("data-tema", boton.getAttribute("data-tema-boton"));
+      });
+    });
+  </script>
+</body>
+</html>

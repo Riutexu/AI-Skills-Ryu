@@ -1,0 +1,72 @@
+// =============================================================
+// Schema con relaciones: 1:1, 1:N y N:M explícita
+// Uso: npx prisma migrate dev --name agregar_relaciones
+// =============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  nombre   String
+  activo   Boolean  @default(true)
+  creadoEn DateTime @default(now())
+  perfil   Perfil?            // 1:1 opcional (un perfil por usuario)
+  pedidos  Pedido[]           // 1:N
+
+  @@map("usuarios")
+}
+
+// Relación 1:1: la columna foránea debe ser @unique
+model Perfil {
+  id        Int     @id @default(autoincrement())
+  usuarioId Int     @unique
+  usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  biografia String?
+  pais      String  @default("ES")
+
+  @@map("perfiles")
+}
+
+model Pedido {
+  id        Int       @id @default(autoincrement())
+  usuarioId Int
+  usuario   Usuario   @relation(fields: [usuarioId], references: [id])
+  estado    String    @default("pendiente")
+  creadoEn  DateTime  @default(now())
+  lineas    LineaPedido[]
+
+  @@index([usuarioId])
+  @@map("pedidos")
+}
+
+model Producto {
+  id     Int           @id @default(autoincrement())
+  nombre String
+  precio Decimal       @db.Decimal(10, 2)
+  stock  Int           @default(0)
+  lineas LineaPedido[]
+
+  @@map("productos")
+}
+
+// Relación N:M explícita con tabla puente y clave compuesta
+model LineaPedido {
+  pedidoId   Int
+  productoId Int
+  cantidad   Int      @default(1)
+
+  pedido   Pedido   @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  producto Producto @relation(fields: [productoId], references: [id])
+
+  @@id([pedidoId, productoId])
+  @@index([productoId])
+  @@map("lineas_pedido")
+}

@@ -1,0 +1,36 @@
+groups:
+  - name: slo-api-pedidos
+    interval: 1m
+    rules:
+      - record: job:http_requests_total:ratio_rate5m
+        expr: >
+          sum(rate(http_requests_total{job="api-pedidos"}[5m]))
+          /
+          sum(rate(http_requests_total{job="api-pedidos"}[5m]))
+      - record: job:http_errors_total:ratio_rate5m
+        expr: >
+          sum(rate(http_requests_total{job="api-pedidos",status=~"5.."}[5m]))
+          /
+          sum(rate(http_requests_total{job="api-pedidos"}[5m]))
+      - alert: SLIBurnRateAlta
+        expr: >
+          (1 - job:http_errors_total:ratio_rate5m)
+          < 0.999
+          and
+          job:http_errors_total:ratio_rate5m > 0.02
+        for: 5m
+        labels:
+          severity: critical
+          slo: "api-pedidos 99.9%"
+        annotations:
+          summary: "El SLO de disponibilidad se quema rápido (rate 1h)"
+      - alert: SLOGlobalmenteEnRiesgo
+        expr: >
+          (1 - sum(rate(http_requests_total{job="api-pedidos",status=~"5.."}[6h])))
+          / sum(rate(http_requests_total{job="api-pedidos"}[6h]))
+          < 0.999
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "El SLO de 30 días está en riesgo de incumplirse"

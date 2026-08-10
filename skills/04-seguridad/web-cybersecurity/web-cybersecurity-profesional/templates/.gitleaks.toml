@@ -1,0 +1,21 @@
+[extend]
+
+# Extensiones de detección de secretos para tu repo
+[allowlist]
+description = "Exclusiones justificadas (nunca secretos reales)"
+paths = [
+  "**/*.test.*",
+  "templates/**",
+]
+
+[[rules]]
+id = "custom-aws-key-id"
+description = "AWS Access Key ID"
+regex = '''(A3T[A-Z0-9]|AKIA|ASIA)[A-Z0-9]{16}'''
+paths = ["*.ts", "*.js", "*.yml", "*.yaml", "*.env*", "*.json"]
+
+[[rules]]
+id = "custom-private-key"
+description = "Clave privada embebida"
+regex = '''-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----'''
+secret-group = 1

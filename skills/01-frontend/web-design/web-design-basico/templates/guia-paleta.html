@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de paleta, tipografía y espaciado | Diseño web</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #1a202c;
+      background: #f7fafc;
+      padding-bottom: 4rem;
+    }
+
+    .contenedor { max-width: 960px; margin: 0 auto; padding: 0 1.25rem; }
+
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      padding: 3rem 1.25rem 1rem;
+      color: #2c5282;
+    }
+
+    .intro { max-width: 640px; margin: 0 auto 3rem; text-align: center; color: #4a5568; }
+
+    h2 {
+      font-size: 1.4rem;
+      margin: 3rem 0 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid #2c5282;
+      color: #2c5282;
+    }
+
+    .tarjeta {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Paletas de armonía de color */
+    .paleta { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem; }
+
+    .paleta__color {
+      border-radius: 8px;
+      padding: 1rem;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .paleta__color span { opacity: 0.9; font-weight: 400; }
+
+    /* Muestras de contraste */
+    .contraste { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+
+    .contraste__muestra {
+      border-radius: 8px;
+      padding: 1.25rem;
+      font-size: 0.95rem;
+    }
+
+    /* Escala tipográfica */
+    .escala li {
+      list-style: none;
+      border-bottom: 1px dashed #e2e8f0;
+      padding: 0.6rem 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: baseline;
+    }
+
+    .escala .valor { color: #718096; font-size: 0.8rem; white-space: nowrap; }
+
+    /* Espaciado */
+    .espaciados { display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap; }
+
+    .espaciados__bloque { text-align: center; font-size: 0.75rem; }
+
+    .espaciados__caja { width: 100%; height: 100%; background: #2c5282; border-radius: 4px; display: grid; place-items: center; color: white; }
+  </style>
+</head>
+<body>
+
+  <h1>Guía visual: color, tipografía, contraste y espaciado</h1>
+  <p class="intro">Los cuatro cimientos de una interfaz ordenada. Regla de oro: <strong>60-30-10</strong> (60 % neutro, 30 % color de marca, 10 % acento).</p>
+
+  <main class="contenedor">
+
+    <section>
+      <h2>1. Armonías de color</h2>
+
+      <h3 style="margin-bottom:0.5rem;">Monocromática: una sola familia con distintas luminosidades</h3>
+      <div class="paleta">
+        <div class="paleta__color" style="background:#2c5282; color:#fff;">#2c5282 <span>marca principal</span></div>
+        <div class="paleta__color" style="background:#2b6cb0; color:#fff;">#2b6cb0 <span>claro</span></div>
+        <div class="paleta__color" style="background:#90cdf4; color:#1a202c;">#90cdf4 <span>claro 2</span></div>
+        <div class="paleta__color" style="background:#1a365d; color:#fff;">#1a365d <span>oscuro</span></div>
+      </div>
+
+      <h3 style="margin:1.5rem 0 0.5rem;">Complementaria: el color opuesto aporta el acento que destaca</h3>
+      <div class="paleta">
+        <div class="paleta__color" style="background:#2b6cb0; color:#fff;">#2b6cb0 <span>base (azul)</span></div>
+        <div class="paleta__color" style="background:#c05621; color:#fff;">#c05621 <span>acento (naranja)</span></div>
+        <div class="paleta__color" style="background:#edf2f7; color:#1a202c;">#edf2f7 <span>fondo claro</span></div>
+        <div class="paleta__color" style="background:#2d3748; color:#fff;">#2d3748 <span>texto</span></div>
+      </div>
+
+      <h3 style="margin:1.5rem 0 0.5rem;">Análoga: colores vecinos, serie tranquila para productos de confianza</h3>
+      <div class="paleta">
+        <div class="paleta__color" style="background:#276749; color:#fff;">#276749 <span>verde</span></div>
+        <div class="paleta__color" style="background:#2f855a; color:#fff;">#2f855a <span>verde claro</span></div>
+        <div class="paleta__color" style="background:#68d391; color:#1a202c;">#68d391 <span>menta</span></div>
+        <div class="paleta__color" style="background:#234e52; color:#fff;">#234e52 <span>teal oscuro</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. Contraste: texto legible sobre su fondo</h2>
+      <p style="margin-bottom:1rem;">Texto normal necesita 4.5:1; texto grande (≥ 24 px o 18 px y negrita) 3:1.</p>
+      <div class="contraste">
+        <div class="contraste__muestra" style="background:#1a202c; color:#ffffff;">
+          <strong>Correcto (14.6:1):</strong> blanco puro sobre gris casi negro. Legible incluso en letra pequeña.
+        </div>
+        <div class="contraste__muestra" style="background:#ffffff; color:#2c5282;">
+          <strong>Correcto (7.9:1):</strong> azul oscuro de marca sobre blanco. Cumple AA en cualquier tamaño.
+        </div>
+        <div class="contraste__muestra" style="background:#faf089; color:#975a16;">
+          <strong>Correcto (7.0:1):</strong> ámbar oscuro sobre ámbar claro. Mismo color, luminosidad controlada.
+        </div>
+        <div class="contraste__muestra" style="background:#ffffff; color:#cbd5e0;">
+          <strong>Incorrecto (1.6:1):</strong> gris claro sobre blanco. Cumple ninguna norma; evita texto así.
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>3. Escala tipográfica (máximo 2 familias)</h2>
+      <ul class="escala">
+        <li><span style="font-size:2.25rem;font-weight:700;">Título grande (H1)</span> <span class="valor">2.25rem / 900</span></li>
+        <li><span style="font-size:1.5rem;font-weight:700;">Título medio (H2)</span> <span class="valor">1.5rem / 700</span></li>
+        <li><span style="font-size:1.25rem;font-weight:600;">Subtítulo (H3)</span> <span class="valor">1.25rem / 600</span></li>
+        <li><span style="font-size:1rem;">Cuerpo (párrafo)</span> <span class="valor">1rem / 400</span></li>
+        <li><span style="font-size:0.875rem;color:#718096;">Nota y apoyo</span> <span class="valor">0.875rem / 400</span></li>
+      </ul>
+      <p style="margin-top:1rem;color:#4a5568;">Usa siempre <code>rem</code>: el navegador escala desde la raíz y la jerarquía respeta los ajustes del usuario.</p>
+    </section>
+
+    <section>
+      <h2>4. Espaciado: escala de 4 px</h2>
+      <p style="margin-bottom:1rem;">Todo margen o padding sale de la escala: 4, 8, 12, 16, 24, 32, 48, 64 px.</p>
+      <div class="espaciados">
+        <div class="espaciados__bloque"><div class="espaciados__caja" style="width:16px;height:4px;">·</div>4</div>
+        <div class="espaciados__bloque"><div class="espaciados__caja" style="width:16px;height:8px;">·</div>8</div>
+        <div class="espaciados__bloque"><div class="espaciados__caja" style="width:16px;height:12px;">·</div>12</div>
+        <div class="espaciados__bloque"><div class="espaciados__caja" style="width:16px;height:16px;">·</div>16</div>
+        <div class="espaciados__bloque"><div class="espaciados__caja" style="width:16px;height:24px;">·</div>24</div>
+        <div class="espaciados__bloque"><div class="espaciados__caja" style="width:16px;height:32px;">·</div>32</div>
+        <div class="espaciados__bloque"><div class="espaciados__caja" style="width:16px;height:48px;">·</div>48</div>
+        <div class="espaciados__bloque"><div class="espaciados__caja" style="width:16px;height:64px;">·</div>64</div>
+      </div>
+      <p style="margin-top:1rem;color:#4a5568;">Misma distancia para cosas relacionadas; distancia mayor para separar bloques distintos: eso ya es ritmo.</p>
+    </section>
+
+    <section>
+      <h2>5. Resumen aplicable</h2>
+      <div class="tarjeta">
+        <ul style="padding-left:1.25rem;display:grid;gap:0.5rem;">
+          <li>Paleta: 1 marca + 1 neutro + 1 acento; el 60 % del fondo queda neutro.</li>
+          <li>Tipografía: una familia con carácter y una legible; 3-5 tamaños en <code>rem</code>.</li>
+          <li>Contraste AA verificado en cada par texto/fondo usado.</li>
+          <li>Espaciados de la escala de 4 px; <code>%</code>/<code>fr</code> solo para proporciones de layout.</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

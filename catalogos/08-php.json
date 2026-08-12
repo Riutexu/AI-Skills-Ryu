@@ -1,0 +1,992 @@
+{
+  "version": "1.0",
+  "familia": "08-php",
+  "familiaTitulo": "PHP y ecosistema web",
+  "icono": "🐘",
+  "stacks": [
+    {
+      "id": "php8-core",
+      "nombre": "PHP 8.3: fundamentos profesionales",
+      "descripcion": "El núcleo del lenguaje moderno: tipado, Composer, testing, errores y funciones de nivel profesional.",
+      "stackTecnologias": "PHP 8.3, Composer, php.ini, WAMP, MariaDB",
+      "temas": [
+        {
+          "id": "tipado-strict-types",
+          "nombre": "Tipado fuerte y strict_types",
+          "resumen": "Declarar tipos en parámetros, retornos y propiedades para eliminar bugs silenciosos y ganar autocompletado y refactor seguro.",
+          "niveles": {
+            "basico": { "objetivo": "declarar tipos simples en funciones y variables", "tareas": ["Explicar la diferencia entre PHP 5 (sin tipos), PHP 7 (tipos en funciones) y PHP 8 (tipos en propiedades)", "Añadir declaración de tipos a un CRUD pequeño existente", "Habilitar declare(strict_types=1) y explicar qué cambia en llamadas"], "criterios": ["Todas las funciones nuevas tienen tipos de parámetro y retorno", "El script corre sin warnings y con strict_types de prueba en un archivo"], "prompt": "Convierte este CRUD a PHP 8 con tipos declarados en funciones y propiedades, y activa strict_types" },
+            "avanzado": { "objetivo": "aplicar tipos avanzados (unión, nullable, never, readonly, enum)", "tareas": ["Sustituir docblocks ambiguos por tipos de unión (int|string) y nullable correctos", "Introducir enums tipados para estados de dominio (Pago, Orden, Rol)", "Aplicar readonly properties para DTOs inmutables y enums backed", "Usar tipos never/void/mixed con criterio real de cuándo aplica cada uno"], "criterios": ["El proyecto compila sin errores de tipo con PHPStan nivel 6", "Los estados del dominio son enums tipados, no cadenas mágicas"], "prompt": "Audita mi modelo de datos y sustituye cadenas mágicas por enums tipados y DTOs readonly de PHP 8.3" },
+            "profesional": { "objetivo": "diseñar contratos de tipo a nivel de librería y API", "tareas": ["Definir tipos como contrato público de una librería propia", "Explotar covariance/contravariance y tipos estáticos (static, self) correctamente", "Integrar análisis estático (PHPStan/PHP Psalm nivel max) en CI", "Documentar decisiones de tipo en ADR cuando el diseño lo exige"], "criterios": ["La librería pasa análisis estático nivel máximo en CI sin supresores", "Los tipos no filtran implementaciones (API estable v1 publicada)"], "prompt": "Diseña los tipos públicos de mi librería PHP como contrato estable, con PHPStan nivel max en CI y un ADR de las decisiones" }
+          }
+        },
+        {
+          "id": "composer-ecosistema",
+          "nombre": "Composer: dependencias y autoload",
+          "resumen": "Instalar, versionar y organizar dependencias con Composer: autoload PSR-4, scripts y auditoría.",
+          "niveles": {
+            "basico": { "objetivo": "instalar paquetes y entender autoload", "tareas": ["Crear composer.json básico con autoload PSR-4 de una carpeta", "Instalar un paquete (p. ej. vlucas/phpdotenv) y usarlo", "Explicar vendor/, composer.lock y por qué se commitea el lock"], "criterios": ["El autoload propio carga clases sin requiere manuales", "composer install reproduce el entorno desde el lock"], "prompt": "Prepara composer.json con autoload PSR-4, instala phpdotenv y ponme un .env de ejemplo" },
+            "avanzado": { "objetivo": "scripts, plataformas y entornos reproducibles", "tareas": ["Definir scripts composer (lint, test, cs) integrados en el flujo", "Fijar platform en composer.json para entornos reproducibles", "Publicar un paquete propio interno (vía repo VCS privado o Packagist)", "Distinguir require vs require-dev y aplicarlo con criterio"], "criterios": ["composer run test ejecuta la suite desde cero en otra máquina", "El paquete interno se instala con nombre de vendor correcto"], "prompt": "Organiza mi proyecto PHP con scripts composer de lint/test, platform fijada y un paquete interno propio" },
+            "profesional": { "objetivo": "gobernanza de dependencias y monorepo", "tareas": ["Centralizar versiones con composer-rector o constraintes cuidadosas", "Auditar dependencias con composer audit y política de actualización", "Estructurar un monorepo con paquetes con dependencias internas con path", "Automatizar el bump de dependencias en CI con Dependabot/Renovate"], "criterios": ["composer audit pasa sin vulnerabilidades conocidas en el lock", "El monorepo publica todas las versiones de sus paquetes con un solo tag"], "prompt": "Implementa gobernanza de dependencias para mi monorepo PHP: auditoría en CI, bump automático y versiones por paquete" }
+          }
+        },
+        {
+          "id": "phpunit-pruebas",
+          "nombre": "PHPUnit: pruebas unitarias",
+          "resumen": "Escribir pruebas unitarias limpias, rápidas y útiles que protejan el comportamiento real del código.",
+          "niveles": {
+            "basico": { "objetivo": "primeras pruebas unitarias de funciones puras", "tareas": ["Configurar PHPUnit 11 con phpunit.xml y un test de humo", "Escribir pruebas de funciones puras (calculadora, validadores, formateadores)", "Correr la suite y leer un fallo con assertStringEqualsString"], "criterios": ["Suite verde y un test que falla al romper el comportamiento cubierto", "Naming de tests en español claro: debeHacerX cuandoY"], "prompt": "Configura PHPUnit en mi proyecto y escribe pruebas para mis funciones puras de validación y formato" },
+            "avanzado": { "objetivo": "test doubles y datos de prueba", "tareas": ["Crear stubs/mocks/clones de doble de test para el transporte HTTP y BD", "Usar data providers y fixtures por caso", "Organizar cobertura por unidad y no acoplar tests al orden interno", "Escribir tests de integración ligeros contra SQLite de test"], "criterios": ["Los tests corren en paralelo sin estado compartido", "La cobertura de las reglas de negocio principales supera el 80%" ], "prompt": "Añade mocks de HTTP y BD a mis tests PHPUnit y destapa las pruebas en paralelo y con data providers" },
+            "profesional": { "objetivo": "TDD, mutaciones y calidad de la suite", "tareas": ["Practicar TDD: red-verde-refactor en una feature completa", "Medir la calidad de la suite con Infection (mutation testing)", "Fijar umbral de cobertura en CI y política de regresión", "Escribir pruebas para errores y caminos de borde como ciudadanos de primera clase"], "criterios": ["Infection reporta >85% de mutantes matados en módulos críticos", "La suite completa corre en <2 minutos en CI"], "prompt": "Convertiré a TDD la feature de reembolsos: guíame con red-verde-refactor y mide la suite con Infection" }
+          }
+        },
+        {
+          "id": "manejo-errores",
+          "nombre": "Manejo de errores y excepciones",
+          "resumen": "Errores que se comportan: excepciones tipadas, logging estructurado y respuestas coherentes.",
+          "niveles": {
+            "basico": { "objetivo": "try/catch y mensajes claros", "tareas": ["Envolver operaciones peligrosas (archivo, BD) en try/catch/finally", "Distinguir errores recuperables de errores fatales", "Mostrar mensajes de error amables al usuario sin filtrar detalles"], "criterios": ["Ningún fatal sin capturar posible en las rutas principales", "El usuario jamás ve stack traces ni rutas internas"], "prompt": "Envuelve el acceso a BD y archivos de mi script en try/catch con mensajes amables y sin datos internos" },
+            "avanzado": { "objetivo": "excepciones de dominio y log estructurado", "tareas": ["Crear excepciones propias por dominio (ReglaDeNegocio, NoEncontrado)", "Loggear con contexto estructurado (monolog/monolog): nivel, contexto, usuario", "Capturar el último error (set_error_handler/set_exception_handler) con estrategia", "Distinguir errores 4xx (dominio) de 5xx (infraestructura) en la API"], "criterios": ["Cada error de dominio llega con código HTTP y mensaje coherentes", "Los logs de producción tienen contexto suficiente sin datos sensibles"], "prompt": "Implementa excepciones de dominio con mapeo a códigos HTTP y monolog con contexto estructurado" },
+            "profesional": { "objetivo": "estrategia de fallo a escala", "tareas": ["Diseñar la taxonomía completa de errores del servicio (dominio, integración, infra)", "Implementar circuit breaker y retries con backoff para integraciones externas", "Correlacionar errores en logs distribuidos (trace id) y alertar por severidad", "Realizar un chaos test controlado de la estrategia de fallo"], "criterios": ["Una caída de un proveedor externo no tumba el servicio (fallback o cola)", "Cada request tiene trace id rastreable en Logs"], "prompt": "Diseña la estrategia de fallo de mi API: taxonomía de errores, circuit breaker, trace ids y alertas por severidad" }
+          }
+        },
+        {
+          "id": "funciones-closures",
+          "nombre": "Funciones, callables y closures",
+          "resumen": "Diseñar funciones limpias, composables y reutilizables con callables, arrow functions y currying básico.",
+          "niveles": {
+            "basico": { "objetivo": "funciones bien escritas y reutilizables", "tareas": ["Refactorizar scripts con funciones de una sola responsabilidad", "Pasar funciones como callables (usort, array_map, array_filter)", "Escribir arrow functions cuando el cuerpo es corto"], "criterios": ["Ninguna función supera 20 líneas ni parámetros opcionales aplastados", "Bucle duplicado sustituido por array_map/filter con lógica clara"], "prompt": "Refactoriza este script en funciones de una responsabilidad usando array_map y arrow functions" },
+            "avanzado": { "objetivo": "closures con estado y primeros ciudadanos", "tareas": ["Usar closures con use() para capturar estado de forma controlada", "Implementar una mini-composición de funciones con pipe propio", "Aplicar callables tipados (callable, Closure param) con type hints", "Crear fábricas de funciones: configurar y devolver comportamientos"], "criterios": ["El paso de funciones está tipado y comprensible en el código resultante", "La composición pipe se usa en al menos un pipeline real"], "prompt": "Refactoriza mi pipeline de procesamiento de pedidos a composición de funciones con closures tipados y use()" },
+            "profesional": { "objetivo": "diseño funcional a escala", "tareas": ["Diseñar un módulo funcional puro (sin estado global) dentro de la app", "Aplicar memoización y perezosidad de forma controlada", "Definir la frontera funcional/mutante del sistema en un ADR", "Rendimiento: comparar coste de closures vs métodos en bucles calientes"], "criterios": ["El módulo puro es testeable sin BD ni fakes", "El ADR documenta la frontera y se respeta en revisiones"], "prompt": "Diseña mi módulo de cálculo de precios como código funcional puro con memoización y documenta la frontera en un ADR" }
+          }
+        },
+        {
+          "id": "arrays-colecciones",
+          "nombre": "Arrays y colecciones",
+          "resumen": "Dominar arrays, colecciones tipo y transformaciones declarativas sobre datos reales.",
+          "niveles": {
+            "basico": { "objetivo": "operar arrays con confianza", "tareas": ["Recorrer y transformar arrays con foreach, array_map y array_filter", "Combinar arrays (merge, spread) sin errores de claves", "Ordenar con usort/comparadores de forma estable y predecible"], "criterios": ["Las transformaciones son declarativas (sin foreach anidados)", "Los casos de claves numéricas vs de texto están resueltos"], "prompt": "Transforma esta lista de productos en un array asociativo con array_map/filter y ordénala por precio" },
+            "avanzado": { "objetivo": "colecciones tipo y DTOs", "tareas": ["Modelar colecciones tipadas (clases con métodos de dominio) en vez de arrays sueltos", "Implementar operaciones encadenables (map, filter, reduce) sobre colecciones propias", "Agrupar y agregar datos (groupBy, sum, average) sin SQL duplicado", "Ordenar y paginar colecciones grandes con memoria acotada"], "criterios": ["Ningún array sin tipo atraviesa la frontera del dominio", "Las agregaciones se prueban de forma unitaria"], "prompt": "Modela mis listas de pedidos como colecciones tipadas encadenables con groupBy y agregaciones" },
+            "profesional": { "objetivo": "rendimiento y semántica de datos", "tareas": ["Medir y optimizar operaciones sobre conjuntos grandes (memoria vs CPU)", "Sustituir bucles O(n²) por índices o hash tables propias", "Diseñar contratos de colecciones para librerías públicas (inmutable vs mutable)", "Comparar colecciones con generadores para streaming de datos"], "criterios": ["La operación sobre 1M de registros cabe en memoria acotada", "Los benchmarks comparan antes/después y se documentan"], "prompt": "Optimiza mi procesamiento de 1M de registros: índices propios, memoria acotada y benchmark documentado" }
+          }
+        },
+        {
+          "id": "pdo-base-datos",
+          "nombre": "PDO y base de datos",
+          "resumen": "Acceso a BD seguro y profesional con PDO: prepared statements, transacciones y consultas eficientes.",
+          "niveles": {
+            "basico": { "objetivo": "conectar y hacer CRUD con PDO", "tareas": ["Conectar con PDO (DSN, options, UTF-8) y manejar el fallo", "Ejecutar CRUD con prepared statements siempre", "Leer resultados con fetch modes adecuados"], "criterios": ["Cero concatenación de SQL en el código", "Las credenciales vienen de configuración, no del código"], "prompt": "Escribe un CRUD completo con PDO y prepared statements para mi tabla de productos" },
+            "avanzado": { "objetivo": "transacciones, joins y consultas eficientes", "tareas": ["Implementar transacciones con rollback automático ante fallo", "Optimizar joins y paginación (keyset vs offset) para tablas grandes", "Usar consultas nombradas (named placeholders) y reutilización de statements", "Modelar el acceso con repositorios en vez de SQL disperso"], "criterios": ["Las operaciones multi-tabla son atómicas (rollback probado)", "La paginación no degrada con 100k registros"], "prompt": "Implementa un repositorio de pedidos con transacciones, joins eficientes y paginación keyset" },
+            "profesional": { "objetivo": "altura, pooling y vigilancia", "tareas": ["Configurar pool/limites de conexiones y tiempos de espera", "Instrumentar queries lentas (slow query log + explicación en código)", "Implementar retry acotado para deadlocks y transacciones fallidas", "Proteger la BD de picos: backpressure y colas de escritura"], "criterios": ["No hay conexiones agotadas en pruebas de carga", "Cada query >X ms queda registrada con contexto"], "prompt": "Escala mi capa de datos: pooling, slow query tracking y backpressure ante picos de escritura" }
+          }
+        },
+        {
+          "id": "sesiones-cookies",
+          "nombre": "Sesiones y cookies",
+          "resumen": "Estado de usuario en el navegador de forma segura: sesiones, cookies HttpOnly/SameSite y expiración.",
+          "niveles": {
+            "basico": { "objetivo": "sesiones y cookies básicas", "tareas": ["Iniciar sesiones PHP y guardar/leer datos de usuario", "Crear cookies con expiración y dominio correctos", "Explicar lifecycle: login, logout y expiración"], "criterios": ["Los datos de sesión no contienen secretos ni datos sensibles", "Logout limpia la sesión y la cookie"], "prompt": "Implementa login con sesiones PHP y cookie de recordarme con expiración segura" },
+            "avanzado": { "objetivo": "endurecer sesiones", "tareas": ["Configurar session.cookie_httponly, samesite=lax y secure", "Rotar session id tras login y en intervalos", "Almacenar sesiones en BD/Redis para multi-server", "Fijar timeouts de inactividad y absolutos"], "criterios": ["La cookie de sesión es HttpOnly+SameSite en producción", "Dos servidores comparten sesión sin reinicios"], "prompt": "Endurece mis sesiones: flags de cookie, rotación de session id y almacenamiento en Redis" },
+            "profesional": { "objetivo": "arquitectura de estado de sesión", "tareas": ["Diseñar el contrato de sesión (qué se guarda server vs client-side)", "Comparar sesiones tradicionales vs JWT/stateless con criterio", "Implementar bloqueo de sesión y detección de robo (fingerprint suave)", "Escalar sesiones con sharding o sesión distribuida", "Auditar la política de cookies contra GDPR (consentimiento y expiraciones)"], "criterios": ["El análisis sesiones vs JWT está documentado según el caso de uso", "La auditoría GDPR de cookies está resuelta"], "prompt": "Diseña la arquitectura de autenticación de mi app: sesiones vs JWT con análisis documentado y cumplimiento GDPR de cookies" }
+          }
+        },
+        {
+          "id": "formularios-seguros",
+          "nombre": "Formularios: validación y saneamiento",
+          "resumen": "Formularios que no mienten: validación server-side, saneamiento de entradas y errores por campo.",
+          "niveles": {
+            "basico": { "objetivo": "validar en servidor y mostrar errores", "tareas": ["Validar cada campo en servidor (nunca confiar solo en HTML)", "Devolver errores por campo y conservar los valores introducidos", "Saneamiento básico: trim, strip_tags y filtros filter_var"], "criterios": ["Enviar un formulario vacío muestra errores por campo sin datos perdidos", "El HTML de salida no rompe por entradas con <script>"], "prompt": "Implementa validación server-side de mi formulario de registro con errores por campo y valores conservados" },
+            "avanzado": { "objetivo": "validador de dominio y reutilización", "tareas": ["Construir un motor de validación reutilizable (reglas por campo)", "Validar reglas de negocio (unicidad, rangos, dependencias entre campos)", "Sanear con contexto: htmlspecialchars en salida, parámetros en BD", "Proteger de CSRF con tokens en todos los formularios"], "criterios": ["Las reglas se reutilizan entre web y API", "Ningún formulario acepta datos que rompan la regla de unicidad"], "prompt": "Construye un motor de validación reutilizable con reglas por campo y protección CSRF en todos mis formularios" },
+            "profesional": { "objetivo": "validación como contrato y defensa en profundidad", "tareas": ["Definir validación como contrato de la API (JSON Schema + server checks)", "Aplicar defensa en profundidad: validación cliente, servidor y BD constraint", "Medir ataques a formularios (rate limit, honeypots, análisis de abuso)", "Automatizar pruebas de fuzzing de formularios en CI"], "criterios": ["El contrato de validación está versionado y compartido con el frontend", "Fuzzing básico en CI no encuentra campos mutables no migrados"], "prompt": "Diseña la validación como contrato compartido frontend/backend con defensa en profundidad y fuzzing en CI" }
+          }
+        },
+        {
+          "id": "generadores-iteradores",
+          "nombre": "Generadores e iteradores",
+          "resumen": "Procesar datos grandes sin explotar la memoria con generators, iterators y yield.",
+          "niveles": {
+            "basico": { "objetivo": "yield y primeros generadores", "tareas": ["Crear un generador con yield y consumirlo con foreach", "Transformar un bucle de archivo grande a generador", "Explicar cuándo un generador ahorra memoria de verdad"], "criterios": ["El bucle de archivo funciona sin consumir el archivo entero en memoria", "El ejemplo con yield está comentado para aprendizaje"], "prompt": "Convierte el procesamiento de este archivo CSV grande a un generador con yield" },
+            "avanzado": { "objetivo": "iteradores personalizados y composición", "tareas": ["Implementar Iterator/IteratorAggregate para una colección de dominio", "Componer generadores (encadenar transformaciones sin arrays intermedios)", "Usar yield from para delegar y aplanar estructuras", "Combinar generadores con filtros y límites sin cálculo prematuro"], "criterios": ["La composición de generadores procesa datos en streaming", "La colección de dominio es iterable con foreach nativo"], "prompt": "Implementa iteradores personalizados para mi dominio y compón generadores para el export CSV en streaming" },
+            "profesional": { "objetivo": "streaming a escala", "tareas": ["Diseñar pipelines de streaming (leer-transformar-escribir) con memoria acotada", "Manejar backpressure y cancelación en pipelines largos", "Combinar generadores con corrutinas de Swoole/Fiber cuando aporta", "Medir el peak memory en producción y fijar budgets"], "criterios": ["El pipeline procesa 10M de filas con memoria < 256MB", "Peak memory medible y documentado en el README del módulo"], "prompt": "Diseña un pipeline de streaming para exportar 10M de filas con memoria acotada y medición de peak" }
+          }
+        },
+        {
+          "id": "php-multiproceso",
+          "nombre": "Multiproceso y colas",
+          "resumen": "Procesos en paralelo y colas de trabajo: pcntl, forking y consumo controlado de tareas.",
+          "niveles": {
+            "basico": { "objetivo": "entender procesos y ejecutar tareas en segundo plano", "tareas": ["Ejecutar scripts CLI en segundo plano desde la web", "Explicar procesos, pids y control de finalización", "Crear un cron simple de mantenimiento"], "criterios": ["El script en segundo plano corre y termina aislado de la request", "Los logs del proceso son accesibles"], "prompt": "Ejecuta mi script de export en segundo plano desde la web y registra sus logs" },
+            "avanzado": { "objetivo": "pcntl y fork controlado", "tareas": ["Forkar con pcntl_fork procesando en paralelo", "Gestionar señales (SIGTERM, SIGCHLD) con pcntl_signal", "Limitar el número de hijos concurrentes", "Recolectar resultados de los hijos y tratar fallos por hijo"], "criterios": ["El procesamiento en paralelo acelera mediblemente y sin fugas de zombies", "Un hijo que falla no aborta al resto"], "prompt": "Implementa procesamiento paralelo con pcntl_fork de mi generación de reportes, con límite de hijos y manejo de señales" },
+            "profesional": { "objetivo": "colas de trabajo y arquitectura de tareas", "tareas": ["Diseñar un worker de colas (Redis/BDB) con prioridades y retries", "Implementar idempotencia y deduplicación de tareas", "Montar supervisión (supervisord) y escalado de workers", "Diseñar el contrato de tareas: payload versionado y TTLs"], "criterios": ["Una tarea fallida se reintenta con backoff y no duplica efectos", "Los workers escalan/drenan bajo demanda sin pérdida de mensajes"], "prompt": "Diseña la arquitectura de colas de mi aplicación: workers supervisados, idempotencia, retries con backoff y payloads versionados" }
+          }
+        },
+        {
+          "id": "performance-profiling",
+          "nombre": "Rendimiento y profiling",
+          "resumen": "Medir antes de optimizar: profiling con Xdebug/Tideways, opcache, y optimizaciones de verdad.",
+          "niveles": {
+            "basico": { "objetivo": "medir y detectar cuellos de botella", "tareas": ["Medir tiempos con microtime y logs en rutas clave", "Configurar opcache y comprobar su efecto", "Evitar anti-patrones: N+1 consultas y bucles con consultas dentro"], "criterios": ["Las rutas clave muestran tiempos medibles antes/después", "Ningún bucle ejecuta una consulta por iteración"], "prompt": "Caza los cuellos de botella de mi app: mide tiempos, activa opcache y elimina el N+1" },
+            "avanzado": { "objetivo": "profiling real y caché", "tareas": ["Perfilar con Xdebug profiler y leer los flame graphs", "Cachéar con Redis: resultados costosos e invalidation por eventos", "Optimizar consultas y cargas ansiosas (eager loading)", "Analizar p85/p95 de latencia con muestras reales"], "criterios": ["El flame graph identifica el top-3 de funciones costosas y se actúa sobre ellas", "La invalidation de caché no produce datos obsoletos en pruebas"], "prompt": "Perfila mi aplicación con Xdebug, propón el top-3 de optimizaciones y añade caché Redis con invalidación por eventos" },
+            "profesional": { "objetivo": "presupuesto de rendimiento y escalado", "tareas": ["Definir presupuestos de latencia (SLOs) por endpoint", "Realizar pruebas de carga (k6/AB) con umbrales aceptables", "Optimizaciones de infra: opcache tuning, PHP-FPM pools, OPCache preloading", "Analizar costos de escalado horizontal vs optimización", "Producir un informe ejecutivo de rendimiento"], "criterios": ["Los SLOs de latencia se monitorizan en producción (percentiles)", "El informe ejecutivo compara coste de escalar vs optimizar"], "prompt": "Define SLOs de latencia para mi API, haz pruebas de carga con k6 y produce el informe de optimización ejecutivo" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "laravel",
+      "nombre": "Laravel 11: framework productivo",
+      "descripcion": "El framework oficial del ecosistema: Eloquent, Blade, Queues, Sanctum y testing con el flujo artisan.",
+      "stackTecnologias": "Laravel 11, Eloquent, Blade, Sanctum, Sail, Pest/PHPUnit",
+      "temas": [
+        {
+          "id": "instalacion-entorno",
+          "nombre": "Instalación y entorno de desarrollo",
+          "resumen": "Levantar Laravel limpio y productivo: Sail/Docker, .env, artisan y estructura de carpetas.",
+          "niveles": {
+            "basico": { "objetivo": "levantar Laravel y entender la estructura", "tareas": ["Crear proyecto con composer create-project laravel/laravel", "Configurar .env y correr con artisan serve (o Sail)", "Mapear la estructura: app/, routes/, resources/, database/", "Hacer el primer cambio de rutas y vista Blade"], "criterios": ["El proyecto arranca y muestra una vista propia", "El usuario explica qué contiene cada carpeta principal"], "prompt": "Levanta un Laravel 11 nuevo, explica su estructura y muéstrame una ruta + vista propias" },
+            "avanzado": { "objetivo": "Sail limpio y configuración por entornos", "tareas": ["Montar el entorno con Laravel Sail (MySQL, Redis, Mailpit)", "Separar configuración por entorno (.env.dev/.prod) correctamente", "Configurar Colaboradores de carpeta y service providers propios", "Ejecutar migrations/seeders desde cero reproducibles"], "criterios": ["clone + sail up -d + migrate reproduce el proyecto en 5 min", "Ningún secreto en archivos versionados"], "prompt": "Monta mi entorno Laravel con Sail reproducible en otra máquina, con seeds y configs por entorno" },
+            "profesional": { "objetivo": "bootstrap de equipos y estándares", "tareas": ["Definir estándares de proyecto: Pest, Pint, PHPStan en CI", "Estructurar features modularmente (módulos vs monolito organizado)", "Automatizar el setup con Makefile o scripts de proyecto", "Documentar onboarding: requisitos, flujo de deploy y cheats de verificación"], "criterios": ["Un dev nuevo pasa de clone a feature con tests verdes <30 min", "CI ejecuta lint, análisis estático y tests en cada PR"], "prompt": "Diseña el bootstrap de equipo para mi Laravel: estándares en CI, módulos y onboarding reproducible" }
+          }
+        },
+        {
+          "id": "enrutado-controladores",
+          "nombre": "Enrutado y controladores",
+          "resumen": "Rutas limpias, controladores delgados y REST coherente con el flujo de Laravel 11.",
+          "niveles": {
+            "basico": { "objetivo": "rutas y controladores básicos", "tareas": ["Definir rutas GET/POST con controladores y closures", "Pasar parámetros y validar formatos con constraints", "Devolver vistas y redirecciones"], "criterios": ["Cada URL del CRUD funciona con su verbo correcto", "Las rutas con parámetros rechazan formatos inválidos"], "prompt": "Crea las rutas de mi CRUD de productos con controladores y constraints de parámetros" },
+            "avanzado": { "objetivo": "resource controllers y grupos", "tareas": ["Usar rutas resource con controllers de 7 acciones", "Agrupar rutas con middleware, prefijos y nombres", "Inyectar parámetros en modelos (route model binding)", "Versionar rutas para coexistencia de API pública"], "criterios": ["Las rutas están agrupadas y nombradas coherentemente", "El binding de modelo resuelve 404 automático"], "prompt": "Reorganiza mis rutas: resource controllers, grupos con middleware y route model binding" },
+            "profesional": { "objetivo": "diseño de API y contratos de ruta", "tareas": ["Diseñar el contrato REST completo de un dominio (recursos, verbos, estados)", "Implementar rate limiting y throttling por grupo de rutas", "Documentar rutas con OpenAPI/Scribe automático", "Aplicar politicas de autorización por ruta centralizadas"], "criterios": ["El contrato REST está documentado y versionado", "Cada ruta crítica tiene límites y política aplicados y probados"], "prompt": "Diseña el contrato REST de mi dominio de pedidos con rate limiting, OpenAPI y políticas de autorización" }
+          }
+        },
+        {
+          "id": "blade-templates",
+          "nombre": "Blade y plantillas",
+          "resumen": "Vistas componibles y seguras con Blade: layouts, componentes, slots y escape automático.",
+          "niveles": {
+            "basico": { "objetivo": "layouts y directivas básicas", "tareas": ["Crear layouts con @extends/@section o components", "Usar @if/@foreach/@forelse y variables", "Escapar salida con {{ }} y explicar por qué"], "criterios": ["Las vistas reutilizan layout sin duplicar HTML", "Ninguna salida sin escapar en las plantillas"], "prompt": "Refactoriza mis vistas con un layout Blade y directivas @if/@foreach sin duplicar HTML" },
+            "avanzado": { "objetivo": "componentes y slots", "tareas": ["Crear componentes Blade con props y atributos", "Usar slots para contenido transparente y composición", "Organizar componentes anónimos y con atributos de clase", "Manejar partials y stacks (@push/@stack) para scripts"], "criterios": ["La UI crítica está compuesta de componentes reutilizables", "Los scripts de página se inyectan sin romper el orden de carga"], "prompt": "Convierte mi interfaz en componentes Blade con slots, y organiza los scripts con @push/@stack" },
+            "profesional": { "objetivo": "rendering eficiente y accesible", "tareas": ["Optimizar el renderizado: fragment caching y lazy components", "Integrar Blade con Alpine/Livewire según el caso (híbrido coherente)", "Aplicar accesibilidad (roles, labels, focus) en todos los componentes", "Medir el peso del HTML entregado y fijar presupuesto"], "criterios": ["Las vistas críticas se renderizan con caché de fragmentos", "Una auditoría axe no encuentra problemas en el flujo principal"], "prompt": "Optimiza el renderizado de mis vistas con fragment caching, integración Alpin y auditoría de accesibilidad" }
+          }
+        },
+        {
+          "id": "eloquent-modelos",
+          "nombre": "Eloquent: modelos y relaciones",
+          "resumen": "ORM bien usado: relaciones, eager loading, mutators y consultas que no filtran datos a destiempo.",
+          "niveles": {
+            "basico": { "objetivo": "modelos y CRUD con Eloquent", "tareas": ["Crear modelos con fillable/casts correctos", "Ejecutar CRUD con query builder y find/orFail", "Usar with() para relaciones básicas"], "criterios": ["Ningún modelo sin fillable o con $guarded vacío en producción", "El CRUD funciona sin SQL crudo"], "prompt": "Crea los modelos Eloquent de productos y categorías con relaciones y CRUD limpio" },
+            "avanzado": { "objetivo": "relaciones complejas y queries seguras", "tareas": ["Implementar relaciones many-to-many con pivots y dondePivot", "Usar eager loading con condiciones y selección de columnas", "Aplicar mutators, accessors y casts de dominio", "Evitar el N+1 con withCount y subqueries"], "criterios": ["Un índice de listado no dispara N+1 (verificado con Telescope)", "Las relaciones complejas se prueban en tests"], "prompt": "Modela mis relaciones many-to-many con pivots, mutators y eager loading sin N+1 (verificado)" },
+            "profesional": { "objetivo": "modelado de dominio y rendimiento", "tareas": ["Diseñar el modelo de datos como dominio: agregados y límites de relación", "Optimizar consultas calientes con índices, raw selects y compensaciones", "Implementar eventos de modelo (creating/updated) para reglas transversales", "Auditar N+1 e index usage en producción con herramientas", "Equilibrar Eloquent vs query builder para queries de reporting"], "criterios": ["Las queries calientes están indexadas y documentadas", "Los eventos de modelo se usan para invariantes y no para side effects ocultos"], "prompt": "Diseña mi modelo de datos como dominio con índices para queries calientes y auditoría de N+1 en producción" }
+          }
+        },
+        {
+          "id": "migraciones-seeds",
+          "nombre": "Migraciones y seeds",
+          "resumen": "Esquema versionado y datos de prueba reproducibles, del primer schema al deploy sin fricción.",
+          "niveles": {
+            "basico": { "objetivo": "primeras migraciones y seeders", "tareas": ["Crear migraciones de tablas con tipos y constraints", "Correr migrate/rollback y entender el estado", "Sembrar datos con seeders básicos"], "criterios": ["rollback + migrate reproduce el esquema desde cero", "Los seeds permiten probar la app con datos realistas"], "prompt": "Crea las migraciones de mi esquema inicial y seeds realistas para desarrollo" },
+            "avanzado": { "objetivo": "evolución de esquema segura", "tareas": ["Escribir migraciones destructivas con down() correcto", "Migrar tablas grandes sin lock (estrategias MySQL/PG)", "Usar faker para seeds masivos y estados de dominio", "Configurar factories con relaciones para tests"], "criterios": ["Cada migración tiene up/down coherentes", "Las factories producen estados válidos para todos los tests"], "prompt": "Refuerza mis migraciones para producción: down() seguro, estrategias sin lock y factories completas" },
+            "profesional": { "objetivo": "deploys zero-downtime", "tareas": ["Diseñar la estrategia de migración zero-downtime (expand/migrate/contract)", "Automatizar migraciones en deploy con rollback planificado", "Versionar datos con seeders de producción controlados (data migrations)", "Probar migraciones contra un snapshot de producción"], "criterios": ["El deploy aplica migraciones sin downtime (documentado)", "La prueba de migración contra snapshot no rompe datos"], "prompt": "Implementa migraciones zero-downtime con expand/migrate/contract, deploy automatizado y prueba contra snapshot" }
+          }
+        },
+        {
+          "id": "validacion-formularios",
+          "nombre": "Validación y formularios",
+          "resumen": "Validación con Form Requests, reglas avanzadas y mensajes coherentes entre web y API.",
+          "niveles": {
+            "basico": { "objetivo": "validar con el Validator", "tareas": ["Validar requests en controladores con $request->validate", "Mostrar errores en Blade con @error", "Aplicar reglas básicas: required, email, min, unique"], "criterios": ["Los errores se muestran por campo con valores conservados", "Ninguna acción de escritura acepta datos sin validar"], "prompt": "Añade validación con mensajes por campo a mi formulario de registro en Laravel" },
+            "avanzado": { "objetivo": "Form Requests y reglas de negocio", "tareas": ["Crear Form Requests con reglas y autorización propias", "Escribir reglas custom reutilizables (Rule)", "Validar reglas de negocio con after() y closures", "Unificar mensajes en español y por contexto"], "criterios": ["Toda la validación vive en Form Requests, no en controladores", "Las reglas custom se prueban de forma unitaria"], "prompt": "Reorganiza mi validación en Form Requests con reglas custom y mensajes en español unificados" },
+            "profesional": { "objetivo": "validación como contrato y consistencia API/web", "tareas": ["Compartir esquemas de validación entre web y API (misma lógica)", "Versionar reglas cuando el contrato cambia", "Validación de datos externos (imports) con reportes de errores por fila", "Proteger contra ataques: throttling de intentos y validación de tamaño"], "criterios": ["Web y API rechazan exactamente los mismos datos", "Un import con errores reporta cada fila inválida sin perder el resto"], "prompt": "Centraliza la validación como contrato compartido web/API con imports que reportan errores por fila" }
+          }
+        },
+        {
+          "id": "autenticacion-laravel",
+          "nombre": "Autenticación y autorización",
+          "resumen": "Login seguro, guards, roles y políticas con el flujo estándar de Laravel (y Breeze/Fortify).",
+          "niveles": {
+            "basico": { "objetivo": "login/logout con el flujo oficial", "tareas": ["Instalar el scaffolding de auth de Laravel (Breeze o custom)", "Entender el guard web: sesiones y hash de contraseñas", "Proteger rutas con auth middleware"], "criterios": ["El registro/login/logout funcionan y protegen rutas", "Las contraseñas se cifran con bcrypt (nunca en texto plano)"], "prompt": "Implementa autenticación completa con Breeze, rutas protegidas y contraseñas hasheadas" },
+            "avanzado": { "objetivo": "roles, permisos y políticas", "tareas": ["Modelar roles/permisos con spatie/laravel-permission o propio", "Definir políticas (Policy) por modelo con gates", "Aplicar can-checks en Blade y rutas", "Proteger acciones en API con policies"], "criterios": ["Cada acción sensible pasa por una policy, no por if de rol disperso", "Los tests cubren permisos denegados y concedidos"], "prompt": "Implementa roles y permisos con policies por modelo, checks en Blade y rutas protegidas" },
+            "profesional": { "objetivo": "auth a escala: multi-guard y sesiones", "tareas": ["Diseñar multi-guard (web, admin, api) con separación real de sesiones", "Implementar sesiones activas visibles y revocables por el usuario", "Auditoría de accesos: log de login, cambio de rol y fallos", "Proteger contra fuerza bruta y account takeover (rate limit + alertas)"], "criterios": ["El usuario ve y revoca sus sesiones activas", "Los eventos de acceso quedan auditados y alertados"], "prompt": "Diseña la autenticación a escala: multi-guard, sesiones revocables visibles, auditoría y anti fuerza bruta" }
+          }
+        },
+        {
+          "id": "colas-jobs-laravel",
+          "nombre": "Colas, jobs y scheduled tasks",
+          "resumen": "Trabajo en segundo plano con colas Redis, jobs versionados y cron programado con scheduler.",
+          "niveles": {
+            "basico": { "objetivo": "primer job y cola local", "tareas": ["Crear un Job y encolarlo con dispatch", "Configurar driver de cola (sync en dev, database para probar)", "Correr el worker local", "Explicar cuándo una tarea debe ir a cola"], "criterios": ["La tarea pesada sale de la request y el worker la procesa", "El estado del job es observable (queued/failed)"], "prompt": "Envía mi export de PDF a una cola con un Job Laravel y worker local" },
+            "avanzado": { "objetivo": "retries, timeouts y scheduling", "tareas": ["Configurar retries con backoff, attempts y timeouts por job", "Manejar failed_jobs y política de reintentos", "Programar tareas con $schedule (cron gestionado)", "Encadenar jobs (chains) y batches con progreso"], "criterios": ["Un job que falla se reintenta con backoff y termina en failed_jobs", "Los batches reportan progreso real"], "prompt": "Refuerza mis jobs con retries/backoff, failed_jobs y scheduler, y encadena el flujo de import con batches" },
+            "profesional": { "objetivo": "arquitectura de procesamiento", "tareas": ["Diseñar el flujo completo event -> job -> notification con idempotencia", "Escalar workers horizontalmente y supervisar colas (Horizon)", "Definir contratos de payload versionados y jobs compatibles atrás", "Prioridades y rate limiting por cola de negocio"], "criterios": ["Los eventos encadenan jobs idempotentes sin duplicación", "Horizon monitoriza colas y workers con alertas"], "prompt": "Diseña mi arquitectura de procesamiento: eventos a jobs idempotentes, Horizon escalado y payloads versionados" }
+          }
+        },
+        {
+          "id": "api-sanctum",
+          "nombre": "APIs con Sanctum",
+          "resumen": "APIs REST autenticadas con tokens, rate limiting, respuestas JSON y versionado pragmático.",
+          "niveles": {
+            "basico": { "objetivo": "API con tokens Sanctum", "tareas": ["Instalar Sanctum y proteger rutas api con token", "Crear tokens al login y enviarlos con Authorization Bearer", "Devolver JSON consistente (data/errores)"], "criterios": ["Un cliente con token accede y sin token recibe 401", "Las respuestas JSON tienen una forma consistente"], "prompt": "Protege mi API con Sanctum: login con token, middleware y respuestas JSON consistentes" },
+            "avanzado": { "objetivo": "recursos, paginación y rate limits", "tareas": ["Transformar modelos con API Resources (data/links)", "Paginación con metadatos para el cliente", "Configurar rate limiting por token y por IP", "Manejar errores 422/404/500 en JSON de forma uniforme"], "criterios": ["Las listas paginan con metadatos y sin fuga de datos", "Los rate limits se respetan y comunican (headers)"], "prompt": "Estructura mi API con API Resources, paginación con metadatos y rate limiting por token" },
+            "profesional": { "objetivo": "API de producto: versionado y observabilidad", "tareas": ["Versionar la API (v1/v2) con deprecaciones gestionadas", "Documentar OpenAPI y generar clientes tipados", "Implementar idempotencia de mutaciones (Idempotency-Key)", "Observabilidad: request ids, logs de error por endpoint y dashboards", "Realizar pruebas de contrato (Pact) del cliente"], "criterios": ["Dos versiones de API coexisten con deprecación controlada", "Las mutaciones idempotentes se prueban ante reintentos"], "prompt": "Evoluciona mi API a producto: versionado v1/v2, OpenAPI generado, idempotencia y contrato Pact" }
+          }
+        },
+        {
+          "id": "testing-laravel",
+          "nombre": "Testing con Pest/PHPUnit",
+          "resumen": "Suites de feature/unit con Pest: factories, fakes, HTTP tests y decisiones de Cobertura.",
+          "niveles": {
+            "basico": { "objetivo": "primeros feature tests", "tareas": ["Configurar Pest y tests de humo", "Escribir feature tests de rutas con actingAs", "Probar flujos de registro y CRUD con factories"], "criterios": ["Las rutas críticas tienen tests que pasan", "Los tests usan BD de testing aislada (RefreshDatabase)"], "prompt": "Configura Pest en mi Laravel y escribe tests de feature para registro y CRUD de productos" },
+            "avanzado": { "objetivo": "fakes, mocks y casos de dominio", "tareas": ["Usar fakes de Notification, Mail, Queue y Storage", "Probar jobs y scheduler con asserts de encolado", "Probar reglas de dominio y policies", "Organizar suites por dominio y velocidad"], "criterios": ["Los side effects (mail/cola) se verifican con fakes", "La suite principal corre en <1 minuto"], "prompt": "Fortalece mis tests con fakes de mail/cola, asserts de jobs y pruebas de policies" },
+            "profesional": { "objetivo": "calidad de suite y CI", "tareas": ["Definir estrategia de testing del equipo (pirámide + umbrales)", "Medir cobertura y mutation testing en módulos críticos", "Paralelizar la suite en CI y fijar tiempos umbral", "Test de contratos y flujos end-to-end mínimos"], "criterios": ["La suite en CI es paralela, <3 min y con umbral de cobertura", "Los módulos críticos pasan mutation testing"], "prompt": "Diseña la estrategia de testing de mi equipo Laravel: pirámide, cobertura en CI, paralelización y e2e mínimos" }
+          }
+        },
+        {
+          "id": "cache-optimizacion",
+          "nombre": "Caché y optimización",
+          "resumen": "Caché intencional con Redis: tags, invalidación por eventos y presupuestos de rendimiento.",
+          "niveles": {
+            "basico": { "objetivo": "caché de queries y vistas", "tareas": ["Cachear consultas costosas con remember", "Cachear fragmentos de vista", "Invalidar manualmente en las escrituras"], "criterios": ["Las consultas calientes se sirven desde caché sin datos obsoletos en el flujo probado", "La invalidación está presente en cada escritura relevante"], "prompt": "Cachea las consultas calientes de mi dashboard y las vistas con invalidación correcta" },
+            "avanzado": { "objetivo": "tags y invalidación por eventos", "tareas": ["Usar tags de caché (Redis) para invalidación por dominio", "Invalidar mediante eventos de modelo (created/updated)", "Cachear listados con paginación sin duplicar claves", "Medir hit ratio y ajustar TTLs"], "criterios": ["La invalidación por eventos mantiene los datos frescos (test)", "El hit ratio del store se mide y documenta"], "prompt": "Implementa caché con tags Redis e invalidación por eventos de modelo, con medición de hit ratio" },
+            "profesional": { "objetivo": "estrategia de caché a escala", "tareas": ["Diseñar la estrategia de caché completa (queries, paginas, sesiones, cdns)", "Aplicar cache stampede protection (locking) en endpoints calientes", "Simular fallos de Redis y degradar con gracia", "Presupuestos de TTL y coherencia documentados en ADR"], "criterios": ["El stampede protection evita el thrash ante picos (prueba de carga)", "La app funciona degradada si Redis cae"], "prompt": "Diseña la estrategia de caché completa de mi servicio: locking anti-stampede, degradación sin Redis y ADR" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "wordpress",
+      "nombre": "WordPress: temas y plugins",
+      "descripcion": "El CMS usado por infinidad de clientes: temas con underscores, plugins con APIs, seguridad y rendimiento.",
+      "stackTecnologias": "WordPress, PHP 8.3, Block Editor, ACF, WooCommerce, MySQL",
+      "temas": [
+        {
+          "id": "instalacion-configuracion",
+          "nombre": "Instalación y configuración",
+          "resumen": "WordPress limpio y explotado: instalación local, wp-config, permalinks y estructura del core.",
+          "niveles": {
+            "basico": { "objetivo": "instalar y configurar un WordPress local", "tareas": ["Instalar WordPress en local (WAMP/Localwp)", "Configurar wp-config.php, URLs y permalinks", "Distinguir contenido vs código: páginas, temas, plugins"], "criterios": ["El sitio local navega con permalinks limpios", "El usuario ubica el contenido en BD y el diseño en el tema"], "prompt": "Instala y configura WordPress local con permalinks limpios y explícame la separación contenido/código" },
+            "avanzado": { "objetivo": "configuración profesional y multisitio", "tareas": ["Configurar multisitio (wp multisite) con redes y dominios", "Aplicar wp-config hardening (salts, table_prefix, memory)", "Gestionar updates con staging y backups", "Configurar entorno de producción (HTTPS, caching layers)"], "criterios": ["El multisitio comparte plugins/temas sin conflictos", "El wp-config usa salts y medidas de dureza documentadas"], "prompt": "Prepara mi WordPress para producción: multisitio seguro, wp-config hardened y flujo de updates con staging" },
+            "profesional": { "objetivo": "infraestructura WordPress a escala", "tareas": ["Arquitectura de escalado: CDN, object cache y PHP-FPM", "Estrategias de despliegue (Git + composer woocommerce deployment)", "Monitorización de sitios portfolio (uptime, plugins, versions)", "Respuesta ante incidentes y rollback documentado"], "criterios": ["El stack aguanta picos con object cache y CDN (prueba)", "Un despliegue Git-driven reproduce el sitio en otra infra"], "prompt": "Diseña la infraestructura escalable de mis sitios WordPress: Git deploy, object cache, CDN y monitorización" }
+          }
+        },
+        {
+          "id": "temas-y-plantillas",
+          "nombre": "Temas y plantillas",
+          "resumen": "Temas profesionales con custom theme: hierarchy de plantillas, functions.php y hooks visuales.",
+          "niveles": {
+            "basico": { "objetivo": "crear un tema hijo y personalizar", "tareas": ["Crear un child theme del tema de cliente", "Modificar CSS/HTML con overrides", "Usar plantillas básicas (header, footer, single)"], "criterios": ["Las modificaciones sobreviven a updates del tema padre", "El diseño nuevo se aplica sin tocar el tema padre"], "prompt": "Crea un child theme para personalizar el diseño de mi WordPress sin romper updates" },
+            "avanzado": { "objetivo": "theme custom de cero", "tareas": ["Construir un theme desde underscores básicos", "Implementar la template hierarchy completa (archive, single, search)", "Usar funciones de theme (menus, thumbnails, widgets)", "Extender el loop con query personalizadas"], "criterios": ["Todas las páginas del sitio usan plantillas intencionadas", "El theme pasa los estándares de escaneo (theme check)"], "prompt": "Construye un theme WordPress desde cero con hierarchy completa y theme check limpio" },
+            "profesional": { "objetivo": "themify como producto", "tareas": ["Diseñar el theme como producto: customizer, options y documentación", "Integrar patterns y templates del block editor", "Rendimiento del theme: enqueue con condiciones y críticos", "Internacionalización completa (i18n) y accesibilidad"], "criterios": ["El tema se personaliza desde Customizer sin tocar código", "Enqueue condicional evita CSS/JS innecesarios en cada página"], "prompt": "Profesionaliza mi theme: Customizer, block patterns, enqueue condicional y i18n completo" }
+          }
+        },
+        {
+          "id": "bloques-gutenberg",
+          "nombre": "Block Editor (Gutenberg)",
+          "resumen": "Crear bloques nativos y patterns: la forma moderna de construir contenido reutilizable.",
+          "niveles": {
+            "basico": { "objetivo": "trabajar con bloques y patterns", "tareas": ["Editar contenido con bloques nativos y reutilizables", "Crear un pattern de sección reutilizable", "Usar grupos y variaciones de bloques"], "criterios": ["El cliente puede montar páginas con los patterns", "Los bloques reutilizables mantienen consistencia"], "prompt": "Crea patterns de bloques para que mi cliente monte secciones de página sin romper el diseño" },
+            "avanzado": { "objetivo": "bloques custom estáticos", "tareas": ["Crear un bloque custom con block.json y render callback", "Usar supports y attributes con InspectorControls", "Encolar estilos solo cuando el bloque se usa", "Registrar variaciones y transforms"], "criterios": ["El bloque custom renderiza con datos de attributes", "El CSS del bloque solo carga cuando se usa (verificado)"], "prompt": "Crea un bloque custom de tarjeta de producto con block.json, InspectorControls y carga condicional de estilos" },
+            "profesional": { "objetivo": "bloques dinámicos de producto", "tareas": ["Crear bloques dinámicos con render_callback y datos de BD", "Diseñar la arquitectura de bloques del sitio (alcance y contratos)", "Añadir variaciones y la experiencia de edición (UX del editor)", "Integrar con ACF fields en el editor de bloques"], "criterios": ["Los bloques dinámicos muestran contenido de BD y se cachean bien", "La arquitectura de bloques está documentada para el equipo"], "prompt": "Diseña la arquitectura de bloques dinámicos de mi sitio con datos de BD y experiencia de edición coherente" }
+          }
+        },
+        {
+          "id": "plugins-custom",
+          "nombre": "Plugins y hooks",
+          "resumen": "Lógica respetando las convenciones: hooks actions/filters, WP-CLI-safe, y separación plugin/tema.",
+          "niveles": {
+            "basico": { "objetivo": "primer plugin y hooks", "tareas": ["Crear un plugin mínimo con cabecera correcta", "Enganchar actions (init, wp_head) y filters (the_content)", "Entender el lifecycle de activación"], "criterios": ["El plugin añade funcionalidad sin tocar el tema", "La activación no rompe el sitio (bare test)"], "prompt": "Crea un plugin mínimo que añade un shortcode y un filtro al contenido sin tocar el tema" },
+            "avanzado": { "objetivo": "plugins robustos", "tareas": ["Organizar el plugin con clases y PSR-4", "Crear opciones con Settings API y sanitización", "Usar transients y cron de WordPress", "Escribir el plugin con prefijos seguros (funciones/opciones)"], "criterios": ["El plugin configura sus opciones con Settings API saneada", "Las tareas programadas usan cron de WP con limpieza de desactivación"], "prompt": "Estructura mi plugin con clases, Settings API saneada, cron y transients con prefijos seguros" },
+            "profesional": { "objetivo": "plugins de producto", "tareas": ["Diseñar el plugin como producto: updater propio o marketplace", "Seguridad de plugin: nonces, sanitizaciones y capabilities", "Compatibilidad con multisitio y versiones de PHP declaradas", "Documentar el plugin (readme.txt estándar + docs)"], "criterios": ["El plugin pasa el plugin check y el escáner de seguridad", "La actualización del plugin preserva opciones y no rompe datos"], "prompt": "Convierte mi plugin en producto: updater, nonces y capabilities, multisitio y documentación estándar" }
+          }
+        },
+        {
+          "id": "custom-post-types",
+          "nombre": "Custom Post Types y taxonomías",
+          "resumen": "Contenido estructurado más allá de posts/pages: CPTs, taxonomías, meta boxes y queries.",
+          "niveles": {
+            "basico": { "objetivo": "crear CPTs y taxonomías", "tareas": ["Registrar un CPT (register_post_type) correctamente", "Crear taxonomías asociadas", "Mostrar CPTs en plantillas y menus"], "criterios": ["El CPT aparece en admin con taxonomías funcionales", "La plantilla del CPT funciona sin modificar core"], "prompt": "Registra un CPT de proyectos con taxonomía de categoría y su plantilla" },
+            "avanzado": { "objetivo": "meta y queries de contenido", "tareas": ["Manejar meta boxes con save_post y nonces", "Consultar por metadatos y taxonomías (WP_Query)", "Usar capabilities propias del CPT", "Optimizar queries de CPT con índices en meta"], "criterios": ["Los meta boxes guardan y validan con nonce", "Las listas complejas de CPT se consultan sin queries lentas"], "prompt": "Añade meta boxes seguras a mi CPT con queries avanzadas por metadatos y capabilities propias" },
+            "profesional": { "objetivo": "contenido como dominio", "tareas": ["Modelar el contenido del sitio como dominio (CPTs, relaciones)", "Esquemas estructurados (JSON-LD) por CPT", "Sincronizar CPTs con fuentes externas (imports/migraciones)", "Rendimiento: page cache friendly y object cache en listados"], "criterios": ["Cada CPT aporta JSON-LD coherente", "Los imports no duplican contenido (idempotentes)"], "prompt": "Modela el contenido de mi sitio como dominio con JSON-LD por CPT e imports idempotentes" }
+          }
+        },
+        {
+          "id": "acf-campos",
+          "nombre": "ACF: campos y bloques",
+          "resumen": "Campos personalizados para clientes sin código: ACF PRO fields, local JSON y bloques dinámicos.",
+          "niveles": {
+            "basico": { "objetivo": "campos ACF y mostrar datos", "tareas": ["Crear field groups de ACF para páginas/CPTs", "Mostrar campos con the_field/get_field en plantillas", "Explicar el modelo de datos ACF al cliente"], "criterios": ["Los campos se muestran en las plantillas sin código duplicado", "Los datos ACF persisten en BD como post meta"], "prompt": "Crea el grupo de campos ACF para mi página de inicio y muéstralos en la plantilla" },
+            "avanzado": { "objetivo": "local JSON y fields estructurados", "tareas": ["Versionar campos con ACF local JSON en Git", "Usar repeater y flex content con estructuras complejas", "Validar y condicionar campos por plantilla", "Construir opciones globales del sitio"], "criterios": ["Los fields viven en Git (local JSON) y se despliegan con el código", "Las estructuras repeater se renderizan limpias"], "prompt": "Gestiona mis campos ACF con local JSON en Git, repeater para bloques de contenido y opciones globales" },
+            "profesional": { "objetivo": "bloques ACF y arquitectura de contenido", "tareas": ["Crear bloques ACF dinámicos con los campos del editor", "Diseñar la arquitectura de campos del sitio (coherencia y reutilización)", "Migrar fields entre entornos y versionar esquemas", "Rendimiento: minimizar queries de meta y cachear bloques"], "criterios": ["La arquitectura de campos está documentada y sin duplicación", "Los bloques ACF se cachean sin estancamiento"], "prompt": "Convierte mis templates de página en bloques ACF dinámicos con arquitectura de campos documentada" }
+          }
+        },
+        {
+          "id": "hardening-wordpress",
+          "nombre": "Seguridad y hardening",
+          "resumen": "Endurecer WordPress de verdad: usuarios, archivos, plugins, login y la superficie de ataque.",
+          "niveles": {
+            "basico": { "objetivo": "basics de seguridad de sitio", "tareas": ["Fijar permisos de archivos y secretos (wp-config)", "Eliminar usuarios/plugins innecesarios", "Activar HTTPS y forzar login seguro", "Hacer backups básicos y comprobar restauración"], "criterios": ["Permisos de archivos correctos y sin credenciales en repos", "Una restauración de backup se prueba en staging"], "prompt": "Endurece lo básico de mi WordPress: permisos, limpieza de usuarios, HTTPS y backup probado" },
+            "avanzado": { "objetivo": "defensa en profundidad", "tareas": ["Proteger login contra fuerza bruta (rate limit, 2FA si aplica)", "Configurar cabeceras de seguridad (CSP, X-Frame, etc.)", "Endurecer la BD y el usuario de BD de WordPress", "Auditar plugins y actualizaciones con política"], "criterios": ["El login resiste un ataque de fuerza bruta básico", "Las cabeceras de seguridad están presentes y probadas"], "prompt": "Implementa defensa en profundidad en mi WordPress: anti fuerza bruta, cabeceras de seguridad y pulido de BD" },
+            "profesional": { "objetivo": "postura de seguridad gestionada", "tareas": ["Montar monitorización de integridad (cambios de archivos) y alertas", "Realizar pentest básico propio (WPScan) y plan de remediación", "Definir runbooks de incidentes (sitio caído, hackeado)", "Gestión de riesgos de terceros: plugins con política de scoring"], "criterios": ["WPScan no reporta vulnerabilidades críticas sin plan", "El runbook de incidente está escrito y practicado"], "prompt": "Implementa la postura de seguridad gestionada de mi WordPress: WPScan, integridad monitorizada y runbooks" }
+          }
+        },
+        {
+          "id": "rendimiento-wordpress",
+          "nombre": "Rendimiento y caché",
+          "resumen": "Sitios rápidos: caché de página/object, lazy loading, optimización de BD y presupuesto de peso.",
+          "niveles": {
+            "basico": { "objetivo": "caché y primeras optimizaciones", "tareas": ["Activar un plugin de caché (page cache + browser)", "Optimizar imágenes básicas (compresión y formatos)", "Medir con PageSpeed y fijar la línea base"], "criterios": ["El PageSpeed mejora respecto a la línea base sin cargar el servidor", "Las imágenes no se sirven más pesadas de lo necesario"], "prompt": "Mejora el rendimiento de mi WordPress: caché activada, imágenes optimizadas y medición PageSpeed" },
+            "avanzado": { "objetivo": "optimización real de queries y assets", "tareas": ["Optimizar el tema: enqueue condicional y critical CSS", "Detectar y arreglar queries lentas (Query Monitor)", "Configurar object cache (Redis) para entornos con capacidad", "Implementar lazy loading y preloads de LCP"], "criterios": ["Query Monitor no muestra queries lentas ni duplicadas", "LCP mejora con preloads y critical CSS medidos"], "prompt": "Optimiza el rendimiento real de mi WordPress: enqueue condicional, queries lentas, Redis y preloads LCP" },
+            "profesional": { "objetivo": "presupuesto de rendimiento y escala", "tareas": ["Fijar presupuesto de rendimiento (LCP, peso, requests) y CI manual", "Diseñar la arquitectura de caché completa (page/object/CDN)", "Optimizar BD: limpieza de revisiones, tablas y índices", "Escalar picos: staging de carga y plan de contingencia"], "criterios": ["El presupuesto de rendimiento se mide en cada release", "La arquitectura de caché sostiene el pico de tráfico previsto"], "prompt": "Diseña el presupuesto de rendimiento de mis sitios: métricas por release, caché completa y optimización de BD" }
+          }
+        },
+        {
+          "id": "woocommerce",
+          "nombre": "WooCommerce: tienda",
+          "resumen": "Tiendas funcionales: productos, variaciones, carrito, pagos, envío y personalización segura.",
+          "niveles": {
+            "basico": { "objetivo": "montar una tienda base", "tareas": ["Configurar productos simples y categorías", "Activar pasarela de pago de prueba y envío", "Personalizar página de producto y checkout con bloques"], "criterios": ["El flujo compra-pago-envío funciona de punta a punta", "Los precios y stock se gestionan desde el panel"], "prompt": "Monta mi tienda WooCommerce base con productos, pago de prueba y flujo de compra completo" },
+            "avanzado": { "objetivo": "variaciones, cupones y hooks", "tareas": ["Configurar variaciones (tallas/colores) con stock por variación", "Crear cupones y reglas de promoción", "Personalizar con hooks de template (pestañas, precio, cantidad)", "Integrar envío por peso/zonas"], "criterios": ["El stock por variación se actualiza correctamente tras compra", "Los hooks personalizados sobreviven a updates del tema"], "prompt": "Añade variaciones con stock, cupones promocionales y personalización por hooks a mi tienda WooCommerce" },
+            "profesional": { "objetivo": "tienda de producto", "tareas": ["Diseñar el modelo de datos de producto (atributos, precio, stock)", "Desarrollar pasarelas de pago custom y webhooks de conciliación", "Optimizar checkout (peso, fricción) y análisis de conversión", "Integrar ERP/contabilidad con exportaciones", "Garantizar SSL y cumplimiento de PSD2/retención de datos"], "criterios": ["Los webhooks de pago concilian pedidos automáticamente", "El checkout alcanza el presupuesto de peso fijado"], "prompt": "Profesionaliza mi WooCommerce: pago con webhooks de conciliación, modelo de producto y checkout optimizado" }
+          }
+        },
+        {
+          "id": "rest-api-wordpress",
+          "nombre": "REST API y headless",
+          "resumen": "WordPress como API: endpoints propios, autenticación, y sitios headless sin fricción.",
+          "niveles": {
+            "basico": { "objetivo": "consumir la REST API", "tareas": ["Explorar la API pública de posts/pages con curl", "Consumirla desde JS con fetch", "Entender permisos y formatos de respuesta"], "criterios": ["Un script JS propio listado contenido vía API", "El CORS/permisos están entendidos y explicados"], "prompt": "Consume la REST API de mi WordPress desde un script JS de ejemplo" },
+            "avanzado": { "objetivo": "endpoints propios y rutas", "tareas": ["Registrar rutas REST propias con register_rest_route", "Validar permisos con permission_callback", "Manejar errores y paginación en la respuesta", "Usar ACF en la API (acf fields expuestos)"], "criterios": ["Los endpoints propios validan permisos y parámetros", "La API expone ACF sin datos innecesarios"], "prompt": "Crea endpoints REST propios para mi CPT con permission_callback y campos ACF expuestos" },
+            "profesional": { "objetivo": "headless de producción", "tareas": ["Diseñar la arquitectura headless (frontend JS + WP como CMS)", "Authentication con JWT/application passwords para el front", "Cachear la API (caché de respuestas + object cache)", "Vigilar rate limits y coherencia del contenido publicado", "Whitepaper de decisión: headless vs clásico"], "criterios": ["El frontend desatendido se sirve con caché y autenticado", "El documento de decisión headless está escrito"], "prompt": "Diseña la migración headless de mi contenido a WordPress como API con auth JWT y caché" }
+          }
+        },
+        {
+          "id": "migraciones-backup",
+          "nombre": "Migraciones y backups",
+          "resumen": "Mover sitios entre entornos y respaldar con restauración probada, no con plugins mágicos.",
+          "niveles": {
+            "basico": { "objetivo": "migrar y respaldar simple", "tareas": ["Generar backup manual de BD + archivos", "Restaurar en local y verificar el sitio", "Migrar entre dominios con búsqueda-reemplazo segura"], "criterios": ["La restauración en local funciona de punta a punta", "El cambio de dominio no rompe enlaces"], "prompt": "Migra mi WordPress a localhost y haz backup manual con restauración verificada" },
+            "avanzado": { "objetivo": "backups programados y migraciones en Git", "tareas": ["Programar backups automáticos (BD + archivos) con retención", "Migrar configuraciones con WP-CLI (search-replace, export)", "Versionar el código del sitio en Git (tema + plugins propios)", "Configurar staging con sincronización selectiva"], "criterios": ["El backup automático se restaura en <20 min (probado)", "El código del sitio vive en Git y se despliega con WP-CLI"], "prompt": "Monta backups automáticos con retención, staging en Git y migraciones con WP-CLI para mis sitios" },
+            "profesional": { "objetivo": "plan de recuperación", "tareas": ["Diseñar el plan de recuperación (RTO/RPO) por sitio", "Automatizar la restauración completa (script verificable)", "Probar la recuperación en calendario (drill trimestral)", "Documentar los pasos para el cliente no técnico"], "criterios": ["El drill de recuperación cumple el RTO documentado", "El cliente puede pedir la recuperación sin depender de un técnico"], "prompt": "Diseña el plan de recuperación de mis sitios: RTO/RPO, restauración automatizada y drill trimestral" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mvc-propio",
+      "nombre": "Framework MVC propio",
+      "descripcion": "Construir tu propio mini-framework entendiendo el patrón: router, contenedor, plantillas y testing.",
+      "stackTecnologias": "PHP 8.3, Composer, PDO, PHPUnit, Nginx",
+      "temas": [
+        {
+          "id": "router-front-controller",
+          "nombre": "Router y Front Controller",
+          "resumen": "El corazón del patrón: index.php como punto único de entrada y despacho de rutas a controladores.",
+          "niveles": {
+            "basico": { "objetivo": "front controller y rutas simples", "tareas": ["Montar index.php que redirige todo a un bootstrap", "Resolver rutas GET/POST con parámetros", "Devolver respuestas simples (texto, vistas)"], "criterios": ["Toda la petición pasa por index.php (probado con .htaccess/nginx)", "Las rutas con parámetros se despachan correctamente"], "prompt": "Construye el front controller de mi mini-framework con rutas GET/POST y parámetros" },
+            "avanzado": { "objetivo": "routing tipado y agrupado", "tareas": ["Definir rutas en un archivo de configuración declarativo", "Soportar grupos de rutas con prefijos y middleware", "Resolver nombres de ruta (named routes) para links", "Convertir valores de ruta a tipos (int/string/validaciones)"], "criterios": ["Las rutas se registran en config y se resuelven por nombre", "El despacho valida tipos de parámetros"], "prompt": "Evoluciona mi router: rutas declarativas, grupos con middleware y named routes" },
+            "profesional": { "objetivo": "router como librería", "tareas": ["Diseñar la API pública del router (contratos y excepciones)", "Implementar resolución de rutas dinámicas (regex priorities) con benchmarks", "Soportar middlewares en cadena con bloqueo selectivo", "Documentar y publicar el router como paquete Composer instalable"], "criterios": ["El enrutamiento de 10k rutas resuelve en ms (benchmark documentado)", "El paquete se instala en otro proyecto y funciona"], "prompt": "Publica mi router como librería Composer con contratos, middlewares y benchmark de rendimiento" }
+          }
+        },
+        {
+          "id": "peticion-respuesta",
+          "nombre": "Request y Response",
+          "resumen": "Encapsular HTTP: objetos Request y Response inmutables que el framework consume y produce.",
+          "niveles": {
+            "basico": { "objetivo": "objetos Request/Response simples", "tareas": ["Crear clases Request con métodos, headers y body", "Crear Response con status y headers", "Enviar la respuesta al navegador desde el front controller"], "criterios": ["El framework solo manipula objetos, no superglobals dispersas", "Las respuestas de error (404/500) son coherentes"], "prompt": "Encapsula $_GET/$_POST en una clase Request y las respuestas en Response en mi mini-framework" },
+            "avanzado": { "objetivo": "HTTP completo y streaming", "tareas": ["Soportar JSON, archivos subidos y multipart (PSR-7-ish)", "Manejar cabeceras CORS y condiciones de caché", "Enviar respuestas con streams y rangos", "Normalizar errores a estados HTTP del dominio"], "criterios": ["Las respuestas JSON/streams se envían con cabeceras correctas", "CORS configurable funciona con frontend externo"], "prompt": "Completa mi Request/Response: JSON, subidas multipart, CORS y respuestas en streaming" },
+            "profesional": { "objetivo": "PSR-7 y middleware http", "tareas": ["Adaptar el diseño a interfaces PSR-7 (ServerRequestInterface)", "Montar el procesamiento HTTP como pipeline de middleware", "Controlar el ciclo de vida (terminación, logs, cleanup)", "Compatibilidad con librerías del ecosistema (PSR-15)"], "criterios": ["El framework pasa un test básico de compatibilidad PSR-7", "El pipeline de middlewares se documenta y extiende fácilmente"], "prompt": "Adapta mi framework a PSR-7/PSR-15 con pipeline de middlewares y documenta el ciclo de vida" }
+          }
+        },
+        {
+          "id": "motor-plantillas",
+          "nombre": "Motor de plantillas",
+          "resumen": "Vistas seguras sin PHP crudo: motor propio con layouts, secciones y escape automático.",
+          "niveles": {
+            "basico": { "objetivo": "vistas con datos y escape", "tareas": ["Cargar vistas PHP con variables", "Escapar la salida automáticamente", "Usar layouts con section/append"], "criterios": ["Ninguna salida sin escapar en las vistas", "Los layouts se reutilizan sin duplicar HTML"], "prompt": "Implementa la carga de vistas con escape y un layout base en mi framework" },
+            "avanzado": { "objetivo": "funciones helpers y composición", "tareas": ["Crear helpers de plantilla (url, asset, csrf)", "Componer vistas parciales y componentes", "Implementar cache de vistas compiladas para rendimiento", "Manejar errores de vista con páginas bonitas (500/404 personalizadas)"], "criterios": ["Los helpers se usan en toda la app y son testables", "Las vistas compiladas se cachean y se invalidan con el código"], "prompt": "Añade helpers url/asset/csrf y caché de vistas compiladas a mi motor de plantillas" },
+            "profesional": { "objetivo": "rendering seguro y rápido", "tareas": ["Prevenir XSS a nivel de motor (context-aware escaping)", "Soportar temas/paquetes de vistas externos", "Rendimiento: compilar a PHP óptimo con opcache", "Documentar la sintaxis y seguridad del motor"], "criterios": ["Un test de XSS confirma el escape por contexto", "El motor compilado compite en velocidad con Twig básico"], "prompt": "Profesionaliza mi motor de plantillas: escaping por contexto, temas externos y compilación optimizada" }
+          }
+        },
+        {
+          "id": "patrones-diseno-php",
+          "nombre": "Patrones de diseño útiles",
+          "resumen": "Los patrones que de verdad se usan en PHP: Factory, Repository, Strategy, Observer y más.",
+          "niveles": {
+            "basico": { "objetivo": "entender y usar patrones simples", "tareas": ["Explicar con ejemplos: Factory, Repository, Strategy", "Aplicar Factory y Repository en un módulo pequeño", "Refactorizar switch/case grande con Strategy"], "criterios": ["El módulo usa los patrones sin sobre-ingeniería", "Los patrones se explican al usuario sin jerga"], "prompt": "Aplica Factory/Repository/Strategy a mi módulo de pagos sin sobre-ingeniería y explícamelo" },
+            "avanzado": { "objetivo": "patrones estructurales", "tareas": ["Implementar Adapter y Decorator para integraciones", "Usar Observer/Eventos para desacoplar efectos secundarios", "Aplicar Template Method y Builder donde aportan", "Evitar anti-patrones (Singleton global, God object)"], "criterios": ["Las integraciones externas pasan por Adapters testables", "Los efectos secundarios se encadenan por eventos"], "prompt": "Desacopla mis integraciones con Adapter/Decorator y eventos Observer, evitando Singletons globales" },
+            "profesional": { "objetivo": "patrones como lenguaje", "tareas": ["Elegir patrones por criterio (complejidad, coste, equipo), no por moda", "Documentar decisiones con ADRs (patrón, alternativa, coste)", "Diseñar con composición y contratos, no herencia ciega", "Enseñar los patrones usados al equipo en sesiones cortas"], "criterios": ["Los ADRs justifican cada patrón elegido", "La complejidad del código es proporcional al dominio"], "prompt": "Revisa mi código y propón patrones solo donde el dominio lo justifica, con ADR por decisión" }
+          }
+        },
+        {
+          "id": "inyeccion-dependencias",
+          "nombre": "Contenedor e inyección de dependencias",
+          "resumen": "Composición del sistema: contenedor de servicios, autowiring y resolución de dependencias.",
+          "niveles": {
+            "basico": { "objetivo": "inyección manual y constructor", "tareas": ["Pasar dependencias por constructor en vez de instanciar dentro", "Crear factories simples de servicios", "Eliminar llamadas globales dispersas (new en controladores)"], "criterios": ["Ningún controlador instancia servicios directamente", "Los servicios se construyen en un punto central"], "prompt": "Refactoriza mis controladores a inyección por constructor con factories de servicios" },
+            "avanzado": { "objetivo": "contenedor con autowiring", "tareas": ["Implementar un contenedor con autowiring por reflection", "Registrar binding manuales (interfaces a implementaciones)", "Resolver ciclos y servicios lazy", "Soportar parámetros escalares con configuración"], "criterios": ["El autowiring resuelve el grafo principal sin config manual", "Un ciclo de dependencias se detecta con error claro"], "prompt": "Construye un contenedor con autowiring por reflection y bindings de interfaces en mi framework" },
+            "profesional": { "objetivo": "contenedor como producto", "tareas": ["Diseñar la API del contenedor (registro, decoración, tags)", "Compilar el contenedor a código PHP para producción (speed)", "Implementar decoradores de servicios y override por entorno", "Documentar y probar el contenedor como librería"], "criterios": ["El contenedor compilado mejora el arranque mediblemente", "Decoración de servicios funciona sin tocar clases"], "prompt": "Transforma mi contenedor en librería: compilación a código, decoradores y tags con documentación" }
+          }
+        },
+        {
+          "id": "repositorios-dao",
+          "nombre": "Repositorios y DAOs",
+          "resumen": "Separar la persistencia del dominio: repositorios con contratos, mapeo y testeo sin BD.",
+          "niveles": {
+            "basico": { "objetivo": "patrón repositorio simple", "tareas": ["Crear un Repositorio por agregado con CRUD", "Mapear filas de BD a objetos de dominio", "Usarlos desde servicios sin SQL disperso"], "criterios": ["Los controladores nunca ven PDO/query builders", "El CRUD del agregado central está completo"], "prompt": "Introduce repositorios para mis agregados con mapeo de BD a objetos de dominio" },
+            "avanzado": { "objetivo": "contratos y consultas de dominio", "tareas": ["Definir interfaces de repositorio (contrato del dominio)", "Implementar consultas de dominio (specifications básicas)", "Criterios de paginación y filtrado como tipos", "Probar repositorios contra SQLite/fakes"], "criterios": ["Las interfaces de repositorio no filtran detalles de persistencia", "Los filtros se prueban sin BD real"], "prompt": "Define los contratos de repositorio de mi dominio con criterios tipados y tests con fakes" },
+            "profesional": { "objetivo": "arquitectura de datos robusta", "tareas": ["Diseñar la frontera dominio-persistencia con mapeadores explícitos", "Implementar optimizaciones (bulk inserts, batching) sin violar el contrato", "Transacciones a través de varios repositorios (unit of work)", "Benchmark los accesos y documentar índices"], "criterios": ["El unit of work agrupa transacciones multi-repositorio", "Las operaciones masivas cumplen presupuestos de tiempo"], "prompt": "Diseña la frontera dominio-persistencia con unit of work, bulk operations y documentación de índices" }
+          }
+        },
+        {
+          "id": "middleware-cadena",
+          "nombre": "Middleware y pipelines",
+          "resumen": "Petición procesada por capas: autenticación, logging, CSRF y más como piezas intercambiables.",
+          "niveles": {
+            "basico": { "objetivo": "middleware como función envolvente", "tareas": ["Crear un middleware simple (logging de request)", "Aplicarlo antes/después del controlador", "Añadir un middleware de verificación de sesión"], "criterios": ["La orden de ejecución de middlewares es predecible y probada", "El middleware de sesión bloquea sin auth"], "prompt": "Implementa middlewares de logging y sesión en mi framework con orden predecible" },
+            "avanzado": { "objetivo": "cadena con contexto y respuesta", "tareas": ["Diseñar la cadena como pipeline (cola de middlewares)", "Pasar contexto (request, estado) entre middlewares", "Implementar CSRF y rate limiting como middlewares", "Detener la cadena con respuestas tempranas (401, 429)"], "criterios": ["CSRF y rate limit funcionan como middlewares independientes", "Un middleware puede cortocircuitar con código y mensaje"], "prompt": "Diseña el pipeline de middlewares de mi app: CSRF, rate limiting y corte temprano con contexto" },
+            "profesional": { "objetivo": "middleware como arquitectura", "tareas": ["Definir el contrato formal de middleware (psr-15 compatible)", "Componer capas de seguridad, observabilidad y negocio sin acoplar", "Testar cada middleware aislado y la composición completa", "Documentar el orden y el coste de cada capa"], "criterios": ["La composición de 5+ capas no degrada el testeo común", "El orden de capas está documentado y justificado"], "prompt": "Formaliza mi pipeline de middlewares como arquitectura PSR-15 con capas testadas y orden documentado" }
+          }
+        },
+        {
+          "id": "logueo-errores-framework",
+          "nombre": "Logging y errores del framework",
+          "resumen": "El framework que informa: manejo central de excepciones, logging estructurado y errores bonitos.",
+          "niveles": {
+            "basico": { "objetivo": "errors centralizados", "tareas": ["Registrar un handler central de excepciones", "Devolver páginas 404/500 amigables", "Loguear errores con fecha y contexto mínimo"], "criterios": ["Ninguna excepción llega cruda al navegador", "El log captura la pila con contexto"], "prompt": "Centraliza el manejo de errores de mi framework con páginas de error y logging" },
+            "avanzado": { "objetivo": "logging estructurado", "tareas": ["Implementar un logger con niveles y contexto estructurado (JSON)", "Registrar request ids en todo el flujo", "Separar logs por canal (app, http, bd)", "Rotar y conservar logs con retención"], "criterios": ["Los logs son parseables (JSON) y con request id", "La retención de logs está configurada"], "prompt": "Implementa logging estructurado con request ids y canales en mi framework" },
+            "profesional": { "objetivo": "observabilidad del framework", "tareas": ["Integrar tracing (OpenTelemetry) si la app escala", "Correlacionar errores con métricas de negocio", "Diseñar la taxonomía de errores del framework (dominio, infra)", "Dashboards de errores y alertas por severidad"], "criterios": ["Los errores se correlacionan con métricas en el dashboard", "Las alertas por severidad están activas y verificadas"], "prompt": "Convierte el logging de mi framework en observabilidad: tracing, métricas correlacionadas y alertas" }
+          }
+        },
+        {
+          "id": "seguridad-framework",
+          "nombre": "Seguridad del framework",
+          "resumen": "Opciones seguras por defecto: CSRF, escape, headers, contraseñas y registro de configuraciones.",
+          "niveles": {
+            "basico": { "objetivo": "seguridad por defecto básica", "tareas": ["Activar escape automático en vistas", "Proteger formularios con tokens CSRF", "Configurar cabeceras básicas (X-Frame, nosniff)"], "criterios": ["Los formularios centrales rechazan peticiones sin token", "Las cabeceras de seguridad están presentes"], "prompt": "Activa la seguridad básica de mi framework: escape, CSRF y cabeceras" },
+            "avanzado": { "objetivo": "defensa de sesiones y entradas", "tareas": ["Configurar sesiones con flags seguros y rotación", "Sanear y validar entradas de forma centralizada", "Proteger de XSS en helpers de salida", "Implementar rate limiting configurable por ruta"], "criterios": ["Las sesiones tienen flags seguros y rotación tras login", "La entrada por defecto se considera no confiable"], "prompt": "Endurece mi framework: sesiones seguras, saneamiento central y rate limiting por ruta" },
+            "profesional": { "objetivo": "postura de seguridad del framework", "tareas": ["Documentar el modelo de confianza del framework", "Realizar una auditoría de seguridad del framework (testeos propios)", "Preparar advisories y canal de reporte si es público", "Definir el plan de parcheo de dependencias del framework"], "criterios": ["La auditoría propia tiene plan de remediación documentado", "El canal de reporte y el plan de parcheo existen"], "prompt": "Establece la postura de seguridad de mi framework: auditoría, modelo de confianza y plan de parcheo" }
+          }
+        },
+        {
+          "id": "pruebas-framework",
+          "nombre": "Testing del framework",
+          "resumen": "Probar el framework como librería: tests unitarios del núcleo, acceptance y CI.",
+          "niveles": {
+            "basico": { "objetivo": "tests del núcleo", "tareas": ["Configurar PHPUnit para el framework", "Probar router y plantillas de forma unitaria", "Fijar umbral mínimo en las rutas principales"], "criterios": ["El router tiene tests para casos centrales", "La suite corre desde cero"], "prompt": "Configura PHPUnit y cubre el router y las plantillas de mi framework" },
+            "avanzado": { "objetivo": "acceptance y fakes", "tareas": ["Escribir acceptance tests con un cliente HTTP en memoria", "Fake de Request/Response para pruebas rápidas", "Probar middlewares aislados", "Medir cobertura del framework"], "criterios": ["Los acceptance tests cubren flujos completos sin servidor real", "Los middlewares tienen pruebas aisladas"], "prompt": "Añade acceptance tests en memoria y cobertura a mi framework" },
+            "profesional": { "objetivo": "calidad de librería", "tareas": ["Establecer CI completo (lint, tipos, tests, coverage)", "Mutation testing del núcleo del framework", "Probar la compatibilidad de versiones (PHP matrix)", "Documentar la estrategia de testing para usuarios del framework"], "criterios": ["El CI valida tipos, tests y cobertura en cada cambio", "La matriz de PHP corre sin regresiones"], "prompt": "Monta el CI de calidad de mi framework: matriz de PHP, lint, tipo, tests y mutation testing" }
+          }
+        },
+        {
+          "id": "despliegue-propio",
+          "nombre": "Despliegue y producción",
+          "resumen": "Llevar el framework propio a producción: FPM, nginx, opcache, entorno y deployments.",
+          "niveles": {
+            "basico": { "objetivo": "producción simple", "tareas": ["Configurar nginx + PHP-FPM para el front controller", "Activar opcache y ajustes de PHP", "Proteger archivos sensibles (configuración fuera de webroot)"], "criterios": ["El sitio responde vía nginx/FPM sin configs inseguras", "Los archivos de configuración no son accesibles por web"], "prompt": "Despliega mi framework propio a producción con nginx, PHP-FPM y opcache" },
+            "avanzado": { "objetivo": "deploys y entornos", "tareas": ["Configurar entornos (dev/staging/prod) con variables", "Automatizar el deploy (rsync/Git tag + script)", "Preparar metrics de salud (health endpoint)", "Gestionar logs en producción y rotación"], "criterios": ["El deploy desde Git replica producción en staging", "El health endpoint es monitorizable"], "prompt": "Monta el pipeline de despliegue de mi framework: entornos, deploy desde Git y health checks" },
+            "profesional": { "objetivo": "operaciones a escala", "tareas": ["Diseñar la arquitectura de producción (HA, colas, BD)", "Implementar deployments zero-downtime (proceso)", "Instrumentar métricas de negocio y rendimiento", "Preparar runbooks de incidentes y escalado"], "criterios": ["Los deploy zero-downtime están probados de punta a punta", "Los runbooks cubren degradación y escalado"], "prompt": "Opera mi framework a escala: zero-downtime, HA, métricas de negocio y runbooks" }
+          }
+        },
+        {
+          "id": "refactorizacion-segura",
+          "nombre": "Refactorización segura",
+          "resumen": "Mejorar código sin romper comportamiento: red de tests, malos olores y migración gradual.",
+          "niveles": {
+            "basico": { "objetivo": "mover código con seguridad", "tareas": ["Detectar duplicación y extraer funciones", "Renombrar variables con significado", "Usar git como red de seguridad (commits atómicos)"], "criterios": ["Cada refactor va en commit separado sin cambios de comportamiento", "Las pruebas existentes pasan sin modificar"], "prompt": "Refactoriza este script extraído en funciones con commits atómicos sin cambiar comportamiento" },
+            "avanzado": { "objetivo": "malos olores y deuda", "tareas": ["Detectar y resolver malos olores (god object, feature envy)", "Aplicar extracción de clases y módulos", "Establecer caracterizaciones (characterization tests) previas", "Reducir deuda con plan visible"], "criterios": ["Las caracterizaciones protegen el comportamiento previo", "La deuda técnica tiene plan y progreso rastreable"], "prompt": "Refactoriza mi módulo con malos olores usando characterization tests y plan de deuda" },
+            "profesional": { "objetivo": "refactor como disciplina", "tareas": ["Definir la estrategia de refactor continuo (boy-scout + frontiers)", "Refactorizar guiado por métricas (complejidad, acoplamiento)", "Cambiar arquitectura con strangler (incremental)", "Enseñar y documentar el proceso para el equipo"], "criterios": ["Las métricas de complejidad mejoran de forma medible el trimestre", "Una migración arquitectónica se completa con strangler sin downtime"], "prompt": "Lidera la refactorización de mi código guiada por métricas con estrategia strangler y proceso documentado" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "webservices-php",
+      "nombre": "Servicios web y APIs en PHP",
+      "descripcion": "APIs bien diseñadas con PHP puro: contratos JSON, versionado, rate limiting, webhooks y observabilidad.",
+      "stackTecnologias": "PHP 8.3, JSON, cURL, JWT, OpenAPI, Redis",
+      "temas": [
+        {
+          "id": "contratos-json",
+          "nombre": "Contratos JSON y respuestas",
+          "resumen": "Respuestas JSON coherentes como contrato: envelopes, errores, paginación y código correcto.",
+          "niveles": {
+            "basico": { "objetivo": "responder JSON consistente", "tareas": ["Devolver JSON con header correcto y envelope data", "Estructurar errores uniformes (code, message)", "Manejar 404/405 con cuerpo JSON"], "criterios": ["Todas las respuestas siguen el mismo envelope", "Los errores tienen formato y códigos coherentes"], "prompt": "Estructura las respuestas JSON de mi API con envelope, errores uniformes y 404 JSON" },
+            "avanzado": { "objetivo": "paginación y filtros de contrato", "tareas": ["Definir paginación (page/limit o cursor) con metadatos", "Filtros, orden y proyección de campos controlados", "Versionar el contrato (v1/v2) con deprecación", "Escribir el esquema OpenAPI del contrato"], "criterios": ["La paginación tiene metadatos y se documenta en OpenAPI", "Los filtros rechazan campos no permitidos"], "prompt": "Define el contrato de listados de mi API: paginación con metadatos, filtros y OpenAPI" },
+            "profesional": { "objetivo": "contratos evolutivos", "tareas": ["Diseñar la evolución del contrato sin breaking changes", "Implementar ids idempotentes y versiones de payload", "Probar el contrato con tests de regresión (contract tests)", "Documentar cambios por versión y deprecaciones"], "criterios": ["La evolución v1->v2 es compatible durante el periodo marcado", "Los contract tests se ejecutan en CI"], "prompt": "Diseña la evolución del contrato de mi API sin breaking changes con contract tests en CI" }
+          }
+        },
+        {
+          "id": "cliente-curl-http",
+          "nombre": "cURL y clientes HTTP",
+          "resumen": "Consumir APIs de forma robusta: cURL, timeouts, retries, manejo de errores y fakes de test.",
+          "niveles": {
+            "basico": { "objetivo": "peticiones HTTP con cURL", "tareas": ["Hacer GET/POST con curl_init/curl_exec", "Manejar headers, códigos de estado y body", "Envolver el cliente en una función reutilizable"], "criterios": ["Las llamadas tienen timeout y capturan errores", "El cliente devuelve datos estructurados, no crudos"], "prompt": "Crea un cliente cURL reutilizable para consumir la API de X con manejo de errores" },
+            "avanzado": { "objetivo": "cliente robusto y fakes", "tareas": ["Configurar retries con backoff y timeouts por intento", "Cachear respuestas GET con TTL", "Serializar/deserializar con tipos", "Inyectar fakes para tests sin red"], "criterios": ["Un fallo de red se reintenta y degrada con gracia", "Los tests usan fakes sin llamadas reales"], "prompt": "Fortalece mi cliente HTTP: retries con backoff, caché GET y fakes para tests" },
+            "profesional": { "objetivo": "integración de cliente a escala", "tareas": ["Diseñar el cliente como librería con contratos y errores de dominio", "Soportar auth (OAuth2 flow completo) y renovación de tokens", "Instrumentar métricas y tracing por llamada", "Probar contra un servidor de pruebas local (wiremock)"], "criterios": ["El flujo OAuth2 renueva tokens sin interrupción", "Cada llamada emite métricas (latencia, estado)"], "prompt": "Convierte mi cliente HTTP en librería con OAuth2 completo, métricas y pruebas con wiremock" }
+          }
+        },
+        {
+          "id": "webhooks-callbacks",
+          "nombre": "Webhooks y callbacks",
+          "resumen": "Integraciones que avisan: exponer webhooks, verificar firmas, reintentar y entregar de forma idempotente.",
+          "niveles": {
+            "basico": { "objetivo": "recibir y procesar webhooks", "tareas": ["Exponer un endpoint de webhook", "Validar el payload y responder 200 rápido", "Procesar el evento sin bloquear la respuesta"], "criterios": ["El endpoint responde 200 y procesa en background", "Los payloads inválidos se rechazan sin efecto"], "prompt": "Crea un endpoint de webhook que procesa eventos en background y responde rápido" },
+            "avanzado": { "objetivo": "firmas y entregas fiables", "tareas": ["Verificar firmas HMAC de los webhooks", "Implementar retries con backoff y cola de reintentos", "Garantizar idempotencia por event id", "Registrar la entrega y su estado"], "criterios": ["Los webhooks falsos se rechazan por firma", "Un reintento no duplica el efecto (idempotencia probada)"], "prompt": "Haz mis webhooks fiables: verificación de firma HMAC, retries con backoff e idempotencia" },
+            "profesional": { "objetivo": "sistema de webhooks de producto", "tareas": ["Diseñar el sistema de webhooks de salida (suscripciones, URLs de cliente)", "Versionar eventos y manejar versiones de consumidor", "Dashboard de entregas fallidas y resend manual", "Contratos de seguridad: secreto por suscripción y rotación"], "criterios": ["El resend manual de entregas fallidas funciona sin duplicar", "La rotación de secretos no rompe suscriptores activos"], "prompt": "Diseña el sistema de webhooks de salida de mi plataforma: suscripciones, versiones, resend y rotación de secretos" }
+          }
+        },
+        {
+          "id": "rate-limiting-php",
+          "nombre": "Rate limiting y throttling",
+          "resumen": "Proteger APIs de abuso: límites por clave, ventanas, colas y respuestas 429 correctas.",
+          "niveles": {
+            "basico": { "objetivo": "límite simple por IP", "tareas": ["Contar peticiones por IP en un periodo", "Devolver 429 con Retry-After", "Exponer el estado en headers (X-RateLimit-*)"], "criterios": ["El exceso de peticiones recibe 429 con Retry-After", "Los headers de límite son correctos"], "prompt": "Implementa rate limiting por IP con 429, Retry-After y headers X-RateLimit" },
+            "avanzado": { "objetivo": "límites por clave y ventanas deslizantes", "tareas": ["Limitar por API key y por usuario con cuotas", "Implementar ventana deslizante con Redis", "Distinguir límites por endpoint (sensible vs barato)", "Degradar con colas en lugar de bloquear cuando aplica"], "criterios": ["Las cuotas por key se respetan de forma distribuida", "Los endpoints sensibles tienen límites menores verificados"], "prompt": "Implementa rate limiting distribuido por key con ventanas deslizantes en Redis y cuotas por endpoint" },
+            "profesional": { "objetivo": "protección de API como producto", "tareas": ["Diseñar el modelo de cuotas (planes, burst, soft/hard limits)", "Prevenir abuso de negocio (scraping, fraudes) con heurísticas", "Observabilidad de límites: métricas y alertas de abuso", "Comunicar límites y planes al cliente (documentación y headers)"], "criterios": ["El modelo de cuotas está documentado y aplicado por plan", "Las alertas de abuso detectan picos anómalos"], "prompt": "Diseña el modelo de cuotas de mi API como producto: planes, heurísticas anti-abuso y métricas" }
+          }
+        },
+        {
+          "id": "jwt-auth-api",
+          "nombre": "JWT y autenticación de API",
+          "resumen": "Autenticación sin estado bien hecha: tokens firmados, expiración, refresh y revocación cuando toca.",
+          "niveles": {
+            "basico": { "objetivo": "emitir y verificar JWT", "tareas": ["Emitir JWT firmados (HS256) al login", "Verificar en middleware y rechazar inválidos", "Incluir exp y claims básicos"], "criterios": ["Los tokens expirados se rechazan con 401", "El payload no contiene datos sensibles"], "prompt": "Implementa JWT HS256 en mi API: emisión al login y verificación en middleware" },
+            "avanzado": { "objetivo": "refresh y revocación", "tareas": ["Diseñar flujo access+refresh con rotación", "Revocar tokens por lista negra (Redis) cuando aplica", "Separar audiencias (aud) por servicio", "Manejar clock skew y leeway correctamente"], "criterios": ["El refresh rota y reutilizar un refresh revocado falla", "La revocación actúa en <1s para casos de seguridad"], "prompt": "Diseña el flujo access/refresh con rotación y revocación por lista negra en mi API" },
+            "profesional": { "objetivo": "auth de API a escala", "tareas": ["Evaluar JWT vs sesiones vs OAuth2 por caso (ADR)", "Claves públicas (RS256) y rotación de firmas sin downtime", "Auditar el ciclo de vida completo de tokens", "Integrar con OAuth2 (authorization code) si hay terceros"], "criterios": ["La rotación de claves no invalida tokens válidos en vuelo", "El ADR justifica el mecanismo elegido"], "prompt": "Decide y diseña la autenticación de mi API a escala: JWT vs OAuth2 con ADR y rotación de claves" }
+          }
+        },
+        {
+          "id": "php-asincrono",
+          "nombre": "PHP asíncrono: Fiber y Swoole",
+          "resumen": "Operaciones concurrentes en PHP moderno: Fibers, Swoole/ReactPHP y el modelo correcto según el caso.",
+          "niveles": {
+            "basico": { "objetivo": "entender el modelo bloqueante", "tareas": ["Explicar por qué PHP es síncrono por defecto", "Detectar dónde el bloqueo duele (llamadas externas)", "Usar generadores como pista hacia async"], "criterios": ["El diagnóstico de bloqueo está claro en el código", "Las llamadas externas se identifican y se marcan"], "prompt": "Diagnostica dónde bloquea mi script PHP (llamadas externas) y explica el modelo" },
+            "avanzado": { "objetivo": "Fibers y concurrencia ligera", "tareas": ["Usar Fibers de PHP 8.1 para concurrencia controlada", "Ejecutar peticiones HTTP en paralelo (fibers + curl_multi)", "Manejar límites de concurrencia y errores por tarea", "Comparar con curl_multi clásico y elegir con criterio"], "criterios": ["Las llamadas en paralelo reducen el tiempo total medible", "Un fallo parcial no aborta el lote"], "prompt": "Implementa peticiones HTTP en paralelo con Fibers y límite de concurrencia" },
+            "profesional": { "objetivo": "servidores asíncronos", "tareas": ["Evaluar Swoole/ReactPHP/Workerman para el caso (ADR)", "Construir un servidor asíncrono simple (websockets/HTTP)", "Manejar backpressure y pools de conexiones", "Medir el rendimiento frente al modelo FPM"], "criterios": ["El ADR justifica el modelo asíncrono", "El benchmark compara ambos modelos con datos"], "prompt": "Evalúa y prototipa un servidor asíncrono (Swoole) para mi caso con benchmark frente a FPM" }
+          }
+        },
+        {
+          "id": "api-performance",
+          "nombre": "Rendimiento de APIs",
+          "resumen": "APIs rápidas: latencia medida, caché por capa, payloads ligeros y presupuestos de p99.",
+          "niveles": {
+            "basico": { "objetivo": "medir la latencia", "tareas": ["Medir tiempos por endpoint con microtime/log", "Identificar respuestas lentas y sus causas", "Reducir payloads innecesarios"], "criterios": ["Los tiempos por endpoint quedan medidos y registrados", "Los payloads no envían campos no usados"], "prompt": "Mide la latencia de mis endpoints y reduce payloads innecesarios" },
+            "avanzado": { "objetivo": "caché de API y queries", "tareas": ["Cachear respuestas GET con TTL y claves correctas", "Optimizar queries de listados (índices, eager)", "Usar compression (gzip/brotli) y keep-alive", "Medir p50/p95/p99 reales"], "criterios": ["Las respuestas cacheables se sirven desde caché (headers)", "Los percentiles quedan documentados"], "prompt": "Optimiza mi API: caché de respuestas, queries de listado y medición de percentiles" },
+            "profesional": { "objetivo": "presupuestos de latencia", "tareas": ["Definir SLOs de latencia por endpoint y monitorizarlos", "Realizar pruebas de carga y corregir cuellos", "Cachear con CDN/edge cuando el caso lo justifica", "Producir informe de rendimiento ejecutivo"], "criterios": ["Los SLOs se monitorizan y alertan", "La prueba de carga valida la capacidad esperada"], "prompt": "Establece SLOs de latencia para mi API, carga con k6 y elabora el informe ejecutivo" }
+          }
+        },
+        {
+          "id": "observabilidad-api",
+          "nombre": "Observabilidad de APIs",
+          "resumen": "Saber qué pasa: logs estructurados, métricas, tracing y dashboards de negocio.",
+          "niveles": {
+            "basico": { "objetivo": "logs útiles", "tareas": ["Loggear requests con código de estado y tiempo", "Añadir request id para correlacionar", "Evitar datos sensibles en logs"], "criterios": ["Cada request tiene request id en la respuesta y el log", "No hay datos sensibles en logs (revisado)"], "prompt": "Añade logging de requests con request id y tiempos a mi API" },
+            "avanzado": { "objetivo": "métricas y dashboards", "tareas": ["Exponer métricas Prometheus (latencia, errores, tráfico)", "Definir métricas de negocio (pedidos, registros)", "Montar dashboards con SLOs visibles", "Alertas por error rate y latencia"], "criterios": ["Las métricas se exponen y consultan en el dashboard", "Las alertas están configuradas y probadas"], "prompt": "Instrumenta mi API con métricas Prometheus, dashboard de SLOs y alertas" },
+            "profesional": { "objetivo": "tracing y correlación completa", "tareas": ["Integrar OpenTelemetry (traces y context propagation)", "Correlacionar trace con logs y métricas", "Definir SLOs y error budget con política de acción", "Realizar un drill de observabilidad (fallo intencionado detectado)"], "criterios": ["Un request completo se sigue de punta a punta por trace", "El drill de observabilidad detecta el fallo intencional"], "prompt": "Integra OpenTelemetry en mi API con correlación trace-log-métrica y drill de observabilidad" }
+          }
+        },
+        {
+          "id": "documentacion-openapi",
+          "nombre": "OpenAPI y documentación",
+          "resumen": "API documentada de verdad: esquemas OpenAPI, generación de clientes y pruebas de contrato.",
+          "niveles": {
+            "basico": { "objetivo": "primera documentación", "tareas": ["Escribir un openapi.yaml de un CRUD", "Documentar respuestas y errores", "Visualizarla con Swagger UI"], "criterios": ["La documentación refleja los endpoints reales", "Los errores están documentados"], "prompt": "Documenta mi CRUD en openapi.yaml y muéstralo en Swagger UI" },
+            "avanzado": { "objetivo": "esquemas y generación", "tareas": ["Modelar esquemas con refs y composición", "Validar requests/responses contra el esquema", "Generar clientes tipados desde el OpenAPI", "Mantener el contrato en CI (diff)"], "criterios": ["La validación contra esquema funciona en tests", "El cliente generado se usa en el frontend"], "prompt": "Estructura mi OpenAPI con esquemas, validación y generación de cliente tipado" },
+            "profesional": { "objetivo": "contrato como fuente de verdad", "tareas": ["Diseñar la API contract-first con el equipo", "Versionar y deprecar operaciones en el contrato", "Contract testing (Pact) entre servicios", "Automatizar docs públicas con changelog"], "criterios": ["El contrato es la fuente de verdad del desarrollo", "Los contract tests entre servicios corren en CI"], "prompt": "Migra mi equipo a contract-first: contrato como fuente de verdad y Pact entre servicios" }
+          }
+        },
+        {
+          "id": "versionado-api",
+          "nombre": "Versionado de APIs",
+          "resumen": "Evolucionar sin romper clientes: versionado por URL/header, deprecaciones y estrategias de transición.",
+          "niveles": {
+            "basico": { "objetivo": "versionar por URL", "tareas": ["Añadir /v1/ a las rutas de la API", "Mantener la v1 estable mientras llega la v2", "Documentar la versión actual"], "criterios": ["v1 y v2 coexisten en el mismo despliegue", "La documentación indica la versión"], "prompt": "Versiona mi API por URL con v1/v2 coexistiendo" },
+            "avanzado": { "objetivo": "deprecaciones y transición", "tareas": ["Deprecar campos y endpoints con headers/avisos", "Definir plazos y política de deprecación", "Migrar clientes internos con feature flags", "Eliminar v1 solo con métricas de uso cero"], "criterios": ["Los clientes ven avisos de deprecación con fechas", "La eliminación de v1 se decide por métricas"], "prompt": "Planifica la deprecación de mi v1 con avisos, plazos y migración por feature flags" },
+            "profesional": { "objetivo": "estrategia de evolución", "tareas": ["Diseñar la estrategia de evolución de la plataforma (contract-first)", "Implementar cambios compatibles (additive-only) por defecto", "Gestionar acuerdos con consumidores externos (SLA de deprecación)", "Publicar changelogs y guías de migración"], "criterios": ["El 90%+ de cambios son aditivos sin versionado nuevo", "La guía de migración v1->v2 cubre todos los cambios"], "prompt": "Diseña la estrategia de evolución de mi plataforma: aditivo por defecto y guías de migración" }
+          }
+        },
+        {
+          "id": "cache-http-headers",
+          "nombre": "Caché HTTP y headers",
+          "resumen": "Caché correcta por headers: Cache-Control, ETag, stale-while-revalidate y CDN.",
+          "niveles": {
+            "basico": { "objetivo": "headers de caché básicos", "tareas": ["Configurar Cache-Control (max-age, private/public)", "Usar ETag para revalidación", "Evitar caché de datos privados"], "criterios": ["Las respuestas públicas se cachean en el navegador", "Los datos privados llevan no-cache"], "prompt": "Configura Cache-Control y ETag en mi API según el tipo de dato" },
+            "avanzado": { "objetivo": "revalidación y stale", "tareas": ["Implementar revalidación condicional (If-None-Match)", "Usar stale-while-revalidate para resiliencia", "Cachear por variación (Vary) correctamente", "Medir el hit rate real del caché"], "criterios": ["La revalidación 304 ahorra payloads (medido)", "Vary evita servir contenido mezclado"], "prompt": "Implementa revalidación condicional con stale-while-revalidate y Vary en mi API" },
+            "profesional": { "objetivo": "arquitectura de caché edge", "tareas": ["Diseñar la arquitectura de caché (CDN + edge + origin)", "Gestionar purgas y TTLs por tipo de contenido", "Proteger el origen ante purgas masivas (stampede)", "Documentar la estrategia y medir su efecto"], "criterios": ["La CDN absorbe la mayor parte del tráfico (métrica)", "Una purga masiva no tumba el origen"], "prompt": "Diseña la arquitectura de caché edge de mi contenido con CDN, purgas controladas y métricas" }
+          }
+        },
+        {
+          "id": "testing-api-php",
+          "nombre": "Testing de APIs",
+          "resumen": "Pruebas de API de verdad: happy paths, errores, contratos y fuzzing controlado.",
+          "niveles": {
+            "basico": { "objetivo": "primeros tests de endpoints", "tareas": ["Testear endpoints con cliente HTTP de test", "Cubrir happy path y errores 4xx", "Verificar el contrato JSON de respuesta"], "criterios": ["Los endpoints centrales tienen tests de status y forma", "Los errores esperados están cubiertos"], "prompt": "Escribe tests de mi API cubriendo éxito y errores 4xx" },
+            "avanzado": { "objetivo": "matrices y regresión", "tareas": ["Crear data providers para casos de borde", "Testear auth y rate limits con estado", "Mantener regresión del contrato (snapshots)", "Paralelizar los tests sin estado compartido"], "criterios": ["Los casos de borde están cubiertos con data providers", "La regresión del contrato detecta cambios accidentales"], "prompt": "Fortalece los tests de mi API: data providers, auth, rate limits y snapshots de contrato" },
+            "profesional": { "objetivo": "fuzzing y contract testing", "tareas": ["Añadir fuzzing controlado de entradas (sin romper la API)", "Contract testing entre consumidor y proveedor", "Mutation testing de la lógica de contrato", "Automatizar todo en CI con cobertura por dominio"], "criterios": ["El fuzzing no encuentra validaciones omitidas críticas", "El contract test falla cuando el contrato se rompe"], "prompt": "Integra fuzzing controlado y contract testing en el pipeline de mi API" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "php-advanced",
+      "nombre": "PHP avanzado: metaprogramación y sistemas",
+      "descripcion": "Lo que separa a los profesionales: reflection, atributos, patrones, CLI, streams y sistemas.",
+      "stackTecnologias": "PHP 8.3, Reflection, Attributes, streams, pcntl, phar",
+      "temas": [
+        {
+          "id": "reflection-metaprogramacion",
+          "nombre": "Reflection y metaprogramación",
+          "resumen": "Inspeccionar y manipular código en runtime: Reflection API, y cuándo usarla sin abusar.",
+          "niveles": {
+            "basico": { "objetivo": "inspeccionar clases y funciones", "tareas": ["Usar ReflectionClass/ReflectionMethod para inspección", "Leer parámetros y tipos en runtime", "Documentar un uso legítimo (debug, autowiring)"], "criterios": ["La inspección funciona sobre clases existentes", "El uso está justificado y comentado"], "prompt": "Inspecciona mis clases con Reflection para un panel de debug" },
+            "avanzado": { "objetivo": "autowiring y generación", "tareas": ["Implementar autowiring con reflection sobre constructores", "Generar código en runtime (eval controlado) cuando es útil", "Llamar métodos dinámicamente con argumentos resueltos", "Cachear los resultados de la reflexión"], "criterios": ["El autowiring resuelve el grafo sin config manual", "La generación dinámica está limitada y cacheada"], "prompt": "Implementa autowiring por reflection con caché de resultados en mi framework" },
+            "profesional": { "objetivo": "metaprogramación disciplinada", "tareas": ["Establecer políticas de cuándo usar reflection (ADR)", "Diseñar DSLs ligeros con atributos + reflection", "Manejar la performance de la reflexión (cache y compile)", "Auditar riesgos de seguridad de la generación dinámica"], "criterios": ["La política de reflexión está documentada y aplicada", "El DSL se compila/cachea y es testeable"], "prompt": "Diseña el DSL de mi dominio con atributos + reflection, con política de uso y caché de compilación" }
+          }
+        },
+        {
+          "id": "atributos-php8",
+          "nombre": "Atributos PHP 8",
+          "resumen": "Metadata declarativa en código: atributos nativos y propios, lectura con reflection.",
+          "niveles": {
+            "basico": { "objetivo": "usar atributos nativos", "tareas": ["Usar #[Deprecated] y #[Override] correctamente", "Explicar qué hace cada atributo nativo", "Añadir #[Pure] donde aplique"], "criterios": ["Los atributos nativos se aplican con sentido", "Las deprecaciones se ven en el IDE"], "prompt": "Aplica atributos nativos (Deprecated, Override, Pure) a mi código con criterio" },
+            "avanzado": { "objetivo": "atributos propios", "tareas": ["Definir atributos propios (#[Route], #[Validator])", "Leerlos con reflection en runtime", "Combinar atributos con contenedor/registro", "Documentar su uso en la librería"], "criterios": ["El registro de rutas/validaciones funciona vía atributos", "Los atributos propios están tipados y documentados"], "prompt": "Crea atributos #[Route] y #[Validar] propios y regístralos con reflection" },
+            "profesional": { "objetivo": "atributos como contrato", "tareas": ["Diseñar el vocabulario de atributos de la plataforma", "Validar atributos en compile-time de tests (schema)", "Integrar con static analysis (PHPStan aware)", "Documentar la compatibilidad semántica entre versiones"], "criterios": ["El vocabulario de atributos está documentado y versionado", "Los tests detectan atributos malformados"], "prompt": "Diseña el vocabulario de atributos de mi plataforma con validación de tests y documentación" }
+          }
+        },
+        {
+          "id": "patrones-gof-php",
+          "nombre": "Patrones GoF en PHP",
+          "resumen": "Los 23 patrones del GoF con ejemplos PHP reales y el criterio de cuándo aplicarlos.",
+          "niveles": {
+            "basico": { "objetivo": "creacionales prácticos", "tareas": ["Implementar Factory Method y Abstract Factory en un módulo", "Usar Builder para objetos complejos", "Reconocer cuándo un patrón es sobre-ingeniería"], "criterios": ["Los patrones creacionales se aplican donde aportan", "El usuario explica el patrón sin jerga"], "prompt": "Aplica patrones creacionales (Factory, Builder) a mi módulo de reportes" },
+            "avanzado": { "objetivo": "estructurales y de comportamiento", "tareas": ["Implementar Adapter, Decorator y Proxy en integraciones", "Usar Strategy, Command y Observer en flujos reales", "Aplicar State y Template Method donde encajan", "Documentar cada patrón con ejemplo del proyecto"], "criterios": ["Los patrones estructurales resuelven integraciones reales", "Los patrones de comportamiento desacoplan flujos centrales"], "prompt": "Desacopla mis flujos con los patrones de comportamiento (Strategy, Command, Observer) del proyecto" },
+            "profesional": { "objetivo": "maestría con criterio", "tareas": ["Decidir patrón por trade-off (complejidad, costo, mantenimiento)", "Combinar patrones (p. ej. Decorator+Factory) con coherencia", "Reconocer y eliminar patrones aplicados sin necesidad", "Enseñar el catálogo interno del proyecto al equipo"], "criterios": ["Los patrones elegidos están justificados en ADRs", "La complejidad total no crece sin beneficio"], "prompt": "Audita el uso de patrones en mi código: manten los que aportan, documenta decisiones y elimina sobre-ingeniería" }
+          }
+        },
+        {
+          "id": "eventos-listeners",
+          "nombre": "Eventos y listeners",
+          "resumen": "Desacoplar efectos: dispatcher de eventos, listeners y el modelo correcto de dominio.",
+          "niveles": {
+            "basico": { "objetivo": "dispatcher simple", "tareas": ["Crear una clase EventDispatcher", "Emitir eventos y registrar listeners", "Pasar datos del evento a los listeners"], "criterios": ["Los listeners reciben el evento tipado", "La emisión no rompe si no hay listeners"], "prompt": "Implementa un EventDispatcher simple y úsalo para loguear pedidos" },
+            "avanzado": { "objetivo": "eventos de dominio", "tareas": ["Modelar eventos de dominio (PedidoCreado, PagoFallido)", "Publicar eventos en transacciones (después del commit)", "Encadenar efectos secundarios (mail, colas) por eventos", "Reintentar listeners fallidos sin duplicar efectos"], "criterios": ["Los eventos de dominio se publican tras el commit", "Un listener fallido no duplica efectos"], "prompt": "Modela eventos de dominio en mi app y encadena mails y colas con reintentos" },
+            "profesional": { "objetivo": "event-driven a escala", "tareas": ["Diseñar el bus de eventos (sync vs async) con criterio", "Versionar eventos y compatibilidad de consumidores", "Implementar outbox pattern para fiabilidad", "Observar el bus: métricas de eventos y fallos"], "criterios": ["El outbox garantiza la publicación sin pérdidas", "Los eventos versionados no rompen consumidores viejos"], "prompt": "Diseña el bus de eventos de mi plataforma con outbox pattern, versionado y métricas" }
+          }
+        },
+        {
+          "id": "scripting-cli",
+          "nombre": "Scripting y CLI profesional",
+          "resumen": "Herramientas CLI bien hechas: argumentos, opciones, colores, salida y empaquetado.",
+          "niveles": {
+            "basico": { "objetivo": "script CLI con argumentos", "tareas": ["Leer $argv y opciones básicas", "Escribir salida clara con exit codes", "Manejar errores con mensajes útiles"], "criterios": ["El script documenta su uso con --help", "Los exit codes son coherentes (0/1)"], "prompt": "Crea un script CLI PHP con argumentos, --help y exit codes" },
+            "avanzado": { "objetivo": "CLI robusto", "tareas": ["Implementar parser de opciones (getopt o Symfony Console)", "Añadir colores y progreso en terminales compatibles", "Soportar entrada stdin y salida redirigible", "Escribir tests del CLI sin ejecutarlo manual"], "criterios": ["Las opciones se parsean y validan", "El CLI funciona en pipes y scripts"], "prompt": "Convierte mi script en una herramienta CLI robusta con opciones, colores y tests" },
+            "profesional": { "objetivo": "herramienta distribuible", "tareas": ["Empaquetar con phar para distribución", "Publicar con versionado y changelog", "Soportar config por archivo (YAML/JSON) y overrides", "Integrar con CI (lint, tests, phar build)"], "criterios": ["El phar corre en otra máquina sin dependencias de entorno", "El build CI produce el phar firmado"], "prompt": "Convierte mi CLI en herramienta distribuible: phar, config por archivo y CI de build" }
+          }
+        },
+        {
+          "id": "expresiones-regulares",
+          "nombre": "Expresiones regulares",
+          "resumen": "Regex con responsabilidad: patrones correctos, legibles y con rendimiento controlado.",
+          "niveles": {
+            "basico": { "objetivo": "regex básicas seguras", "tareas": ["Usar preg_match/preg_replace con patrones simples", "Escapar caracteres y usar delimitadores correctos", "Evitar regex donde strpos/str_replace sirven"], "criterios": ["Los patrones están escapados y con delimitadores válidos", "No hay regex innecesarias en el código"], "prompt": "Reemplaza mis regex innecesarias por funciones de string y deja solo las que aportan" },
+            "avanzado": { "objetivo": "patrones complejos", "tareas": ["Usar grupos nombrados y lookarounds con moderación", "Aplicar ungreedy y flags correctamente", "Validar entradas reales (emails, URLs, fechas) con casos", "Testar patrones con casos de borde"], "criterios": ["Los patrones pasan casos de borde documentados", "Ningún patrón catastrófico (reDoS) en código"], "prompt": "Revisa mis patrones regex: grupos nombrados, ungreedy y casos de borde, eliminando reDoS" },
+            "profesional": { "objetivo": "regex como herramienta de dominio", "tareas": ["Crear la caja de herramientas regex del proyecto (patrones versionados)", "Proteger contra ReDoS (límites, atomic groups)", "Equilibrar regex vs parsers (cuándo no usar regex)", "Documentar cada patrón con ejemplos"], "criterios": ["Los patrones centrales están versionados y probados", "Ningún parser complejo usa regex inadecuadas"], "prompt": "Construye la librería de patrones regex de mi proyecto con tests anti-ReDoS y documentación" }
+          }
+        },
+        {
+          "id": "procesamiento-archivos",
+          "nombre": "Archivos y streams",
+          "resumen": "Trabajo con archivos robusto: lectura segura, streams, formatos y límites de memoria.",
+          "niveles": {
+            "basico": { "objetivo": "leer y escribir archivos con seguridad", "tareas": ["Usar fopen/fread/fwrite con modos correctos", "Manejar archivos grandes por líneas", "Gestionar errores de permisos y rutas"], "criterios": ["El procesamiento por líneas no agota memoria", "Los errores de archivo se capturan con mensajes claros"], "prompt": "Procesa este archivo grande por líneas sin agotar memoria y con manejo de errores" },
+            "avanzado": { "objetivo": "streams y formatos", "tareas": ["Trabajar con php://input/output y streams personalizados", "Procesar CSV/JSONL con parsers eficientes", "Implementar stream filters y transformaciones", "Manejar codificaciones (UTF-8, BOM) correctamente"], "criterios": ["Los streams grandes se procesan con memoria acotada", "La codificación de salida es correcta en los casos de prueba"], "prompt": "Procesa streams grandes de CSV/JSONL con filtros y memoria acotada" },
+            "profesional": { "objetivo": "sistemas de archivos a escala", "tareas": ["Diseñar la estrategia de almacenamiento (local, S3, NFS) por capa", "Implementar atomic writes y lock para concurrencia", "Manejar batch de millones de archivos con colas", "Auditar permisos y secretos en archivos"], "criterios": ["Las escrituras son atómicas bajo concurrencia", "El proceso de millones de archivos no bloquea el sistema"], "prompt": "Diseña mi capa de archivos a escala: almacenamiento por capa, atomic writes y batching" }
+          }
+        },
+        {
+          "id": "imagenes-procesamiento",
+          "nombre": "Procesamiento de imágenes",
+          "resumen": "Imágenes generadas y procesadas: GD/Imagick, miniaturas, formatos y presupuestos de peso.",
+          "niveles": {
+            "basico": { "objetivo": "redimensionar y servir imágenes", "tareas": ["Crear miniaturas con GD", "Forzar formatos correctos (JPEG/PNG/WebP)", "Cachear las imágenes generadas"], "criterios": ["Las miniaturas se generan y sirven desde caché", "El peso de salida es razonable por formato"], "prompt": "Genera miniaturas WebP con GD y sírvelas desde caché" },
+            "avanzado": { "objetivo": "pipelines de imagen", "tareas": ["Montar un pipeline de transformación (crop, filters, watermark)", "Usar Imagick para operaciones avanzadas", "Generar respuestas adaptativas (srcset)", "Procesar uploads seguros (validar tipo y tamaño)"], "criterios": ["El pipeline genera variantes correctas con watermark", "Los uploads de imagen se validan y sanean"], "prompt": "Monta el pipeline de transformación de imágenes con watermark y uploads seguros" },
+            "profesional": { "objetivo": "procesamiento a escala", "tareas": ["Diseñar el procesamiento en colas con workers", "Optimizar formatos por caso (AVIF, compresión)", "Monitorizar costes de procesamiento y caché de CDN", "Medir y fijar presupuesto de peso por variante"], "criterios": ["El procesamiento en cola no carga la request", "El presupuesto de peso se cumple en producción"], "prompt": "Escala mi procesamiento de imágenes: colas, AVIF, caché CDN y presupuesto de peso" }
+          }
+        },
+        {
+          "id": "correo-notificaciones",
+          "nombre": "Correo y notificaciones",
+          "resumen": "Emails que llegan: SMTP correcto, plantillas, rebotes y métricas de entrega.",
+          "niveles": {
+            "basico": { "objetivo": "enviar correos básicos", "tareas": ["Enviar correos con PHPMailer/Symfony Mailer", "Configurar SMTP real y manejar errores", "Usar plantillas HTML simples"], "criterios": ["El correo llega con SMTP real configurado", "Los errores de envío se capturan y notifican"], "prompt": "Configura envío de correos con PHPMailer y SMTP real" },
+            "avanzado": { "objetivo": "plantillas y entregabilidad", "tareas": ["Crear plantillas con layouts y variables", "Manejar adjuntos y embebidos", "Evitar spam (SPF/DKIM desde el proveedor) y revisar headers", "Encolar envíos para no bloquear la request"], "criterios": ["Las plantillas se reutilizan con layouts", "Los envíos van por cola y no bloquean"], "prompt": "Mejora mi envío de correos: plantillas con layouts, adjuntos y cola de envío" },
+            "profesional": { "objetivo": "plataforma de notificaciones", "tareas": ["Diseñar el sistema de notificaciones (email, push, in-app)", "Gestionar rebotes y bounces (feedback loop)", "Métricas de entrega y apertura (cuando el proveedor permite)", "Template versioning y previsualización"], "criterios": ["Los rebotes se procesan y limpian suscriptores", "Las métricas de entrega se consultan por campaña"], "prompt": "Diseña mi sistema de notificaciones multicanal con gestión de rebotes y métricas" }
+          }
+        },
+        {
+          "id": "internacionalizacion",
+          "nombre": "Internacionalización y localización",
+          "resumen": "Apps en varios idiomas: traducciones, formatos locales, fechas y plurales.",
+          "niveles": {
+            "basico": { "objetivo": "traducciones básicas", "tareas": ["Extraer strings a archivos de traducción", "Cambiar idioma en runtime", "Mostrar fechas y números con formato"], "criterios": ["Las cadenas principales viven en archivos de idioma", "El idioma se cambia sin tocar código"], "prompt": "Internacionaliza mi app: archivos de traducción y selector de idioma" },
+            "avanzado": { "objetivo": "plurales y formatos completos", "tareas": ["Manejar plurales con reglas (gettext ICU)", "Formatear moneda, fechas y tiempo por locale", "Gestionar el idioma por URL/cookie/header", "Traducir mensajes de validación y errores"], "criterios": ["Los plurales funcionan en español e inglés", "El formato de moneda/fecha es correcto por locale"], "prompt": "Completa la i18n de mi app: plurales ICU, formatos por locale y traducciones de errores" },
+            "profesional": { "objetivo": "plataforma i18n", "tareas": ["Diseñar el flujo de traducción con el equipo (glosario, revisores)", "Versionar las traducciones y detectar cadenas huérfanas", "Soportar RTL y locales complejos", "Medir cobertura de traducción en CI"], "criterios": ["El flujo de traducción está automatizado y versionado", "La cobertura de traducción se mide en CI"], "prompt": "Diseña el flujo de i18n de mi plataforma: glosario, versionado, RTL y cobertura en CI" }
+          }
+        },
+        {
+          "id": "web-sockets-php",
+          "nombre": "WebSockets y tiempo real",
+          "resumen": "Tiempo real en PHP: servidores websocket, broadcasting y el modelo de procesos adecuado.",
+          "niveles": {
+            "basico": { "objetivo": "entender websockets", "tareas": ["Explicar el modelo websocket vs polling", "Consumir un websocket desde JS", "Usar un servidor existente (websocket service)"], "criterios": ["El cliente JS recibe mensajes en tiempo real", "El modelo se explica con claridad"], "prompt": "Conecta mi app a un servidor websocket existente y recibe mensajes en tiempo real" },
+            "avanzado": { "objetivo": "servidor propio", "tareas": ["Montar un servidor websocket con Ratchet/Workerman", "Gestionar conexiones, salas y broadcast", "Autenticar conexiones", "Reconectar clientes con backoff"], "criterios": ["Las salas de broadcast funcionan entre clientes", "La reconexión no pierde estado crítico"], "prompt": "Monta un servidor websocket con salas y broadcast para notificaciones en vivo" },
+            "profesional": { "objetivo": "tiempo real a escala", "tareas": ["Diseñar la arquitectura real-time (gateway + redis pub/sub)", "Escalar horizontalmente las conexiones", "Medir conexiones, latencia y estabilidad", "Integrar con el backend de negocio (eventos a websockets)"], "criterios": ["La escala horizontal mantiene salas coherentes", "Las métricas real-time se monitorizan"], "prompt": "Diseña mi arquitectura real-time: gateway websocket con pub/sub Redis escalado" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "php-seguridad",
+      "nombre": "Seguridad web en PHP",
+      "descripcion": "La defensa del desarrollador PHP: entradas, sesiones, contraseñas, headers y auditorías.",
+      "stackTecnologias": "PHP 8.3, OWASP Top 10, Argon2ID, CSP, CSRF",
+      "temas": [
+        {
+          "id": "sanitizacion-entradas",
+          "nombre": "Saneamiento de entradas",
+          "resumen": "Tratar toda entrada como hostil: filtrar, validar y sanear sin romper la funcionalidad.",
+          "niveles": {
+            "basico": { "objetivo": "nunca confiar en la entrada", "tareas": ["Identificar todas las fuentes de entrada (GET, POST, headers, files)", "Aplicar filtros básicos (filter_var, trim, casts)", "Validar antes de usar en SQL/HTML/shell"], "criterios": ["Ninguna entrada llega sin validación a operaciones sensibles", "Los casos de entrada maliciosa simple se rechazan"], "prompt": "Audita las entradas de mi app y aplica validación y saneamiento básico en cada fuente" },
+            "avanzado": { "objetivo": "saneamiento contextual", "tareas": ["Distinguir sanitización por contexto (HTML, SQL, shell, URL)", "Construir un validador centralizado por tipo de dato", "Manejar entradas de archivos (tipos, tamaños, contenidos)", "Proteger contra length/overflow y abusos de escala"], "criterios": ["El saneamiento es contextual, no global mágico", "Los archivos se validan por contenido, no solo por extensión"], "prompt": "Implementa saneamiento contextual por tipo de entrada y validación real de archivos" },
+            "profesional": { "objetivo": "defensa por capas", "tareas": ["Diseñar la defensa en profundidad de las entradas (cliente+servidor+BD)", "Centralizar contratos de validación por dominio", "Auditar entradas con fuzzing controlado", "Mantener el modelo de confianza documentado"], "criterios": ["El modelo de confianza está documentado y aplicado", "El fuzzing no encuentra brechas críticas en el contrato"], "prompt": "Diseña la defensa por capas de las entradas de mi plataforma con fuzzing y modelo de confianza" }
+          }
+        },
+        {
+          "id": "sql-injection",
+          "nombre": "Inyección SQL",
+          "resumen": "Erradicar SQLi: prepared statements, escapes y defensa del acceso a datos.",
+          "niveles": {
+            "basico": { "objetivo": "eliminar concatenación SQL", "tareas": ["Encontrar concatenación de SQL en el código", "Sustituir por prepared statements con parámetros", "Probar con payloads básicos de SQLi"], "criterios": ["Cero concatenación en consultas (grep verificado)", "Los payloads de prueba no alteran la consulta"], "prompt": "Encuentra y corrige todas las consultas SQL concatenadas de mi código con prepared statements" },
+            "avanzado": { "objetivo": "defensa profunda de datos", "tareas": ["Proteger identificadores y orden dinámicos (whitelist)", "Configurar la BD con privilegios mínimos", "Evitar fugas de errores de BD", "Manejar entradas de búsqueda/orden seguras"], "criterios": ["Los identificadores dinámicos pasan por whitelist", "El usuario de BD solo tiene privilegios necesarios"], "prompt": "Endurece mi capa de datos: whitelist de identificadores, privilegios mínimos y sin fugas de errores" },
+            "profesional": { "objetivo": "postura anti-SQLi", "tareas": ["Centralizar el acceso a datos en repositorios auditables", "Realizar pruebas de SQLi automatizadas (DAST básico)", "Monitorizar queries anómalas en producción", "Documentar la política de consultas dinámicas"], "criterios": ["El DAST no encuentra SQLi en endpoints críticos", "La monitorización detecta queries anómalas"], "prompt": "Establece la postura anti-SQLi de mi plataforma: repositorios auditables, DAST y monitorización" }
+          }
+        },
+        {
+          "id": "xss-prevencion",
+          "nombre": "XSS y CSP",
+          "resumen": "Erradicar XSS: escape por contexto, CSP estricto y políticas de salida.",
+          "niveles": {
+            "basico": { "objetivo": "escapar salida", "tareas": ["Escapar toda salida dinámica en HTML", "Usar htmlspecialchars con flags correctos", "Probar payloads XSS simples"], "criterios": ["Las salidas dinámicas están escapadas (revisión)", "Los payloads de prueba no ejecutan"], "prompt": "Escape toda la salida dinámica de mis vistas y prueba con payloads XSS" },
+            "avanzado": { "objetivo": "CSP y sanitización", "tareas": ["Configurar CSP estricto (default-src, script-src no unsafe)", "Sanear HTML de usuarios con una librería (HTMLPurifier)", "Proteger contextos JS/URL/atributos específicos", "Manejar excepciones de CSP sin romper funcionalidad"], "criterios": ["El CSP bloquea scripts inline en pruebas", "El HTML de usuario se sanea y renderiza seguro"], "prompt": "Implementa CSP estricto y saneamiento HTML de usuarios en mi app" },
+            "profesional": { "objetivo": "XSS como riesgo gestionado", "tareas": ["Diseñar la política de salida del framework (escapes por contexto)", "Probar XSS con herramientas (DAST, fuzzing) en CI", "Mitigar DOM-XSS en el frontend (contexto JS)", "Documentar la política CSP y sus revisiones"], "criterios": ["El DAST no encuentra XSS reflejado en endpoints críticos", "La política de salida está documentada y usada por el equipo"], "prompt": "Gestiona el riesgo XSS de mi plataforma: política de salida, DAST en CI y mitigación DOM-XSS" }
+          }
+        },
+        {
+          "id": "csrf-proteccion",
+          "nombre": "CSRF y abuso de sesiones",
+          "resumen": "Proteger las acciones del usuario: tokens CSRF, SameSite y verificaciones de origen.",
+          "niveles": {
+            "basico": { "objetivo": "tokens CSRF en formularios", "tareas": ["Generar tokens CSRF por sesión", "Incluirlos en formularios POST", "Verificar en cada mutación"], "criterios": ["Todas las mutaciones verifican el token", "Los formularios sin token se rechazan"], "prompt": "Protege mis formularios con tokens CSRF verificados en cada POST" },
+            "avanzado": { "objetivo": "defensa de mutaciones", "tareas": ["Aplicar tokens en fetch/API (custom header + token)", "Configurar SameSite=strict/lax con criterio", "Verificar Origin/Referer como segunda capa", "Proteger endpoints JSON de CSRF"], "criterios": ["Las llamadas fetch envían token verificable", "SameSite está configurado por contexto"], "prompt": "Protege todas las mutaciones de mi app: tokens en fetch, SameSite y verificación de origen" },
+            "profesional": { "objetivo": "anti-abuso de sesiones", "tareas": ["Diseñar la política CSRF del framework (doble cookie o token por acción)", "Proteger contra login CSRF y acciones sensibles (pago, email)", "Auditar mutaciones sin protección en todo el código", "Documentar excepciones legítimas (webhooks)"], "criterios": ["Las acciones sensibles tienen protección extra verificada", "La auditoría no encuentra mutaciones desprotegidas"], "prompt": "Diseña la política CSRF completa de mi plataforma con auditoría de mutaciones" }
+          }
+        },
+        {
+          "id": "passwords-argon2",
+          "nombre": "Contraseñas con Argon2ID",
+          "resumen": "Almacenar contraseñas con el estándar moderno: Argon2ID, costes y políticas de rotación.",
+          "niveles": {
+            "basico": { "objetivo": "hash seguro con password_hash", "tareas": ["Usar password_hash con PASSWORD_ARGON2ID", "Verificar con password_verify", "Explicar por qué no se guardan en texto plano"], "criterios": ["Ningún hash débil (md5/sha1) en el código", "El flujo login/registro usa password_hash/verify"], "prompt": "Cambia el almacenamiento de contraseñas de mi app a password_hash con Argon2ID" },
+            "avanzado": { "objetivo": "costes y rehash", "tareas": ["Ajustar costes de Argon2ID según el hardware", "Implementar rehash automático en login", "Requerir contraseñas fuertes con política real", "Proteger contra fuerza bruta (rate limit por cuenta)"], "criterios": ["El rehash automático actualiza hashes viejos", "El login limita intentos por cuenta"], "prompt": "Mejora mis contraseñas: costes Argon2ID ajustados, rehash automático y política de fuerza" },
+            "profesional": { "objetivo": "gestión de credenciales", "tareas": ["Diseñar la política de contraseñas de la plataforma", "Implementar bloqueo por ataques a cuentas (lockout + notificación)", "Gestionar reset con tokens seguros y expiración", "Auditar la migración de hashes heredados"], "criterios": ["La política de contraseñas está documentada y aplicada", "La migración de hashes heredados está completa y probada"], "prompt": "Diseña la gestión de credenciales de mi plataforma: política, lockout, reset seguro y migración de hashes" }
+          }
+        },
+        {
+          "id": "session-hardening",
+          "nombre": "Endurecimiento de sesiones",
+          "resumen": "Sesiones que resisten: flags, rotación, fijación y almacenamiento seguro.",
+          "niveles": {
+            "basico": { "objetivo": "flags básicos de sesión", "tareas": ["Configurar httponly y samesite", "Establecer timeouts de sesión", "Usar session_regenerate_id tras login"], "criterios": ["Los flags de cookie están activos", "La rotación tras login está presente"], "prompt": "Configura los flags y rotación de sesión de mi app tras login" },
+            "avanzado": { "objetivo": "anti-fijación y robo", "tareas": ["Proteger contra fijación de sesión (rotación + validación)", "Almacenar sesiones en Redis/BD para multi-server", "Detectar secuestro (fingerprint suave) con precaución", "Expirar sesiones por inactividad y absoluto"], "criterios": ["La fijación de sesión falla en prueba", "Las sesiones se comparten entre servidores"], "prompt": "Endurece mis sesiones: anti-fijación, almacenamiento compartido y expiración" },
+            "profesional": { "objetivo": "arquitectura de sesiones segura", "tareas": ["Diseñar la estrategia de sesiones de la plataforma (estado y límites)", "Sesiones revocables y visibles por el usuario", "Gestionar expulsión global (cambio de contraseña)", "Auditar la superficie de sesiones anualmente"], "criterios": ["El usuario revoca sus sesiones activas", "La expulsión global funciona en todas las sesiones"], "prompt": "Diseña la arquitectura de sesiones de mi plataforma: revocables, expulsión global y auditoría" }
+          }
+        },
+        {
+          "id": "uploads-seguros",
+          "nombre": "Subidas de archivos seguras",
+          "resumen": "Subidas sin sorpresas: validación real, almacenamiento aislado y ejecución impedida.",
+          "niveles": {
+            "basico": { "objetivo": "validar subidas básicas", "tareas": ["Validar tamaño y tipo real del archivo", "Guardar con nombres aleatorios y extensión segura", "Servir desde una ruta sin ejecución"], "criterios": ["El tipo se valida por contenido, no solo extensión", "La carpeta de subidas no ejecuta scripts"], "prompt": "Valida las subidas de mi app por contenido, renombra y sirve sin ejecución" },
+            "avanzado": { "objetivo": "defensa de subidas", "tareas": ["Sanear imágenes (re-encode) contra polyglots", "Limitar tipos por contexto con política", "Escanear virus si el proveedor lo permite", "Controlar cuotas y límites por usuario"], "criterios": ["Las imágenes se re-encodifican en subida", "Las cuotas por usuario se respetan"], "prompt": "Endurece mis subidas: re-encode de imágenes, política de tipos y cuotas" },
+            "profesional": { "objetivo": "almacenamiento de archivos a escala", "tareas": ["Diseñar el almacenamiento (local/S3) con URLs firmadas", "Proteger el acceso con autorización por archivo", "Gestionar expiración y limpieza de temporales", "Auditar la cadena de subida completa"], "criterios": ["El acceso por URL firmada caduca y autoriza", "La limpieza de temporales está automatizada"], "prompt": "Diseña mi capa de subidas a escala: S3 con URLs firmadas y autorización por archivo" }
+          }
+        },
+        {
+          "id": "headers-seguridad",
+          "nombre": "Cabeceras de seguridad",
+          "resumen": "Headers que defienden: CSP, HSTS, X-Frame, nosniff y la revisión periódica.",
+          "niveles": {
+            "basico": { "objetivo": "headers básicos", "tareas": ["Añadir X-Frame-Options, X-Content-Type-Options", "Configurar HSTS en HTTPS", "Verificar con un checker online"], "criterios": ["Los headers están presentes en producción", "El checker no reporta críticos"], "prompt": "Configura los headers de seguridad básicos de mi sitio y verifícalos" },
+            "avanzado": { "objetivo": "CSP y política completa", "tareas": ["Diseñar CSP con directivas útiles (script-src, style-src)", "Aplicar la política gradualmente (report-only)", "Configurar Referrer-Policy y Permissions-Policy", "Manejar excepciones de terceros (analytics)"], "criterios": ["El CSP pasa a enforce tras report-only sin romper", "Las políticas de referrer y permisos están activas"], "prompt": "Implementa la política completa de headers con CSP en fases" },
+            "profesional": { "objetivo": "gestión continua de headers", "tareas": ["Definir el estándar de headers de la plataforma y su ciclo de vida", "Automatizar la verificación de headers en CI", "Gestionar excepciones y regresiones documentadas", "Auditar anualmente contra el OWASP Cheat Sheet"], "criterios": ["El CI verifica headers en cada release", "La auditoría anual tiene plan de remediación"], "prompt": "Gestiona la postura de headers de mi plataforma: estándar, CI y auditoría anual" }
+          }
+        },
+        {
+          "id": "dependencias-seguras",
+          "nombre": "Dependencias y suministro",
+          "resumen": "Cadena de suministro: auditoría de dependencias, pinning y abastecimiento seguro.",
+          "niveles": {
+            "basico": { "objetivo": "auditar dependencias", "tareas": ["Correr composer audit y entender los reportes", "Actualizar dependencias con criterio (minor/patch)", "Evitar instalar paquetes desconocidos"], "criterios": ["composer audit no reporta críticos sin plan", "Las actualizaciones van en commits revisados"], "prompt": "Audita mis dependencias con composer audit y define el plan de actualización" },
+            "avanzado": { "objetivo": "pinning y lock", "tareas": ["Mantener el lock y su integridad", "Configurar rangos de versión conservadores", "Evaluar el mantenimiento de cada paquete crítico", "Revisar dependencias transitivas en el árbol"], "criterios": ["El lock está versionado y reproducible", "Los paquetes críticos tienen evaluación de mantenimiento"], "prompt": "Endurece mi cadena de suministro: lock íntegro, rangos conservadores y evaluación de paquetes críticos" },
+            "profesional": { "objetivo": "gestión del suministro", "tareas": ["Establecer la política de dependencias de la plataforma", "Automatizar el escaneo en CI (Dependabot/Renovate)", "Manejar incidentes de supply chain (advisories)", "Documentar la aprobación de dependencias nuevas"], "criterios": ["El escaneo automático corre en cada PR", "El runbook de advisory está listo y practicado"], "prompt": "Establece la gestión del suministro de mi plataforma: política, escaneo en CI y runbook de advisories" }
+          }
+        },
+        {
+          "id": "secretos-configuracion",
+          "nombre": "Secretos y configuración",
+          "resumen": "Secretos que nunca se filtran: variables de entorno, gestores y políticas de rotación.",
+          "niveles": {
+            "basico": { "objetivo": "sacar secretos del código", "tareas": ["Mover credenciales a variables de entorno", "Crear .env.example sin secretos", "Añadir .env a .gitignore"], "criterios": ["Ninguna credencial en repos (grep verificado)", "El .env.example documenta cada variable"], "prompt": "Saca las credenciales de mi código a variables de entorno con .env.example" },
+            "avanzado": { "objetivo": "gestión de secretos", "tareas": ["Usar un gestor de secretos (Vault/Secret Manager)", "Cifrar secretos en repos de CI", "Rotar secretos con procedimiento", "Proteger configs por entorno"], "criterios": ["Los secretos de CI vienen del gestor", "La rotación de secretos está probada"], "prompt": "Gestiona mis secretos con un gestor real y rotación probada" },
+            "profesional": { "objetivo": "política de secretos", "tareas": ["Establecer la política de secretos de la plataforma (ciclo completo)", "Automatizar la detección de secretos en CI (gitleaks)", "Planificar la rotación forzosa y respuesta ante fuga", "Auditar el acceso a secretos periódicamente"], "criterios": ["gitleaks bloquea fugas en PRs", "La respuesta ante fuga está escrita y practicada"], "prompt": "Establece la política de secretos de mi plataforma: gitleaks en CI, rotación forzosa y respuesta ante fuga" }
+          }
+        },
+        {
+          "id": "auditoria-logs-seguridad",
+          "nombre": "Auditoría y logs de seguridad",
+          "resumen": "Registrar lo que importa: eventos de acceso, cambios sensibles y alertas útiles.",
+          "niveles": {
+            "basico": { "objetivo": "logs de eventos clave", "tareas": ["Loguear login/logout y fallos", "Registrar cambios sensibles (permisos, pagos)", "Retener logs con fecha y usuario"], "criterios": ["Los eventos de acceso quedan registrados", "La retención de logs está configurada"], "prompt": "Añade logs de eventos de acceso y cambios sensibles a mi app" },
+            "avanzado": { "objetivo": "pista de auditoría", "tareas": ["Diseñar la pista de auditoría (quién, qué, cuándo, contexto)", "Proteger los logs de manipulación (append-only)", "Correlacionar eventos por sesión/request", "Alertar patrones anómalos básicos"], "criterios": ["La pista de auditoría es completa en acciones críticas", "Los logs son inmutables en producción"], "prompt": "Diseña la pista de auditoría de mi plataforma con logs inmutables" },
+            "profesional": { "objetivo": "detección y respuesta", "tareas": ["Definir el catálogo de alertas de seguridad (anomalías, umbrales)", "Integrar SIEM/centralización con retención legal", "Montar la respuesta a incidentes (playbook basado en logs)", "Probar la detección con simulaciones controladas"], "criterios": ["Las alertas de seguridad se prueban con simulaciones", "El playbook de incidente usa los logs de auditoría"], "prompt": "Monta la detección y respuesta de mi plataforma: catálogo de alertas, SIEM y playbooks probados" }
+          }
+        },
+        {
+          "id": "owasp-top10-php",
+          "nombre": "OWASP Top 10 aplicado",
+          "resumen": "Los diez riesgos críticos aplicados a tu código PHP concreto, uno por uno.",
+          "niveles": {
+            "basico": { "objetivo": "conocer y localizar los riesgos", "tareas": ["Recorrer el OWASP Top 10 (2021) con ejemplos", "Identificar los riesgos presentes en mi código", "Corregir los fáciles (config, headers, básicos)"], "criterios": ["El usuario explica cada riesgo con su caso", "Los riesgos triviales están corregidos"], "prompt": "Recorre el OWASP Top 10 con mi código e identifica los riesgos presentes" },
+            "avanzado": { "objetivo": "mitigación sistemática", "tareas": ["Corregir los riesgos críticos presentes (SQLi, XSS, auth, config)", "Verificar cada corrección con pruebas", "Documentar los riesgos residuales y su aceptación", "Aplicar controles de defensa en profundidad"], "criterios": ["Los críticos presentes están corregidos y probados", "Los riesgos residuales están documentados y aceptados"], "prompt": "Mitiga los riesgos críticos de OWASP presentes en mi código con pruebas de verificación" },
+            "profesional": { "objetivo": "programa de seguridad", "tareas": ["Construir el plan de aplicación del Top 10 como programa", "Automatizar escaneos (DAST/SAST) en CI", "Medir el avance por categoría y reportar", "Mantener el plan con revisiones anuales"], "criterios": ["El programa tiene métricas y reportes periódicos", "Los escaneos automatizados cubren las rutas críticas"], "prompt": "Construye el programa OWASP de mi plataforma: plan, escaneos en CI y métricas" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "php-legacy-migracion",
+      "nombre": "Migración de PHP legado (5/7 → 8.3)",
+      "descripcion": "Renovar aplicaciones antiguas con seguridad: diagnóstico, compatibilidad, modernización incremental y pruebas.",
+      "stackTecnologias": "PHP 5.6/7.x → 8.3, Rector, PHPStan, análisis estático",
+      "temas": [
+        {
+          "id": "diagnostico-legado",
+          "nombre": "Diagnóstico de código legado",
+          "resumen": "Saber qué hay antes de tocar: inventario, deuda, dependencias y riesgos de la migración.",
+          "niveles": {
+            "basico": { "objetivo": "inventariar el legado", "tareas": ["Enumerar archivos, funciones y dependencias", "Detectar extensiones obsoletas y funciones deprecadas", "Documentar el estado actual en un informe simple"], "criterios": ["El inventario cubre código, deps y configuración", "El informe identifica extensiones incompatibles"], "prompt": "Inventaría mi proyecto PHP legado: archivos, dependencias y extensiones obsoletas" },
+            "avanzado": { "objetivo": "análisis de compatibilidad", "tareas": ["Correr la herramienta de compatibilidad (php-compatibility)", "Clasificar incompatibilidades por severidad", "Analizar el flujo de ejecución de los módulos críticos", "Estimar el esfuerzo por módulo"], "criterios": ["El informe clasifica incompatibilidades por severidad", "El esfuerzo está estimado por módulo"], "prompt": "Analiza la compatibilidad de mi legado con PHP 8.3 y clasifica las incompatibilidades" },
+            "profesional": { "objetivo": "estrategia de migración", "tareas": ["Diseñar la estrategia (big bang vs incremental) con criterio", "Identificar módulos críticos y su red de dependencias", "Definir hitos, riesgos y criterios de salida", "Presentar el plan con métricas y presupuesto"], "criterios": ["La estrategia está justificada con riesgo por módulo", "Los hitos tienen criterios de salida medibles"], "prompt": "Diseña la estrategia de migración de mi legado a PHP 8.3 con hitos y gestión de riesgo" }
+          }
+        },
+        {
+          "id": "compatibilidad-php83",
+          "nombre": "Compatibilidad con PHP 8.3",
+          "resumen": "Los cambios de PHP 8 que rompen: funciones removidas, semántica y extensiones ausentes.",
+          "niveles": {
+            "basico": { "objetivo": "cambios que rompen conocidos", "tareas": ["Listar funciones removidas y deprecadas", "Ajustar sintaxis antigua (constructores legacy, var)", "Correr el proyecto en 8.3 y capturar errores"], "criterios": ["Los errores de arranque en 8.3 están documentados", "La sintaxis antigua central está corregida"], "prompt": "Ajusta mi proyecto a PHP 8.3: funciones removidas, sintaxis antigua y errores de arranque" },
+            "avanzado": { "objetivo": "semántica cambiada", "tareas": ["Ajustar semánticas cambiadas (comparaciones, JSON, string", "Migrar de mysql_* a PDO/mysqli completo", "Adaptar cambios de las extensiones usadas (GD, Curl)", "Manejar warning-turned-exception en el flujo"], "criterios": ["Las comparaciones y JSON funcionan con semántica 8.3", "Cero mysql_* en el código (grep)"], "prompt": "Adapta mi legado a la semántica de PHP 8.3: mysql_* a PDO, comparaciones y extensiones" },
+            "profesional": { "objetivo": "compatibilidad como proceso", "tareas": ["Definir la matriz de compatibilidad del proyecto (extensiones, versiones)", "Automatizar el escaneo de compatibilidad en CI", "Gestionar el roadmap de deprecaciones futuras", "Documentar decisiones de incompatibilidad aceptada"], "criterios": ["El escaneo de compatibilidad corre en CI", "El roadmap de deprecaciones está gestionado"], "prompt": "Gestiona la compatibilidad de mi proyecto con 8.3 como proceso continuo con CI y roadmap" }
+          }
+        },
+        {
+          "id": "rector-automatizado",
+          "nombre": "Rector: migración automatizada",
+          "resumen": "Migrar código con reglas: Rector, rector.php, reglas por set y revisión humana.",
+          "niveles": {
+            "basico": { "objetivo": "primeras reglas Rector", "tareas": ["Instalar Rector y configurar rector.php", "Aplicar sets básicos (php73/php80)", "Revisar el diff generado con criterio"], "criterios": ["Los sets básicos se aplican sin romper tests", "El diff se revisa y entiende línea a línea"], "prompt": "Configura Rector y aplica los sets de PHP 7.3/8.0 a mi proyecto" },
+            "avanzado": { "objetivo": "sets y reglas propias", "tareas": ["Aplicar sets de PHP 8.1/8.2/8.3 con control", "Escribir reglas Rector propias para el proyecto", "Ejecutar Rector por módulo con commits atómicos", "Combinar con PHPStan para verificar"], "criterios": ["Los sets avanzados pasan sin regresiones", "Las reglas propias migran patrones del proyecto"], "prompt": "Migra mi código a PHP 8.3 con Rector por módulos y reglas propias, verificando con PHPStan" },
+            "profesional": { "objetivo": "migración industrializada", "tareas": ["Integrar Rector en el pipeline de migración con CI", "Establecer la política de revisión de diffs (matriz de riesgo)", "Medir la tasa de conversión por módulo", "Documentar la estrategia de reglas propias"], "criterios": ["El pipeline de migración corre en CI sin regresiones", "La tasa de conversión se reporta por módulo"], "prompt": "Industrializa la migración con Rector: CI, política de revisión y métricas por módulo" }
+          }
+        },
+        {
+          "id": "modernizacion-incremental",
+          "nombre": "Modernización incremental",
+          "resumen": "Mejorar sin reescribir: estrangulador, módulos nuevos sobre arquitectura nueva y migración progresiva.",
+          "niveles": {
+            "basico": { "objetivo": "mejoras seguras del legado", "tareas": ["Tipar funciones críticas sin cambiar comportamiento", "Eliminar código muerto detectado", "Extraer lógica duplicada en servicios"], "criterios": ["Las mejoras pasan las pruebas existentes", "El código muerto se elimina sin efectos"], "prompt": "Mejora mi legado con seguridad: tipado de funciones críticas y eliminación de código muerto" },
+            "avanzado": { "objetivo": "strangler pattern", "tareas": ["Identificar módulos aislables para reescribir", "Crear la fachada de compatibilidad (API intermedia)", "Mover tráfico módulo a módulo (strangler)", "Mantener el legado y lo nuevo coexistindo"], "criterios": ["Cada módulo migrado deja de usarse en el legado", "La fachada mantiene el contrato antiguo durante la transición"], "prompt": "Migra mi módulo de facturación con strangler pattern y fachada de compatibilidad" },
+            "profesional": { "objetivo": "modernización como programa", "tareas": ["Diseñar el roadmap de modernización (módulos, plazos, riesgos)", "Definir la arquitectura destino (estructura, convenciones, testing)", "Medir el progreso (deuda, cobertura, coste de cambios)", "Gestionar la transición del equipo y el conocimiento"], "criterios": ["El roadmap tiene métricas y revisiones periódicas", "La arquitectura destino está documentada y aceptada"], "prompt": "Dirige la modernización de mi plataforma como programa con arquitectura destino y métricas" }
+          }
+        },
+        {
+          "id": "phpstan-llegado",
+          "nombre": "Análisis estático del legado",
+          "resumen": "Dar tipos y seguridad al legado: PHPStan gradual, niveles, baseline y deuda conocida.",
+          "niveles": {
+            "basico": { "objetivo": "primer PHPStan", "tareas": ["Instalar PHPStan en nivel bajo", "Correrlo y entender los errores", "Crear la baseline de deuda inicial"], "criterios": ["El nivel bajo corre sin bloquear el pipeline", "La baseline documenta la deuda inicial"], "prompt": "Configura PHPStan en mi legado con baseline inicial de deuda" },
+            "avanzado": { "objetivo": "subir niveles gradualmente", "tareas": ["Subir el nivel con reducción de baseline por módulo", "Tipar funciones del módulo crítico hasta nivel 5-6", "Corregir errores por severidad (no por archivo)", "Automatizar en CI con umbral de baseline"], "criterios": ["El nivel sube con baseline decreciente medible", "El módulo crítico pasa nivel 6"], "prompt": "Sube el nivel de PHPStan de mi legado con baseline decreciente por módulo" },
+            "profesional": { "objetivo": "tipos como norma", "tareas": ["Fijar el nivel objetivo y la política de errores nuevos", "Integrar extensión de tipos (stubs) para el legado", "Medir la densidad de tipos y el progreso trimestral", "Documentar excepciones y su revisión"], "criterios": ["El nivel objetivo está fijado y verificado en CI", "La densidad de tipos mejora de forma medible"], "prompt": "Convierte el análisis estático en norma de mi legado: nivel objetivo, stubs y métricas trimestrales" }
+          }
+        },
+        {
+          "id": "caracterizaciones-legado",
+          "nombre": "Pruebas de caracterización",
+          "resumen": "Proteger el comportamiento actual antes de tocar: golden tests y red de seguridad de regresión.",
+          "niveles": {
+            "basico": { "objetivo": "golden tests del legado", "tareas": ["Capturar salidas actuales de funciones clave", "Crear tests que comparan contra lo capturado", "Marcar los tests como caracterización"], "criterios": ["Las funciones clave quedan protegidas por golden tests", "Los tests documentan el comportamiento actual"], "prompt": "Crea pruebas de caracterización de mis funciones críticas capturando su salida actual" },
+            "avanzado": { "objetivo": "red de seguridad de módulos", "tareas": ["Construir tests de integración del módulo completo", "Cubrir flujos de BD y de archivos del legado", "Diferenciar comportamiento correcto vs bug heredado", "Ejecutar la red antes de cada migración"], "criterios": ["La red cubre los flujos críticos completos", "Los bugs heredados están documentados como comportamiento"], "prompt": "Construye la red de seguridad de tests de mis módulos legados antes de migrarlos" },
+            "profesional": { "objetivo": "seguridad de regresión a escala", "tareas": ["Automatizar la red de caracterización en CI", "Definir la política de cambios de comportamiento (aprobación)", "Medir la cobertura del legado en riesgo", "Usar la red como entrada de la migración"], "criterios": ["La red corre en CI y bloquea regresiones", "La política de cambio de comportamiento está documentada"], "prompt": "Automatiza la red de caracterización de mi legado en CI con política de aprobación de cambios" }
+          }
+        },
+        {
+          "id": "rendimiento-legado",
+          "nombre": "Rendimiento del legado",
+          "resumen": "Optimizar código antiguo sin reescribir: hot paths, queries, caché y medición.",
+          "niveles": {
+            "basico": { "objetivo": "medir y arreglar lo fácil", "tareas": ["Medir tiempos de los endpoints principales", "Detectar N+1 y consultas repetidas", "Activar opcache correctamente"], "criterios": ["Los tiempos base quedan registrados", "Los N+1 obvios están corregidos"], "prompt": "Mide el rendimiento de mi legado y corrige los N+1 y el opcache" },
+            "avanzado": { "objetivo": "hot paths y caché", "tareas": ["Identificar hot paths con profiling", "Cachear resultados costosos con invalidación", "Optimizar las queries dominantes", "Mejorar la latencia p95 medible"], "criterios": ["Los hot paths están identificados y optimizados", "La p95 mejora respecto a la línea base"], "prompt": "Optimiza los hot paths de mi legado con profiling y caché con invalidación" },
+            "profesional": { "objetivo": "rendimiento sostenible", "tareas": ["Establecer presupuestos de rendimiento del legado", "Migrar los cuellos de botella a la arquitectura nueva", "Monitorizar el rendimiento en producción", "Reportar el retorno de la optimización"], "criterios": ["Los presupuestos se monitorizan", "El informe muestra el retorno de la optimización"], "prompt": "Gestiona el rendimiento de mi legado con presupuestos, monitorización y reporte de retorno" }
+          }
+        },
+        {
+          "id": "php7-a-83",
+          "nombre": "Migración de PHP 7 a 8.3",
+          "resumen": "El salto 7.x → 8.x: cambios de comportamiento, match, named arguments y enum adoptados.",
+          "niveles": {
+            "basico": { "objetivo": "cambios básicos 7→8", "tareas": ["Ajustar los cambios de comportamiento conocidos (compare, tipo)", "Adoptar match para switch simples", "Usar named arguments en llamadas críticas"], "criterios": ["Los cambios de comportamiento conocidos están ajustados", "match sustituye los switch más claros"], "prompt": "Migra mi código PHP 7 a 8.3: ajusta cambios de comportamiento y adopta match" },
+            "avanzado": { "objetivo": "adoptar PHP 8", "tareas": ["Introducir enums para estados de dominio", "Usar readonly y constructor promotion en el código nuevo", "Aplicar nullsafe y match en módulos migrados", "Migrar funciones de fecha/string cambiadas"], "criterios": ["Los módulos migrados usan enums y readonly donde aplica", "Las funciones cambiadas están actualizadas"], "prompt": "Adopta PHP 8 en mis módulos migrados: enums, readonly, nullsafe y constructor promotion" },
+            "profesional": { "objetivo": "salto completo gestionado", "tareas": ["Definir la lista completa de cambios 7→8 del proyecto", "Coordinar el salto con la red de caracterización", "Verificar con análisis estático y pruebas de carga", "Documentar la migración para futuras versiones"], "criterios": ["El salto se ejecuta sin regresiones medibles", "La guía de migración queda documentada"], "prompt": "Coordina el salto completo de mi proyecto de PHP 7 a 8.3 con red de seguridad y documentación" }
+          }
+        },
+        {
+          "id": "modernizacion-tipos",
+          "nombre": "Modernización de tipos y estilo",
+          "resumen": "Del código dinámico al tipado: docblocks a tipos, estilos modernos y herramientas.",
+          "niveles": {
+            "basico": { "objetivo": "tipar el código nuevo", "tareas": ["Tipar el código nuevo desde ya", "Añadir tipos a funciones críticas existentes", "Adoptar PSR-12 con PHP-CS-Fixer"], "criterios": ["El código nuevo está tipado", "El estilo PSR-12 se aplica en los archivos tocados"], "prompt": "Tipa las funciones críticas de mi legado y aplica PSR-12 en los archivos tocados" },
+            "avanzado": { "objetivo": "docblocks a tipos", "tareas": ["Migrar docblocks @param/@return a tipos reales", "Usar Rector para la migración automática de tipos", "Resolver casos de tipos complejos (union/nullable)", "Verificar con PHPStan tras cada conversión"], "criterios": ["Los docblocks migrados quedan verificados por PHPStan", "La conversión automática se revisa manualmente"], "prompt": "Migra los docblocks de mi legado a tipos reales con Rector y verificación de PHPStan" },
+            "profesional": { "objetivo": "estilo como norma", "tareas": ["Definir el estándar de estilo y tipos del proyecto destino", "Automatizar CS-Fixer y análisis en CI", "Medir la proporción de código tipado", "Gestionar el resto de deuda con priorización"], "criterios": ["El estándar se aplica en CI sin excepciones no documentadas", "La proporción de código tipado mejora trimestralmente"], "prompt": "Convierte el estilo y los tipos en norma de mi proyecto: CS-Fixer y análisis en CI con métricas" }
+          }
+        },
+        {
+          "id": "pruebas-regresion",
+          "nombre": "Pruebas de regresión de migración",
+          "resumen": "La migración no rompe: comparación de salidas, flujos E2E y verificación por dominio.",
+          "niveles": {
+            "basico": { "objetivo": "comparar salidas", "tareas": ["Guardar salidas de endpoints antes de migrar", "Comparar después de migrar (diff)", "Documentar diferencias encontradas"], "criterios": ["Las salidas críticas se comparan y verifican", "Las diferencias encontradas están documentadas"], "prompt": "Compara las salidas de mis endpoints antes y después de la migración" },
+            "avanzado": { "objetivo": "regresión por dominio", "tareas": ["Definir el conjunto E2E de regresión por dominio", "Automatizar las comparaciones en CI", "Verificar datos de BD (snapshots) tras migrar", "Gestionar falsos positivos y variantes"], "criterios": ["La regresión E2E corre en CI por dominio", "Los datos tras migración coinciden con el snapshot"], "prompt": "Monta la regresión por dominio de mi migración: E2E en CI y snapshots de BD" },
+            "profesional": { "objetivo": "verificación continua", "tareas": ["Diseñar la estrategia de verificación continua de la migración", "Correlacionar regresiones con el commit que las causó", "Medir la cobertura de flujos verificados", "Automatizar el reporte ejecutivo de la migración"], "criterios": ["Las regresiones se bisectan al commit causante", "El reporte ejecutivo refleja el estado real"], "prompt": "Diseña la verificación continua de mi migración: bisect, cobertura y reporte ejecutivo" }
+          }
+        },
+        {
+          "id": "deps-desactualizadas",
+          "nombre": "Dependencias desactualizadas",
+          "resumen": "Renovar dependencias de un legado: inventario, versiones soportadas y upgrades seguros.",
+          "niveles": {
+            "basico": { "objetivo": "inventariar y priorizar", "tareas": ["Enumerar dependencias y sus versiones", "Detectar las sin soporte (end of life)", "Priorizar la actualización por riesgo"], "criterios": ["El inventario señala las sin soporte", "La priorización está documentada"], "prompt": "Inventaría las dependencias de mi legado y prioriza las sin soporte" },
+            "avanzado": { "objetivo": "upgrades seguros", "tareas": ["Actualizar por pasos con compatibilidad verificada", "Usar la red de caracterización antes de cada upgrade", "Actualizar frameworks/libs con guías oficiales", "Documentar breaking changes aplicados"], "criterios": ["Cada upgrade pasa la red de tests", "Los breaking changes están documentados"], "prompt": "Actualiza las dependencias de mi legado con verificación de compatibilidad y red de tests" },
+            "profesional": { "objetivo": "gestión de ciclo de vida", "tareas": ["Establecer la política de versiones y ventanas de soporte", "Automatizar la detección de EOL en CI", "Planificar upgrades mayores con hitos", "Gestionar la deuda de versiones del portfolio"], "criterios": ["La política de versiones está aplicada y monitorizada", "Los upgrades mayores tienen plan e hitos"], "prompt": "Establece la gestión del ciclo de vida de las dependencias de mi portfolio con política y plan" }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,21 +1,23 @@
 # Batería de preguntas de calibración
 
-Usa SIEMPRE la pregunta obligatoria (definida en el SKILL.md) y ELIGE 2-3 de estas según el contexto. Nunca conviertas la calibración en un interrogatorio: 3 preguntas máximo, tono natural, con lenguaje del usuario.
+Este archivo es un RECURSO AUXILIAR. La determinación del nivel se basa en la declaración del usuario (skill `calibracion-experiencia`, SKILL.md). Elige MÁXIMO 1-2 de estas preguntas solo si falta contexto clave. Nunca conviertas la calibración en un interrogatorio: el registro por defecto de un usuario con stack profesional declarado es Senior/Arquitecto, y no se le pregunta nada más.
 
-## Preguntas obligatorias (núcleo)
+## Pregunta de calibración (núcleo)
 
-1. **Pregunta de la pregunta obligatoria.**
-2. "¿Qué quieres conseguir exactamente hoy con esta tarea?" → define el objetivo medible.
-3. "¿Cuánto tiempo llevas con [tecnología/stack]?" → meses, semanas, años, hoy mismo.
+1. **Pregunta de calibración** (definida en el SKILL.md): "¿prefieres que asuma tu nivel por el stack que usas, o quieres indicarme el nivel para esta tarea?"
+   - Respuesta con stack profesional → nivel Senior/Arquitecto por defecto. Fin de la calibración.
+   - Respuesta vaga o sin stack → elige 1-2 preguntas de contexto de abajo.
 
 ## Sobre el proyecto
 
-4. "¿Este código es para trabajo, un curso, un proyecto personal o una evaluación?"
-5. "¿Quién va a ver o juzgar el resultado? (profesor, jefe, cliente, jurado, nadie)"
-6. "¿Tienes código anterior en este proyecto? ¿Qué estilo usas en él?"
+2. "¿Qué quieres conseguir exactamente hoy con esta tarea?" → define el objetivo medible.
+3. "¿Este código es para trabajo, un curso, un proyecto personal o una evaluación?"
+4. "¿Quién va a ver o juzgar el resultado? (profesor, jefe, cliente, jurado, nadie)"
+5. "¿Tienes código anterior en este proyecto? ¿Qué estilo usas en él?"
 
 ## Sobre el nivel técnico (contexto específico)
 
+6. "¿Cuánto tiempo llevas con [tecnología/stack]?" → meses, semanas, años, hoy mismo.
 7. "¿Entiendes qué hace cada parte de [X] hoy, o te lo explico con calma?"
 8. "¿Te sientes cómodo con [concepto concreto: funciones, promesas, clases, hooks]?"
 9. "¿Qué es lo más difícil que has construido hasta ahora en [stack]?"
@@ -35,6 +37,6 @@ Usa SIEMPRE la pregunta obligatoria (definida en el SKILL.md) y ELIGE 2-3 de est
 ## Reglas de uso
 
 - Si el usuario responde cualquier cosa como "no sé", "apenas", "estoy empezando" → nivel bajo garantizado, jerga mínima, todo explicado, sin estructuras avanzadas.
-- Si el usuario pide "hazlo profesional" → aclara: "¿profesional para quién te evalúa?": eso cambia el registro.
+- Si el usuario pide "hazlo profesional" pero no declaró stack → aclara: "¿profesional para quién te evalúa?": eso cambia el registro.
 - Si las respuestas se contradicen (dice "soy senior" pero no conoce herramientas básicas del stack) → usa el menor nivel real, con tacto.
 - Registra el nivel en la sesión: `Nivel [X] · Registro [Y] · Verificado con [preguntas usadas]`.

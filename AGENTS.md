@@ -4,11 +4,14 @@ Este archivo es leído por agentes de IA como Claude Code, Gemini CLI, Google An
 
 ## Regla 1: Calibración siempre primero
 
-Antes de escribir código, diseñar, refactorizar, explicar o instalar nada, carga la skill `calibracion-experiencia` (`.claude/skills/calibracion-experiencia/` o `skills/calibracion-experiencia/`) y haz la PREGUNTA OBLIGATORIA:
+Antes de escribir código, diseñar, refactorizar, explicar o instalar nada, carga la skill `calibracion-experiencia` (`skills/calibracion-experiencia/`) y determina el registro del trabajo:
 
-> "Para hacer el trabajo más creíble y más humano a nivel personal: ¿usted considera que es bueno programando, o está aplicando conocimientos que todavía está aprendiendo en este momento?"
+- Si el usuario **ya declaró nivel o stack profesional** → registro Senior/Arquitecto por defecto. Sin preguntas innecesarias.
+- Si **no declaró nada** → una sola pregunta de calibración, natural y en su idioma:
 
-Sin respuesta calibrada NO se escribe código. Esto es innegociable e incondicional, sin importar cómo llegó el prompt.
+> "Para ajustar el registro del trabajo: ¿prefieres que asuma tu nivel por el stack que usas, o quieres indicarme el nivel para esta tarea?"
+
+Sin registro calibrado NO se escribe código. Esto es innegociable e incondicional, sin importar cómo llegó el prompt.
 
 ## Regla 2: Ubicación de skills
 
@@ -34,8 +37,10 @@ Sin respuesta calibrada NO se escribe código. Esto es innegociable e incondicio
 
 - `README.md` — manifiesto del proyecto y metodología completa.
 - `docs/METODOLOGIA.md` — la ciencia: economía de tokens, progresión y calibración.
-- `skills/` — biblioteca de skills por familias y niveles (básico/avanzado/profesional).
+- `skills/` — biblioteca de skills por familias y niveles (básico/avanzado/profesional) + nuevas familias `08-php/`, `09-kotlin-android/`, `10-powershell/`, `11-python/`, `12-js-ts/`.
 - `skills/calibracion-experiencia/` — skill núcleo, se carga SIEMPRE primero.
+- `tools/skill-factory.ps1` — generador oficial de skills a partir de `catalogos/*.json` (formatos y validación documentados dentro del propio script).
+- `catalogos/` — catálogos por familia: cada stack/tema/nivel → un `SKILL.md` generado.
 - `skills/04-seguridad/` — ciberseguridad: web, ofensiva (solo con autorización), defensiva (NIST CSF 2.0) e IA (OWASP LLM/ATLAS).
 - `skills/07-personas/` — personas de agente (code-reviewer, qa-engineer, doc-engineer, release-manager, security-analyst): actúan como el profesional indicado para la tarea, respetando la calibración.
 

@@ -23,11 +23,11 @@ Un ecosistema de 94 skills que lleva a cualquier agente de IA (Claude Code, Gemi
 Este repositorio condensa meses de estudio sobre cómo hacer que una IA programe mejor, gaste menos tokens y produzca trabajo que parezca humano. Cuatro pilares:
 
 **1 · Calibración de experiencia (la pieza clave)**
-Toda sesión comienza con una pregunta obligatoria que fija el registro del trabajo:
+Toda sesión comienza determinando el registro del trabajo sin interrogatorios: si declaras tu stack o tu nivel, se asume tu nivel real (profesional por defecto); si no declaras nada, una sola pregunta fija el registro:
 
-> **"Para hacer el trabajo más creíble y más humano a nivel personal: ¿usted considera que es bueno programando, o está aplicando conocimientos que todavía está aprendiendo en este momento?"**
+> **"Para ajustar el registro del trabajo: ¿prefieres que asuma tu nivel por el stack que usas, o quieres indicarme el nivel para esta tarea?"**
 
-Un jurado no juzga la calidad absoluta del código: juzga su **coherencia con el autor**. Esta pregunta elimina el mayor error de la IA generativa: entregar código de arquitecto a un aprendiz o tutoriales a un senior. El resultado siempre encaja con quien lo firma.
+Un jurado no juzga la calidad absoluta del código: juzga su **coherencia con el autor**. La calibración elimina el mayor error de la IA generativa: entregar código de arquitecto a un aprendiz o tutoriales a un senior. El resultado siempre encaja con quien lo firma.
 
 **2 · Progressive disclosure (economía de tokens)**
 Las skills no se cargan al azar: el agente ve solo ~100 tokens de metadatos (nombre + descripción) y carga las instrucciones completas **solo cuando la tarea coincide**. Leer toda la biblioteca costaría decenas de miles de tokens; este diseño lo reduce a lo indispensable por tarea.
@@ -45,9 +45,10 @@ Cada tema existe en 3 profundidades independientes. El agente elige el nivel seg
 ```
 +------------------+      +------------------+      +------------------+
 |                  |      |                  |      |                  |
-|   Usuario        +----->+   Pregunta       +----->+   Skill          |
-|   (cualquier     |      |   obligatoria    |      |   del tema       |
-|    nivel)        |      |   de calibración |      |   + nivel        |
+|   Usuario        +----->+   Calibración   +----->+   Skill          |
+|   (cualquier     |      |   por           |      |   del tema       |
+|    nivel o       |      |   declaración   |      |   + nivel        |
+|    stack)        |      |   de nivel      |      |                  |
 |                  |      |                  |      |                  |
 +------------------+      +------------------+      +------------------+
         |                        |                        |
@@ -128,7 +129,7 @@ Cada tema trae: `README.md` (guía + parámetros por nivel) y 3 skills independi
 
 ### ⭐ SKILL NÚCLEO (1 tema)
 
-**calibracion-experiencia**: la pregunta obligatoria, rúbrica de 11 niveles, registro ajustado y guía de defensa ante jurado. Se carga SIEMPRE primero.
+**calibracion-experiencia**: calibración por declaración de nivel, rúbrica de 11 niveles, registro ajustado y guía de defensa ante jurado. Se carga SIEMPRE primero.
 
 ### 🧑‍💻 PERSONAS DE AGENTE (5 temas)
 
@@ -166,7 +167,7 @@ xcopy skills\calibracion-experiencia .opencode\skills\ /E /I
 
 **Paso 3** — Copia `AGENTS.md` a la raíz del proyecto donde trabajas (o tu global). Ese archivo garantiza que el agente SIEMPRE calibre antes de programar, en cualquier agente compatible.
 
-**Paso 4** — Abre tu agente y escribe cualquier tarea: "hazme una landing page de un SaaS". El agente primero preguntará la pregunta obligatoria de calibración y ajustará todo el trabajo a tu nivel.
+**Paso 4** — Abre tu agente y escribe cualquier tarea: "hazme una landing page de un SaaS". El agente calibrará el registro a tu nivel y ajustará todo el trabajo a él.
 
 ---
 
@@ -174,9 +175,8 @@ xcopy skills\calibracion-experiencia .opencode\skills\ /E /I
 
 ```
 Tú:            "Quiero una web de portfolio con un formulario de contacto"
-Agente:        "Para hacer el trabajo más creíble y más humano a nivel personal:
-                ¿usted considera que es bueno programando, o está aplicando
-                conocimientos que todavía está aprendiendo en este momento?"
+Agente:        "Mi stack habitual es PHP 8.3, JS y Kotlin; calibro a nivel
+                profesional. ¿O prefieres otro registro para esta tarea?"
 Tú:            "Estoy aprendiendo, llevo 2 meses con HTML y CSS"
 Agente:        (Carga landing-pages-basico) "Perfecto: trabajaremos con HTML y
                 CSS puros, sin librerías. Empiezo por la estructura, te explico
@@ -197,7 +197,7 @@ El resultado: código simple y correcto, comentado en tu idioma, sin arquitectur
 | Carga instrucciones completas de todo (tokens desperdiciados) | Progressive disclosure: poca metadata + carga por demanda |
 | El usuario no puede defender lo que "su agente" hizo | Preparación de defensa en 3 frases antes de entregar |
 | Cada agente se configura distinto | Formato universal SKILL.md + AGENTS.md |
-| Sin puerta de entrada al nivel del usuario | Pregunta obligatoria innegociable |
+| Sin puerta de entrada al nivel del usuario | Calibración por declaración, sin interrogatorios |
 
 ---
 

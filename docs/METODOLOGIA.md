@@ -15,13 +15,16 @@ Cuando a un agente de IA se le pide "hazme una landing page", produce el tipo de
 
 ## 2. La solución: calibración de experiencia (Regla 1 del AGENTS.md)
 
-Toda sesión comienza con una pregunta obligatoria e innegociable:
+Toda sesión comienza determinando el registro del trabajo, sin interrogatorios:
 
-> "Para hacer el trabajo más creíble y más humano a nivel personal: ¿usted considera que es bueno programando, o está aplicando conocimientos que todavía está aprendiendo en este momento?"
+- Si el usuario **declara su stack o nivel** → se asume su nivel real (Senior/Arquitecto por defecto si es profesional). Fin de la calibración.
+- Si **no declara nada** → una sola pregunta, natural y en su idioma:
+
+> "Para ajustar el registro del trabajo: ¿prefieres que asuma tu nivel por el stack que usas, o quieres indicarme el nivel para esta tarea?"
 
 **Por qué funciona:**
-- La respuesta establece el **registro** de toda la sesión: jerga permitida, profundidad de explicación, ambición de diseño, tamaño de las soluciones.
-- Es una pregunta honesta que no humilla: contempla ambas vías ("bueno programando" o "aplicando conocimientos que está aprendiendo") sin juicio.
+- El nivel declarado o deducido establece el **registro** de toda la sesión: jerga permitida, profundidad de explicación, ambición de diseño, tamaño de las soluciones.
+- Es una pregunta honesta que no humilla ni paternaliza: un profesional con stack declarado nunca recibe tutoriales, y un principiante no recibe arquitectura que no puede defender.
 - Un jurado no evalúa la calidad absoluta: evalúa la **coherencia** entre el autor y su obra. La credibilidad es coherencia con tu nivel real, no ocultar el uso de IA.
 
 La meta-skill `calibracion-experiencia` incluye:
@@ -42,7 +45,7 @@ El contexto de los agentes es caro y finito. La biblioteca usa carga por demanda
    (parámetros, checklist) y el código completo viene en resources/.
 ```
 
-**Números del diseño:** 70 skills × ~4.000 tokens de instrucciones completas ≈ 280.000 tokens si todo se cargara a la vez. Con progressive disclosure, una sesión típica gasta entre 1.000 y 5.000 tokens de instrucciones.
+**Números del diseño:** 1.500+ skills × ~4.000 tokens de instrucciones completas ≈ 6 millones de tokens si todo se cargara a la vez. Con progressive disclosure, una sesión típica gasta entre 1.000 y 5.000 tokens de instrucciones.
 
 ## 4. Tres niveles por tema: basico · avanzado · profesional
 
@@ -74,7 +77,7 @@ El agente nunca mezcla niveles: una sesión calibrada como basico no recibe frag
 ## 7. Contrato de sesión (resumen ejecutivo)
 
 1. Cargar `calibracion-experiencia` SIEMPRE primero.
-2. Hacer la pregunta obligatoria antes de escribir una sola línea.
+2. Determinar el registro: por declaración de stack/nivel, o con la pregunta de calibración si no hay declaración.
 3. Refinar el nivel con la rúbrica si la respuesta es ambigua.
 4. Cargar solo la skill del tema + nivel calibrado.
 5. Entregar con la defensa de 3 frases lista para el jurado.

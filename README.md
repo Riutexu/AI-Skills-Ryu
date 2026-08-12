@@ -7,6 +7,11 @@
 [![Compatible](https://img.shields.io/badge/Claude_Code-Gemini_Antigravity-opencode-ff9e64?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
 [![Licencia](https://img.shields.io/badge/Licencia-MIT-7ecb8e?style=flat-square)](LICENSE)
 
+[![Estrellas](https://img.shields.io/github/stars/Riutexu/AI-Skills-Ryu?style=for-the-badge&label=ESTRELLAS&color=b19cd9&logo=github&logoColor=white)](https://github.com/Riutexu/AI-Skills-Ryu/stargazers)
+[![Actualizado](https://img.shields.io/github/last-commit/Riutexu/AI-Skills-Ryu?style=for-the-badge&label=ACTUALIZADO&color=ff9e64&logo=git&logoColor=white)](https://github.com/Riutexu/AI-Skills-Ryu)
+
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3200&pause=700&color=b19cd9&center=true&vCenter=true&width=720&lines=%F0%9F%A7%A0+70+skills+para+tus+agentes+de+IA;%E2%9A%A1+Tus+agentes+programan+contigo%2C+no+por+encima+de+ti;%F0%9F%92%B0+Econom%C3%ADa+de+tokens+con+carga+por+demanda;%F0%9F%8E%AF+Niveles+%3A+b%C3%A1sico%2C+avanzado+y+profesional;%F0%9F%8F%86+Resultados+defendibles+ante+un+jurado" alt="Typing SVG: AI Skills Ryu" />
+
 **El sistema de skills que enseña a los agentes de IA a programar contigo, no por encima de ti.**
 
 Un ecosistema de 70 skills que lleva a cualquier agente de IA (Claude Code, Gemini CLI, Google Antigravity, opencode, Cursor, Copilot) a trabajar con **economía de tokens**, **profundidad calibrada a tu nivel** y un resultado final **defendible ante un jurado humano**.
@@ -213,3 +218,7 @@ AI-Skills-Ryu/
 MIT · [Riutexu](https://github.com/Riutexu)
 
 *"Quien no arriesga no gana, y yo nunca gano"*
+
+*"Mi IA gasta menos tokens con estos skills que algunos developers que conozco gastan en excusas."* 🧠
+
+[⭐ Dar estrella](https://github.com/Riutexu/AI-Skills-Ryu/stargazers) · [Perfil de Riutexu](https://github.com/Riutexu)

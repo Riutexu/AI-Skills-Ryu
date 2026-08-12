@@ -36,3 +36,10 @@ Sin respuesta calibrada NO se escribe código. Esto es innegociable e incondicio
 - `docs/METODOLOGIA.md` — la ciencia: economía de tokens, progresión y calibración.
 - `skills/` — biblioteca de skills por familias y niveles (básico/avanzado/profesional).
 - `skills/calibracion-experiencia/` — skill núcleo, se carga SIEMPRE primero.
+- `skills/04-seguridad/` — ciberseguridad: web, ofensiva (solo con autorización), defensiva (NIST CSF 2.0) e IA (OWASP LLM/ATLAS).
+- `skills/07-personas/` — personas de agente (code-reviewer, qa-engineer, doc-engineer, release-manager, security-analyst): actúan como el profesional indicado para la tarea, respetando la calibración.
+
+## Regla 6: Seguridad de las skills ofensivas
+
+- Las skills `seguridad-ofensiva-*` solo se aplican sobre infraestructura propia o con autorización escrita del propietario. Sin autorización, no se ejecuta ningún escaneo ni técnica.
+- Las personas de seguridad y las skills de seguridad se usan para AUDITAR y MEJORAR, no para atacar sistemas de terceros.

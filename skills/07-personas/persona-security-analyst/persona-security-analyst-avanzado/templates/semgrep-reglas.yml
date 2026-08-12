@@ -1,0 +1,43 @@
+# Reglas Semgrep de ejemplo — análisis estático de seguridad
+
+> Copia en .semgrep/ y ejecuta: semgrep scan --config .semgrep/
+
+rules:
+  # 1. SQL construido por concatenacion (inyeccion)
+  - id: no-sql-concatenacion
+    languages: [python]
+    message: Posible SQL injection: no concatenes en consultas; usa parametros.
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $DB.execute("... " + $VAR + "...")
+          - pattern: |
+              $DB.execute(f"...{$VAR}...")
+    metadata:
+      cwe: CWE-89
+
+  # 2. Contrasena plana almacenada
+  - id: no-password-plano
+    languages: [python]
+    message: Contrasena en texto plano: usa bcrypt/argon2 con salt.
+    severity: ERROR
+    patterns:
+      - pattern: $DB.save($PASSWORD)
+      - metavariable-regex:
+          metavariable: $PASSWORD
+          regex: (?i)(password|passwd|secret)
+
+  # 3. eval() con entrada no constante
+  - id: no-eval-entrada
+    languages: [python]
+    message: eval() con variable: puede ejecutar codigo arbitrario.
+    severity: WARNING
+    patterns:
+      - pattern: eval($X)
+      - pattern-not: eval("...")
+
+## Notas
+- ERROR = bloquea el PR (gate); WARNING = revisión humana.
+- Adapta lenguajes y reglas a tu stack (semgrep soporta 30+).
+- Ejecuta también: gitleaks detect (secrets) y audit de dependencias.

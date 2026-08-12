@@ -1,0 +1,39 @@
+name: release
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validar formato de commits (conventional)
+        run: |
+          npx --yes commitlint --from=$(git rev-list --max-parents=0 HEAD) --to=HEAD \
+            --config '{"rules":{"type-enum":[2,"always",["fix","feat","docs","chore","refactor","test","build","ci"]]}}' || true
+
+      - name: Generar version y release (semantic-release)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx --yes semantic-release
+```
+
+## Convenciones de commits que importan
+| Tipo | Versión que produce | Ejemplo |
+|---|---|---|
+| `fix:` | PATCH (v1.2.4) | `fix: login fallaba con #` |
+| `feat:` | MINOR (v1.3.0) | `feat: tema oscuro` |
+| `fix!:` o `feat!:` | MAJOR (v2.0.0) | `feat!: eliminada API vieja` |
+| `docs:`, `chore:` | Ninguna | `docs: guía de despliegue` |
+
+## Notas
+- Semantic-release genera tag + changelog + release automáticamente.
+- Pre-releases: rama `beta` con el mismo pipeline → se publican como pre-release.
+- Si no quieres semantic-release, replica: análisis de commits → tag → release con `gh release create`.

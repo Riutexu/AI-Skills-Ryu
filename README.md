@@ -1,8 +1,8 @@
 # AI Skills Ryu
 
-[![Version](https://img.shields.io/badge/Version-1.0.0-b19cd9?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
-[![Skills](https://img.shields.io/badge/Skills-70-00d4ff?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
-[![Temas](https://img.shields.io/badge/Temas-23-ff6b9d?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
+[![Version](https://img.shields.io/badge/Version-2.0.0-b19cd9?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
+[![Skills](https://img.shields.io/badge/Skills-94-00d4ff?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
+[![Temas](https://img.shields.io/badge/Temas-31-ff6b9d?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
 [![Niveles](https://img.shields.io/badge/Niveles-Basico_%C2%B7_Avanzado_%C2%B7_Profesional-3ddc84?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
 [![Compatible](https://img.shields.io/badge/Claude_Code-Gemini_Antigravity-opencode-ff9e64?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
 [![Licencia](https://img.shields.io/badge/Licencia-MIT-7ecb8e?style=flat-square)](LICENSE)
@@ -10,11 +10,11 @@
 [![Estrellas](https://img.shields.io/github/stars/Riutexu/AI-Skills-Ryu?style=for-the-badge&label=ESTRELLAS&color=b19cd9&logo=github&logoColor=white)](https://github.com/Riutexu/AI-Skills-Ryu/stargazers)
 [![Actualizado](https://img.shields.io/github/last-commit/Riutexu/AI-Skills-Ryu?style=for-the-badge&label=ACTUALIZADO&color=ff9e64&logo=git&logoColor=white)](https://github.com/Riutexu/AI-Skills-Ryu)
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3200&pause=700&color=b19cd9&center=true&vCenter=true&width=720&lines=%F0%9F%A7%A0+70+skills+para+tus+agentes+de+IA;%E2%9A%A1+Tus+agentes+programan+contigo%2C+no+por+encima+de+ti;%F0%9F%92%B0+Econom%C3%ADa+de+tokens+con+carga+por+demanda;%F0%9F%8E%AF+Niveles+%3A+b%C3%A1sico%2C+avanzado+y+profesional;%F0%9F%8F%86+Resultados+defendibles+ante+un+jurado" alt="Typing SVG: AI Skills Ryu" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3200&pause=700&color=b19cd9&center=true&vCenter=true&width=720&lines=%F0%9F%A7%A0+94+skills+para+tus+agentes+de+IA;%E2%9A%A1+Tus+agentes+programan+contigo%2C+no+por+encima+de+ti;%F0%9F%92%B0+Econom%C3%ADa+de+tokens+con+carga+por+demanda;%F0%9F%8E%AF+Niveles+%3A+b%C3%A1sico%2C+avanzado+y+profesional;%F0%9F%9F%A1+Ciberseguridad+con+MITRE+y+NIST;%F0%9F%A7%91%E2%80%8D%F0%9F%92%BC+Personas+de+agente+%3A+revisi%C3%B3n%2C+QA%2C+docs+y+releases;%F0%9F%8F%86+Resultados+defendibles+ante+un+jurado" alt="Typing SVG: AI Skills Ryu" />
 
 **El sistema de skills que enseña a los agentes de IA a programar contigo, no por encima de ti.**
 
-Un ecosistema de 70 skills que lleva a cualquier agente de IA (Claude Code, Gemini CLI, Google Antigravity, opencode, Cursor, Copilot) a trabajar con **economía de tokens**, **profundidad calibrada a tu nivel** y un resultado final **defendible ante un jurado humano**.
+Un ecosistema de 94 skills que lleva a cualquier agente de IA (Claude Code, Gemini CLI, Google Antigravity, opencode, Cursor, Copilot) a trabajar con **economía de tokens**, **profundidad calibrada a tu nivel**, **seguridad con estándares reales** (MITRE, NIST) y un resultado final **defendible ante un jurado humano**.
 
 ---
 
@@ -67,7 +67,7 @@ Cada tema existe en 3 profundidades independientes. El agente elige el nivel seg
 
 ---
 
-## 🎯 LIBRERÍA DE SKILLS - 23 TEMAS 🎯
+## 🎯 LIBRERÍA DE SKILLS - 31 TEMAS 🎯
 
 Cada tema trae: `README.md` (guía + parámetros por nivel) y 3 skills independientes (`-basico`, `-avanzado`, `-profesional`) con instrucciones, parámetros, checklists, prompts y plantillas de código real.
 
@@ -101,9 +101,15 @@ Cada tema trae: `README.md` (guía + parámetros por nivel) y 3 skills independi
 | **sql-postgresql** | queries básicas | CTEs, índices, EXPLAIN | particionado, PL/pgSQL, PITR |
 | **orm-migraciones** | Prisma CRUD | relaciones, seeders | zero-downtime, multi-tenant |
 
-### 🔐 SEGURIDAD (1 tema)
+### 🔐 SEGURIDAD (4 temas)
 
 **web-cybersecurity**: HTTPS y cabeceras → OWASP Top 10, CSP, JWT seguro → GDPR, Semgrep/CodeQL, zero trust, threat modeling.
+
+**seguridad-ofensiva** (hacking ético): recon y escaneo autorizado → OWASP explotable vs corregido, fuzzing, PoC → red team completo con MITRE ATT&CK y reportes ejecutivos. Solo sobre sistemas propios o con permiso escrito.
+
+**seguridad-defensiva**: hardening y backups 3-2-1 → NIST CSF 2.0 + D3FEND + monitorización → blue team: threat hunting, CTI, IR playbooks, métricas de SOC.
+
+**seguridad-ia**: riesgos de LLMs en simple → OWASP LLM Top 10 + MITRE ATLAS + guardrails → NIST AI RMF, adversarial ML y programa medible.
 
 ### 🛠️ INGENIERÍA (5 temas)
 
@@ -123,6 +129,18 @@ Cada tema trae: `README.md` (guía + parámetros por nivel) y 3 skills independi
 ### ⭐ SKILL NÚCLEO (1 tema)
 
 **calibracion-experiencia**: la pregunta obligatoria, rúbrica de 11 niveles, registro ajustado y guía de defensa ante jurado. Se carga SIEMPRE primero.
+
+### 🧑‍💻 PERSONAS DE AGENTE (5 temas)
+
+Inspiradas en las herramientas opinionadas de los mejores setups de agentes: tu IA no solo sabe más, también **actúa como el profesional adecuado**. Cada persona en 3 niveles de alcance (individual → equipo → organización).
+
+| Persona | Básico | Avanzado | Profesional |
+|---|---|---|---|
+| **code-reviewer** | Revisión amable con alternativas | Revisión por riesgo (senior) | Arquitectura, deuda con costo, ADRs |
+| **qa-engineer** | Casos de prueba humanos, bugs reproducibles | Regresión, API, matriz, CI | Estrategia por capas, escape rate, carga |
+| **doc-engineer** | READMEs claros y probados | Docs por capas (Diátaxis), diagramas | Doc como producto: métricas, auditoría |
+| **release-manager** | Semver, changelog, tags | Pipeline automático, beta/stable, rollback | Gobierno multiservicio, canary, SLAs |
+| **security-analyst** | Revisión en simple, prioridades | OWASP Top 10, CVSS, semgrep | STRIDE, gates en CI, registro de riesgos |
 
 ---
 
@@ -174,7 +192,7 @@ El resultado: código simple y correcto, comentado en tu idioma, sin arquitectur
 
 | Problema de la IA genérica | Solución de AI Skills Ryu |
 |---|---|
-| Entrega código de nivel uniforme (casi siempre avanzado) | 70 skills calibradas en 3 niveles de profundidad |
+| Entrega código de nivel uniforme (casi siempre avanzado) | 94 skills calibradas en 3 niveles de profundidad |
 | Explica demasiado (gasta tokens) o demasiado poco (no entiendes) | Registro ajustado por calibración honesta |
 | Carga instrucciones completas de todo (tokens desperdiciados) | Progressive disclosure: poca metadata + carga por demanda |
 | El usuario no puede defender lo que "su agente" hizo | Preparación de defensa en 3 frases antes de entregar |
@@ -185,7 +203,7 @@ El resultado: código simple y correcto, comentado en tu idioma, sin arquitectur
 
 ## 🌲 SKILL TREE - PROGRESIÓN DEL PROYECTO 🌲
 
-**LVL 1 ██████████ 100%** · Núcleo de calibración y biblioteca de 23 temas
+**LVL 1 ██████████ 100%** · Núcleo de calibración y biblioteca de 31 temas (incluye ciberseguridad MITRE/NIST y personas de agente)
 **LVL 2 ░░░░░░░░░░ 0%** · Guías de estudio por nivel (roadmaps autoaprendiz → arquitecto)
 **LVL 3 ░░░░░░░░░░ 0%** · Evaluadores de nivel automáticos (tests de calibración)
 **LVL 4 ░░░░░░░░░░ 0%** · Generador de planes de estudio personalizados por agente
@@ -206,9 +224,10 @@ AI-Skills-Ryu/
     ├── 01-frontend/              ← 8 temas
     ├── 02-backend/               ← 4 temas
     ├── 03-datos/                 ← 3 temas
-    ├── 04-seguridad/             ← 1 tema
+    ├── 04-seguridad/             ← 4 temas (web, ofensiva, defensiva, IA)
     ├── 05-ingenieria/            ← 5 temas
-    └── 06-web-produccion/        ← 2 temas
+    ├── 06-web-produccion/        ← 2 temas
+    └── 07-personas/              ← 5 personas de agente (revisor, QA, docs, releases, seguridad)
 ```
 
 ---

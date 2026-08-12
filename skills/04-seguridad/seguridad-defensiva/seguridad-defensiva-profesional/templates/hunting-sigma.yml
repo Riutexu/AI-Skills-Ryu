@@ -1,0 +1,23 @@
+# Regla Sigma de ejemplo — hunting de cuenta comprometida
+# Fuente: alrededor de "user add" + cambio de password en ventana corta.
+
+title: New user created and password changed in short window
+status: experimental
+description: Hunting T1078 (Valid Accounts) / T1098 (Account Manipulation)
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    EventID:
+      - 4720  # user created
+      - 4724  # password reset attempted
+      - 4723  # password changed
+  timeframe: 5m
+  condition: selection
+falsepositives:
+  - Admins automatizando onboarding legitimo
+level: medium
+tags:
+  - attack.t1078
+  - attack.t1098

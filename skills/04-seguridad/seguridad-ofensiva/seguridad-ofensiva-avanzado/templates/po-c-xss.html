@@ -1,0 +1,9 @@
+<!-- PoC XSS no destructiva — solo para demostrar impacto en lab/scope autorizado -->
+<!-- Cambia el payload segun el contexto (reflejado/almacenado/DOM) -->
+<script>
+  // PoC minimo: no roba cookies, no toca datos; solo prueba ejecucion
+  document.title = "XSS PoC: ejecucion en " + location.hostname;
+</script>
+
+<!-- Verificacion del contexto: si se refleja la entrada sin escapar,
+     el payload anterior cambia el titulo de la pagina. -->

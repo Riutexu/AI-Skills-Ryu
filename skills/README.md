@@ -1,6 +1,6 @@
 # Biblioteca de Skills Full Stack para opencode
 
-Biblioteca de 23 skills de programación web organizadas en 6 familias y 3 niveles (básico, avanzado y profesional full stack). Cada skill es una carpeta con `SKILL.md` (instrucciones cargables por opencode), plantillas funcionales y recursos.
+Biblioteca de 94 skills de programación web, ciberseguridad y personas de agente, organizadas en 7 familias y 3 niveles (básico, avanzado y profesional full stack). Cada skill es una carpeta con `SKILL.md` (instrucciones cargables por opencode), plantillas funcionales y recursos.
 
 ## Estructura
 
@@ -22,6 +22,9 @@ Biblioteca de 23 skills de programación web organizadas en 6 familias y 3 nivel
 | 03-datos | SQL y PostgreSQL | [03-datos/sql-postgresql](03-datos/sql-postgresql/README.md) |
 | 03-datos | ORMs y migraciones | [03-datos/orm-migraciones](03-datos/orm-migraciones/README.md) |
 | 04-seguridad | Ciberseguridad web y protección de datos | [04-seguridad/web-cybersecurity](04-seguridad/web-cybersecurity/README.md) |
+| 04-seguridad | Seguridad ofensiva (hacking ético) | [04-seguridad/seguridad-ofensiva](04-seguridad/seguridad-ofensiva/README.md) |
+| 04-seguridad | Seguridad defensiva (NIST CSF 2.0, D3FEND) | [04-seguridad/seguridad-defensiva](04-seguridad/seguridad-defensiva/README.md) |
+| 04-seguridad | Seguridad de IA (OWASP LLM, ATLAS, AI RMF) | [04-seguridad/seguridad-ia](04-seguridad/seguridad-ia/README.md) |
 | 05-ingenieria | Git y control de versiones | [05-ingenieria/git-control-versiones](05-ingenieria/git-control-versiones/README.md) |
 | 05-ingenieria | Testing y calidad | [05-ingenieria/testing-calidad](05-ingenieria/testing-calidad/README.md) |
 | 05-ingenieria | DevOps y CI/CD | [05-ingenieria/devops-cicd](05-ingenieria/devops-cicd/README.md) |
@@ -29,6 +32,11 @@ Biblioteca de 23 skills de programación web organizadas en 6 familias y 3 nivel
 | 05-ingenieria | Observabilidad | [05-ingenieria/observabilidad](05-ingenieria/observabilidad/README.md) |
 | 06-web-produccion | SEO técnico | [06-web-produccion/seo-tecnico](06-web-produccion/seo-tecnico/README.md) |
 | 06-web-produccion | Accesibilidad (WCAG) | [06-web-produccion/accesibilidad-wcag](06-web-produccion/accesibilidad-wcag/README.md) |
+| 07-personas | Code Reviewer (revisión de código) | [07-personas/persona-code-reviewer](07-personas/persona-code-reviewer/README.md) |
+| 07-personas | QA Engineer (calidad) | [07-personas/persona-qa-engineer](07-personas/persona-qa-engineer/README.md) |
+| 07-personas | Doc Engineer (documentación) | [07-personas/persona-doc-engineer](07-personas/persona-doc-engineer/README.md) |
+| 07-personas | Release Manager (versiones) | [07-personas/persona-release-manager](07-personas/persona-release-manager/README.md) |
+| 07-personas | Security Analyst (seguridad) | [07-personas/persona-security-analyst](07-personas/persona-security-analyst/README.md) |
 
 ## Niveles de cada skill
 
@@ -93,6 +101,7 @@ Cada `SKILL.md` incluye una tabla de parámetros propia. Los más habituales:
 
 ## Notas
 
-- Todo el contenido está en español y orientado a un stack moderno JS/TS (Next.js/React, Node, PostgreSQL/Prisma, Tailwind).
+- Todo el contenido está en español y orientado a un stack moderno JS/TS (Next.js/React, Node, PostgreSQL/Prisma, Tailwind), con familias nuevas de ciberseguridad (MITRE/NIST) y personas de agente (inspiradas en garrytan/gstack).
 - Cada tema tiene su propio `README.md` con la tabla completa de skills y parámetros por nivel.
 - Revisa siempre el contenido antes de instalar skills de terceros: una skill puede ejecutar código en tu entorno.
+- Las skills de seguridad ofensiva solo deben usarse sobre infraestructura propia o con autorización escrita.

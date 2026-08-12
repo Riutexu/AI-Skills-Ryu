@@ -1,0 +1,38 @@
+# Reglas Wazuh de ejemplo — alertas accionables (adaptar a tu entorno)
+# Cada alerta debe terminar en una accion clara. Si no, es ruido.
+
+# 1. Logins fallidos en SSH (fuerza bruta)
+<group name="ssh,">
+  <rule id="100101" level="7">
+    <if_sid>5710</if_sid>
+    <match>Failed password</match>
+    <description>SSH: login fallido. Accion: revisar origen, banear si supera N intentos.</description>
+  </rule>
+</group>
+
+# 2. Nuevas cuentas de usuario en Linux (persistencia)
+<group name="linux,">
+  <rule id="100102" level="10">
+    <if_sid>5902</if_sid>
+    <match>useradd|new user</match>
+    <description>Nueva cuenta creada. Accion: verificar legitimidad en 1h.</description>
+  </rule>
+</group>
+
+# 3. Cambio de archivos criticos (FIM) — ajustar rutas a tus criticos
+<group name="syscheck,">
+  <rule id="100103" level="8">
+    <if_sid>550,553</if_sid>
+    <match>/etc/passwd|/etc/shadow|/etc/crontab</match>
+    <description>Archivo critico modificado. Accion: revisar diff y autor.</description>
+  </rule>
+</group>
+
+# 4. sudo no permitido (escalada fallida)
+<group name="linux,">
+  <rule id="100104" level="7">
+    <if_sid>5300</if_sid>
+    <match>not allowed to run</match>
+    <description>Sudo denegado repetido. Accion: investigar usuario y origen.</description>
+  </rule>
+</group>

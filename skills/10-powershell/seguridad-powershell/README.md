@@ -1,0 +1,23 @@
+# Seguridad y hardening
+
+Endurecer PowerShell y los scripts: ExecutionPolicy, firma, SecureString, auditoría y el principio de privilegio mínimo.
+
+**Stack:** ExecutionPolicy, firma de scripts, SecureString, Windows 11 · **Familia:** PowerShell y automatización de Windows (10-powershell)
+
+| Tema | Resumen | Niveles |
+|---|---|---|
+| **ExecutionPolicy y AppLocker** | Políticas de ejecución de scripts: niveles, scopes, bypass responsable y AppLocker como control fino. | [basico](/seguridad-powershell-executionpolicy-applocker-basico/) · [avanzado](/seguridad-powershell-executionpolicy-applocker-avanzado/) · [profesional](/seguridad-powershell-executionpolicy-applocker-profesional/) |
+| **Firma de scripts** | Firmar scripts con Set-AuthenticodeSignature: certificados, signing y verificación de integridad. | [basico](/seguridad-powershell-firma-scripts-basico/) · [avanzado](/seguridad-powershell-firma-scripts-avanzado/) · [profesional](/seguridad-powershell-firma-scripts-profesional/) |
+| **SecureString y credenciales** | Manejar contraseñas en memoria y en tránsito: SecureString, PSCredential y sus límites reales. | [basico](/seguridad-powershell-securestring-credenciales-basico/) · [avanzado](/seguridad-powershell-securestring-credenciales-avanzado/) · [profesional](/seguridad-powershell-securestring-credenciales-profesional/) |
+| **Evitar secretos en disco** | Que ningún secreto quede en archivos: logs, dump, configs y el arte de no escribir secretos nunca. | [basico](/seguridad-powershell-secretos-en-disco-basico/) · [avanzado](/seguridad-powershell-secretos-en-disco-avanzado/) · [profesional](/seguridad-powershell-secretos-en-disco-profesional/) |
+| **Logs de auditoría** | Qué registra PowerShell de tus acciones: logs de scriptblock, transcript y auditar el propio uso. | [basico](/seguridad-powershell-logs-auditoria-basico/) · [avanzado](/seguridad-powershell-logs-auditoria-avanzado/) · [profesional](/seguridad-powershell-logs-auditoria-profesional/) |
+| **Hardening de host** | Endurecer el host de PowerShell: restricciones del lenguaje, AMSI, Constrained Language y surfaces de ataque. | [basico](/seguridad-powershell-hardening-host-basico/) · [avanzado](/seguridad-powershell-hardening-host-avanzado/) · [profesional](/seguridad-powershell-hardening-host-profesional/) |
+| **Restricción de módulos** | Controlar qué módulos se cargan: allowlists, firma de módulos y módulos que no deberían estar. | [basico](/seguridad-powershell-restriccion-modulos-basico/) · [avanzado](/seguridad-powershell-restriccion-modulos-avanzado/) · [profesional](/seguridad-powershell-restriccion-modulos-profesional/) |
+| **Inyección y code injection** | Defenderse de inyección: Invoke-Expression, evaluación de strings y entradas que se vuelven código. | [basico](/seguridad-powershell-code-injection-basico/) · [avanzado](/seguridad-powershell-code-injection-avanzado/) · [profesional](/seguridad-powershell-code-injection-profesional/) |
+| **Sanitización de entrada** | Validar y limpiar lo que entra a tus scripts: parámetros, archivos de config y datos externos. | [basico](/seguridad-powershell-sanitizacion-entrada-basico/) · [avanzado](/seguridad-powershell-sanitizacion-entrada-avanzado/) · [profesional](/seguridad-powershell-sanitizacion-entrada-profesional/) |
+| **Políticas de grupo para scripts** | GPO que gobiernan PowerShell: execution policy, logging, CLM y despliegue de scripts en dominios. | [basico](/seguridad-powershell-gpo-scripts-basico/) · [avanzado](/seguridad-powershell-gpo-scripts-avanzado/) · [profesional](/seguridad-powershell-gpo-scripts-profesional/) |
+| **Verificación de integridad** | Que tus scripts sean lo que dicen ser: hashes, firmas, checksums y detección de alteraciones. | [basico](/seguridad-powershell-verificacion-integridad-basico/) · [avanzado](/seguridad-powershell-verificacion-integridad-avanzado/) · [profesional](/seguridad-powershell-verificacion-integridad-profesional/) |
+| **Checklist de seguridad de scripts** | La lista de verificación final: qué revisar antes de dar un script por bueno en seguridad. | [basico](/seguridad-powershell-checklist-seguridad-basico/) · [avanzado](/seguridad-powershell-checklist-seguridad-avanzado/) · [profesional](/seguridad-powershell-checklist-seguridad-profesional/) |
+
+---
+Generado con [skill-factory.ps1](../../tools/skill-factory.ps1) desde [catalogos/10-powershell.json](../../catalogos/10-powershell.json).

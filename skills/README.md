@@ -1,6 +1,6 @@
 # Biblioteca de Skills Full Stack para opencode
 
-Biblioteca de 94 skills de programación web, ciberseguridad y personas de agente, organizadas en 7 familias y 3 niveles (básico, avanzado y profesional full stack). Cada skill es una carpeta con `SKILL.md` (instrucciones cargables por opencode), plantillas funcionales y recursos.
+Biblioteca de 1237 skills de programación, ciberseguridad y personas de agente, organizadas en 12 familias y 3 niveles (básico, avanzado y profesional). Cada skill es una carpeta con `SKILL.md` (instrucciones cargables por opencode), plantillas funcionales y recursos.
 
 ## Estructura
 

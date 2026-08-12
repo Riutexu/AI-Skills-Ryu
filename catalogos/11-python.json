@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "familia": "11-python",
+  "familiaTitulo": "Python y automatización de bots",
+  "icono": "🐍",
+  "stacks": [
+    {
+      "id": "python-core",
+      "nombre": "Python 3.12: fundamentos profesionales",
+      "descripcion": "Descripción general.",
+      "stackTecnologias": "Python 3.12",
+      "temas": [
+        {
+          "id": "tipos-basicos",
+          "nombre": "Tipos básicos",
+          "resumen": "Descripción del tema.",
+          "niveles": {
+            "basico": { "objetivo": "frase corta", "tareas": ["t1", "t2", "t3"], "criterios": ["c1", "c2"], "prompt": "prompt" },
+            "avanzado": { "objetivo": "frase corta", "tareas": ["t1", "t2", "t3"], "criterios": ["c1", "c2"], "prompt": "prompt" },
+            "profesional": { "objetivo": "frase corta", "tareas": ["t1", "t2", "t3"], "criterios": ["c1", "c2"], "prompt": "prompt" }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -45,7 +45,7 @@ El contexto de los agentes es caro y finito. La biblioteca usa carga por demanda
    (parámetros, checklist) y el código completo viene en resources/.
 ```
 
-**Números del diseño:** 1.500+ skills × ~4.000 tokens de instrucciones completas ≈ 6 millones de tokens si todo se cargara a la vez. Con progressive disclosure, una sesión típica gasta entre 1.000 y 5.000 tokens de instrucciones.
+**Números del diseño:** 1.200+ skills × ~4.000 tokens de instrucciones completas ≈ 4.8 millones de tokens si todo se cargara a la vez. Con progressive disclosure, una sesión típica gasta entre 1.000 y 5.000 tokens de instrucciones.
 
 ## 4. Tres niveles por tema: basico · avanzado · profesional
 

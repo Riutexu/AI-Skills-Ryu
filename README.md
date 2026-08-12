@@ -1,7 +1,7 @@
 # AI Skills Ryu
 
 [![Version](https://img.shields.io/badge/Version-2.0.0-b19cd9?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
-[![Skills](https://img.shields.io/badge/Skills-94-00d4ff?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
+[![Skills](https://img.shields.io/badge/Skills-1237-00d4ff?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
 [![Temas](https://img.shields.io/badge/Temas-31-ff6b9d?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
 [![Niveles](https://img.shields.io/badge/Niveles-Basico_%C2%B7_Avanzado_%C2%B7_Profesional-3ddc84?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
 [![Compatible](https://img.shields.io/badge/Claude_Code-Gemini_Antigravity-opencode-ff9e64?style=flat-square)](https://github.com/Riutexu/AI-Skills-Ryu)
@@ -14,7 +14,7 @@
 
 **El sistema de skills que enseña a los agentes de IA a programar contigo, no por encima de ti.**
 
-Un ecosistema de 94 skills que lleva a cualquier agente de IA (Claude Code, Gemini CLI, Google Antigravity, opencode, Cursor, Copilot) a trabajar con **economía de tokens**, **profundidad calibrada a tu nivel**, **seguridad con estándares reales** (MITRE, NIST) y un resultado final **defendible ante un jurado humano**.
+Un ecosistema de 1237 skills que lleva a cualquier agente de IA (Claude Code, Gemini CLI, Google Antigravity, opencode, Cursor, Copilot) a trabajar con **economía de tokens**, **profundidad calibrada a tu nivel**, **seguridad con estándares reales** (MITRE, NIST) y un resultado final **defendible ante un jurado humano**.
 
 ---
 
@@ -68,7 +68,7 @@ Cada tema existe en 3 profundidades independientes. El agente elige el nivel seg
 
 ---
 
-## 🎯 LIBRERÍA DE SKILLS - 31 TEMAS 🎯
+## 🎯 LIBRERÍA DE SKILLS - 1237 Skills 🎯
 
 Cada tema trae: `README.md` (guía + parámetros por nivel) y 3 skills independientes (`-basico`, `-avanzado`, `-profesional`) con instrucciones, parámetros, checklists, prompts y plantillas de código real.
 

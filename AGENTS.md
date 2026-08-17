@@ -48,3 +48,15 @@ Sin registro calibrado NO se escribe código. Esto es innegociable e incondicion
 
 - Las skills `seguridad-ofensiva-*` solo se aplican sobre infraestructura propia o con autorización escrita del propietario. Sin autorización, no se ejecuta ningún escaneo ni técnica.
 - Las personas de seguridad y las skills de seguridad se usan para AUDITAR y MEJORAR, no para atacar sistemas de terceros.
+
+## Regla 7: Workflow de desarrollo (Superpowers)
+
+Este repo sigue la metodología [superpowers](https://github.com/obra/superpowers) con el ciclo obligatorio para TODO cambio al propio repositorio (nuevas skills, catálogos, tools, docs):
+
+**Brainstorm → Plan → Build → Test → Review**
+
+1. **Brainstorm** — carga la skill `brainstorming` antes de proponer cambios; pregunta qué skill o familia se quiere crear/mejorar y valida el diseño con el humano.
+2. **Plan** — carga `writing-plans`; descompón en tareas de 2–5 min con ruta exacta (p. ej. `skills/<familia>/<skill>/SKILL.md`) y verificación.
+3. **Build** — carga `test-driven-development`; genera skills con `tools/skill-factory.ps1` desde `catalogos/*.json` cuando aplique; commits atómicos.
+4. **Test** — carga `verification-before-completion`; valida formatos y estructura de los SKILL.md generados, y que el catálogo JSON es consistente con la skill generada.
+5. **Review** — carga `requesting-code-review`; revisa contra el plan y clasifica hallazgos por severidad. Nada de "ya está" sin verificación.
